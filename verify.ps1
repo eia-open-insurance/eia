@@ -7,7 +7,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $required = @("README.md", "CODEOWNERS", "SECURITY.md", "CONTRIBUTING.md", "CHANGELOG.md", "LICENSE", "NOTICE")
 $errors = @()
 
-Get-ChildItem -Directory -Force $root | ForEach-Object {
+Get-ChildItem -Directory -Force $root | Where-Object { Test-Path (Join-Path $_.FullName ".git") } | ForEach-Object {
     $repo = $_.Name
     $dir = $_.FullName
     foreach ($file in $required) {
@@ -42,4 +42,5 @@ if ($errors.Count -gt 0) {
 }
 
 Write-Host "Repository baseline verified. No hosted pipeline used."
+
 
