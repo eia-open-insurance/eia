@@ -1,6 +1,6 @@
 # EIA Open Insurance
 
-**An open-source policy, claims, and reinsurance administration suite for commercial mass tort and assumed reinsurance.**
+**An open-source policy, claims, and reinsurance administration suite for commercial mass tort and reinsurance.**
 
 - Organization: [github.com/eia-open-insurance](https://github.com/eia-open-insurance)
 - Specification: [SPEC.md](SPEC.md)
@@ -13,8 +13,8 @@ EIA Open Insurance is a specification-first insurance administration platform fo
 
 | Book | Policy administration | Claims administration | Reinsurance |
 |---|---|---|---|
-| `DIRECT` | Policy | Direct | Cession |
-| `ASSUMED` | Contract | Assumed | Retrocession |
+| `PRIMARY` | Policy | Primary | Cession |
+| `REINSURANCE` | Contract | Reinsurance | Retrocession |
 
 The books are separated by a hard access wall. They share Party, Document, Payment, Notifications, and Lineage, but no operational policy, claim, cession, or retrocession data crosses between them.
 
@@ -41,7 +41,7 @@ Shell
   -> 10 vertical front-ends
 
 10 verticals, each with front-end, domain, expert, database:
-  Party, Policy, Contract, Direct, Assumed,
+  Party, Policy, Contract, Primary, Reinsurance,
   Cession, Retrocession, Document, Payment, Notifications
 
 Platform services:
@@ -106,7 +106,7 @@ Contributions are welcome under the Apache License 2.0 and the Developer Certifi
 
 ## Security
 
-Report vulnerabilities privately through GitHub Security Advisories or `security@eia-open-insurance.org`. Do not open a public issue for a suspected vulnerability.
+Report vulnerabilities privately through GitHub Security Advisories or `support@rmburgess.com`. Do not open a public issue for a suspected vulnerability.
 
 ## Trademarks and affiliation
 

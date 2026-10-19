@@ -18,17 +18,17 @@ The roadmap is a sequence, not a date commitment.
 - Playwright harness and simulators
 - PostgreSQL migrations and seed data
 
-## Phase 2 - Direct book
+## Phase 2 - Primary book
 
 - Policy
-- Direct claims
+- Primary claims
 - Payment
 - Billing and SAP S/4HANA simulator integration
 
-## Phase 3 - Assumed book
+## Phase 3 - Reinsurance book
 
 - Contract
-- Assumed claims
+- Reinsurance claims
 - Cession and Retrocession
 - FS-RI simulator integration
 

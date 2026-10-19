@@ -4,7 +4,7 @@
 
 Prefer GitHub private vulnerability reporting on the affected repository.
 
-If private reporting is unavailable, email `security@eia-open-insurance.org`.
+If private reporting is unavailable, email `support@rmburgess.com`.
 
 Do not open a public issue for a suspected vulnerability.
 

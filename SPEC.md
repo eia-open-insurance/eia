@@ -17,8 +17,8 @@
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.0.0 | 2026-10-19 | Enterprise Architecture | Empty placeholder created |
-| 1.0.0 | 2026-10-19 | Enterprise Architecture | Initial full specification: architecture, federation, transaction model, eight vertical data models for commercial mass tort and assumed reinsurance, lineage, security, NFRs, standards mapping |
-| 1.1.0 | 2026-10-19 | Enterprise Architecture | Added the two-book wall, Cession and Retrocession adapter verticals, FS-RI pull/hand-off model, book-scoped access and data rules; corrected Direct and Assumed separation |
+| 1.0.0 | 2026-10-19 | Enterprise Architecture | Initial full specification: architecture, federation, transaction model, eight vertical data models for commercial mass tort and reinsurance, lineage, security, NFRs, standards mapping |
+| 1.1.0 | 2026-10-19 | Enterprise Architecture | Added the two-book wall, Cession and Retrocession adapter verticals, FS-RI pull/hand-off model, book-scoped access and data rules; corrected Primary and Reinsurance separation |
 | 1.2.0 | 2026-10-19 | Enterprise Architecture | Added Playwright-first front-end/E2E testing and 100% business-logic coverage; FS-RI/S4 test endpoints; production readiness gates; canonical data model position; deferred production interfaces |
 | 1.3.0 | 2026-10-19 | Enterprise Architecture | Closed specification gaps: reinsurance formulas and test vectors, credit/collateral/Schedule F, commutation, contract documents, recoverable cash, reinsurance tax, S/4 posting principles, underwriting/rating/producer, billing collections, actuarial workbench, regulatory filings/notices/SLAs, KYC/AML, print/e-sign/notary, legal entity/capacity, organization/staffing/SOPs/vendors, and performance/security/DR/UAT/pilot plans |
 | 1.4.0 | 2026-10-19 | Enterprise Architecture | Added canonical master data for legal entity, organization unit, carrier assignment, program, LOB, subline, coverage, coverage type, policy organization snapshot, and external code mapping; aligned the model to ACORD, NAIC, ISO, and SAP |
@@ -44,15 +44,15 @@
 | [10. Data Architecture Standards](#10-data-architecture-standards) | Identifiers, temporal modeling, money, enums, JSON, retention, volumes, legal entity/organization/program/LOB/coverage master data, seed catalog and governance |
 | [11. Vertical Domain Specifications](#11-vertical-domain-specifications) | Complete domain models, data dictionaries, state machines, commands, events, APIs, mass tort and reinsurance specifics |
 | [11.1 Party](#111-party) | Party, roles, associations, merge, screening, consent |
-| [11.2 Policy](#112-policy) | Direct policies, coverage, limits, premium, occurrences, mass tort profile, programs |
-| [11.3 Contract](#113-contract) | Assumed reinsurance contracts, layers, participations, cessions, bordereaux, accounts, commutation |
-| [11.4 Direct (Claims for Policy)](#114-direct-claims-for-policy) | FNOL, coverage, injury/exposure, reserves, litigation, settlement, liens, recovery |
-| [11.5 Assumed (Claims for Contract)](#115-assumed-claims-for-contract) | Loss advices, assumed reserves, cash calls, recoveries, disputes, commutation |
+| [11.2 Policy](#112-policy) | Primary policies, coverage, limits, premium, occurrences, mass tort profile, programs |
+| [11.3 Contract](#113-contract) | Reinsurance contracts, layers, participations, cessions, bordereaux, accounts, commutation |
+| [11.4 Primary (Claims for Policy)](#114-primary-claims-for-policy) | FNOL, coverage, injury/exposure, reserves, litigation, settlement, liens, recovery |
+| [11.5 Reinsurance (Claims for Contract)](#115-reinsurance-claims-for-contract) | Loss advices, reinsurance reserves, cash calls, recoveries, disputes, commutation |
 | [11.6 Document](#116-document) | Ingestion, versions, classification, associations, retention, holds, signature, generation |
 | [11.7 Payment](#117-payment) | Authority, issuance, SAP S/4HANA, reconciliation, returns, reversals, escheatment |
 | [11.8 Notifications](#118-notifications) | Rules, templates, delivery, escalation, acknowledgement, actions, digest |
-| [11.9 Cession](#119-cession-direct-book-reinsurance-administration) | Direct-book ceded reinsurance administration: contracts, layers, participants, terms, security, rules, FS-RI hand-off, recoverables, reconciliation |
-| [11.10 Retrocession](#1110-retrocession-assumed-book-reinsurance-administration) | Assumed-book retrocessional administration: contracts, layers, participants, terms, security, rules, FS-RI hand-off, recoverables, reconciliation |
+| [11.9 Cession](#119-cession-primary-book-reinsurance-administration) | Primary-book ceded reinsurance administration: contracts, layers, participants, terms, security, rules, FS-RI hand-off, recoverables, reconciliation |
+| [11.10 Retrocession](#1110-retrocession-reinsurance-book-reinsurance-administration) | Reinsurance-book retrocessional administration: contracts, layers, participants, terms, security, rules, FS-RI hand-off, recoverables, reconciliation |
 | [12. Canonical Contracts and Data Shapes](#12-canonical-contracts-and-data-shapes) | EntityRef, Money, Problem, event envelope, resource examples, headers, contract testing |
 | [13. Industry Standards Mapping](#13-industry-standards-mapping) | ACORD, NAIC, ISO forms and ISO 20022, SAP master data, medical codes, reinsurance standards, regulatory mapping |
 | [14. Non-Functional Requirements](#14-non-functional-requirements) | SLOs, performance, scalability, DR, security, privacy, resilience, supply chain, accessibility, observability |
@@ -96,7 +96,7 @@ Each vertical chapter in §11 follows an identical template so that a delivery t
 8. Commands and transactions
 9. Published and consumed events
 10. API surface
-11. Mass tort and assumed-reinsurance specifics
+11. Mass tort and reinsurance specifics
 12. Projections, integrations, and metrics
 
 ### 0.3 Diagram notation
@@ -115,8 +115,8 @@ All identifiers used in this document are defined in §10.2. Business identifier
 | Policy | `policyId` | `policyNumber` | `GL-2024-0041827` |
 | Policy version | `policyVersionId` | `policyVersionNumber` | `GL-2024-0041827-03` |
 | Contract | `contractId` | `contractNumber` | `XOL-2025-00091` |
-| Claim (Direct) | `claimId` | `claimNumber` | `CLM-2026-0193382` |
-| Claim (Assumed) | `assumedClaimId` | `assumedClaimNumber` | `ASM-2026-0007731` |
+| Claim (Primary) | `claimId` | `claimNumber` | `CLM-2026-0193382` |
+| Claim (Reinsurance) | `reinsuranceClaimId` | `reinsuranceClaimNumber` | `RNS-2026-0007731` |
 | Document | `documentId` | `documentNumber` | `DOC-2026-0081234` |
 | Payment | `paymentId` | `paymentNumber` | `PAY-2026-0044721` |
 | Notification | `notificationId` | `notificationNumber` | `NTF-2026-0129033` |
@@ -146,18 +146,18 @@ An enterprise insurance administration platform for two lines of business that s
 The platform is a **policy, claims, and reinsurance administration system of record and transactional system**. It is not an ERP, general ledger, HR, legal, procurement, or vendor-management system. It integrates with those functions and provides the data, workflow, controls, and evidence they need; it does not replace the business that operates them.
 
 1. **Directly underwritten commercial insurance**, focused on **commercial mass tort** exposures (asbestos, silica, talc, PFAS, opioids, product liability, environmental, and similar long-tail liability), including the associated claims administration.
-2. **Assumed reinsurance**, including proportional and non-proportional treaties, facultative placements, loss portfolio transfers, adverse development covers, and run-off, including the associated assumed-claims administration.
+2. **Reinsurance**, including proportional and non-proportional treaties, facultative placements, loss portfolio transfers, adverse development covers, and run-off, including the associated reinsurance claims administration.
 
 The platform is composed of **ten verticals: eight business verticals plus two FS-RI integration verticals**. Each vertical owns its business or integration truth, its front-end, its business logic, its transactional persistence, and its database:
 
 | Vertical | Code | Owns | Primary users |
 |---|---|---|---|
 | **Policy** | `policy` | Directly underwritten policies, coverage grants, limits, endorsements, premium, aggregate erosion, mass tort policy profiles | Underwriters, policy admin, actuarial, finance |
-| **Contract** | `contract` | Assumed reinsurance contract administration (treaties, facultative, LPT/ADC), layers, participations, technical accounts, bordereaux, security | Treaty underwriters, reinsurance accountants, claims operations |
-| **Cession** | `cession` | Direct-book outward reinsurance contracts (treaties, facultative, layers, participants, terms, security), cession rules, cession cases, FS-RI hand-off, confirmations, ceded recoverables, statements, reconciliation | Reinsurance accountants, cession contract administrators, direct finance |
-| **Retrocession** | `retrocession` | Assumed-book retrocessional contracts (treaties, facultative, layers, participants, terms, security), retro rules, retro cases, FS-RI hand-off, confirmations, retro recoverables, statements, reconciliation | Reinsurance accountants, retrocession contract administrators, assumed finance |
-| **Direct** | `direct` | Claims arising under Policy vertical policies: FNOL, coverage, injury/exposure, reserves, litigation, settlement, recovery | Adjusters, coverage counsel, claims managers, actuaries |
-| **Assumed** | `assumed` | Claims arising under Contract vertical contracts: loss advices, assumed reserves, cash calls, commutations, reinsurance recoveries | Reinsurance claims adjusters, accountants |
+| **Contract** | `contract` | Reinsurance contract administration (treaties, facultative, LPT/ADC), layers, participations, technical accounts, bordereaux, security | Treaty underwriters, reinsurance accountants, claims operations |
+| **Cession** | `cession` | Primary-book outward reinsurance contracts (treaties, facultative, layers, participants, terms, security), cession rules, cession cases, FS-RI hand-off, confirmations, ceded recoverables, statements, reconciliation | Reinsurance accountants, cession contract administrators, primary finance |
+| **Retrocession** | `retrocession` | Reinsurance-book retrocessional contracts (treaties, facultative, layers, participants, terms, security), retro rules, retro cases, FS-RI hand-off, confirmations, retro recoverables, statements, reconciliation | Reinsurance accountants, retrocession contract administrators, reinsurance finance |
+| **Primary** | `primary` | Claims arising under Policy vertical policies: FNOL, coverage, injury/exposure, reserves, litigation, settlement, recovery | Adjusters, coverage counsel, claims managers, actuaries |
+| **Reinsurance** | `reinsurance` | Claims arising under Contract vertical contracts: loss advices, reinsurance reserves, cash calls, commutations, reinsurance recoveries | Reinsurance claims adjusters, accountants |
 | **Party** | `party` | Every person, organization, trust, estate, and their roles and associations with policies, contracts, claims, payments, documents | All users; data stewards |
 | **Document** | `document` | Every document in the enterprise: receipt, classification, association, versioning, retention, legal hold, privilege, chain of custody | All users; records management; legal |
 | **Payment** | `payment` | Every payment and financial posting related to claims and reinsurance, including the SAP S/4HANA integration | Payment approvers, finance, treasury |
@@ -171,7 +171,7 @@ The platform is composed of **ten verticals: eight business verticals plus two F
 | C2 | **Business logic lives only in the domain service.** Each vertical has a domain service between its front-end and its expert (persistence) service. The expert service writes data; it does not decide business outcomes. | §6, §7 |
 | C3 | **Front-end composes, domain service executes, front-end monitors.** The front-end builds a *transaction draft* from a domain-published *transaction catalog*; the domain service validates it, materializes an executable *business transaction*, and streams progress back to the front-end. | §6 |
 | C4 | **Lineage is a product feature, not an afterthought.** Every entity reference is typed and navigable. Users can follow Policy → Party → Claim → Payment → Document → Notification, and see the ordered sequence of events that connects them. | §8 |
-| C5 | **Two books, hard wall.** Direct + Policy and Assumed + Contract are separate books with separate data, access, queues, and reinsurance administration verticals. Nothing crosses the wall by default. | §3.6, §7.18 |
+| C5 | **Two books, hard wall.** Primary + Policy and Reinsurance + Contract are separate books with separate data, access, queues, and reinsurance administration verticals. Nothing crosses the wall by default. | §3.6, §7.18 |
 | C6 | **Standards-first data.** Money, dates, countries, currencies, industries, medical codes, claim codes, payment messages, and reinsurance terminology follow published standards, not local invention. | §10, §13 |
 
 ### 1.3 Key design consequences
@@ -207,11 +207,11 @@ The project is independent. It is not affiliated with or endorsed by SAP, ACORD,
 | Area | Included |
 |---|---|
 | Policy administration | Quote-to-bind, issue, endorse, renew, cancel, reinstate, audit premium, coverage and limit management, aggregate erosion, mass tort policy profiles, legal entity/program/capacity, coinsurance, fronting, captive, pool |
-| Assumed reinsurance contract administration | Treaty and facultative record, layers, participations, premium and commission, technical accounts, bordereaux ingestion, cash calls, reinstatements, security and collateral, commutation |
-| Direct reinsurance contract administration | Cession vertical: ceded contracts, layers, participants, terms, security, cession rules, calculations, credit, collateral, commutation, tax, FS-RI hand-off, confirmations, recoverables |
-| Assumed retrocessional contract administration | Retrocession vertical: retro contracts, layers, participants, terms, security, retro rules, calculations, credit, collateral, commutation, tax, FS-RI hand-off, confirmations, retro recoverables |
-| Claims administration (direct) | FNOL, coverage assessment, injury and exposure capture, reserving, litigation management, settlement, recovery, closure |
-| Claims administration (assumed) | Loss advice capture, assumed reserving, cash call, recovery, commutation, dispute and audit |
+| Reinsurance contract administration | Treaty and facultative record, layers, participations, premium and commission, technical accounts, bordereaux ingestion, cash calls, reinstatements, security and collateral, commutation |
+| Primary-book reinsurance contract administration | Cession vertical: ceded contracts, layers, participants, terms, security, cession rules, calculations, credit, collateral, commutation, tax, FS-RI hand-off, confirmations, recoverables |
+| Reinsurance retrocessional contract administration | Retrocession vertical: retro contracts, layers, participants, terms, security, retro rules, calculations, credit, collateral, commutation, tax, FS-RI hand-off, confirmations, retro recoverables |
+| Claims administration (primary) | FNOL, coverage assessment, injury and exposure capture, reserving, litigation management, settlement, recovery, closure |
+| Claims administration (reinsurance) | Loss advice capture, reinsurance reserving, cash call, recovery, commutation, dispute and audit |
 | Actuarial reserving | Reserve reviews, triangles, ultimate picks, ranges, IBNR, committee, sign-off, model governance |
 | Ceded reinsurance | Outward contracts, cessions, recoverables, credit for reinsurance, collateral, Schedule F, commutation, tax, recoverable cash |
 | Claims depth | Coverage litigation, legal spend, medical review, liens, structured settlements, class and trust administration |
@@ -235,7 +235,7 @@ The project is independent. It is not affiliated with or endorsed by SAP, ACORD,
 | SAP AR ledger, cash application, dunning, credit management, and GL | SAP is the AR and financial ledger system of record. The platform owns business billing, expected receivables/payables, and reconciliation (§7.13, ADR-0013). |
 | SAP FS-RI processing and reinsurance subledger | FS-RI is the system of record for actual cessions, retrocessions, ceded amounts, recoverables, and statements. Cession and Retrocession manage the contracts and hand off to FS-RI (§7.17, §7.18). |
 | Broker and producer portals | Public API is designed for it; no portal in v1 |
-| Consumer-direct quoting | Not applicable to mass tort |
+| Consumer-primary quoting | Not applicable to mass tort |
 | Life, health, and personal lines | Different regulatory and data models |
 | Payment card acquiring | Out of scope; virtual card is an outbound method only |
 | Sanctions list content management | Lists are consumed from a screening provider or licensed feed; the platform stores results |
@@ -251,19 +251,19 @@ The project is independent. It is not affiliated with or endorsed by SAP, ACORD,
 |---|---|---|---|
 | Underwriter | Human | Evaluate, quote, bind, and endorse mass tort programs | Policy, Party, Document |
 | Policy administrator | Human | Issue documents, process endorsements, maintain coverage data | Policy, Document, Notifications |
-| Treaty underwriter | Human | Structure and bind assumed reinsurance, set participations and terms | Contract, Party, Document |
+| Treaty underwriter | Human | Structure and bind reinsurance, set participations and terms | Contract, Party, Document |
 | Cession contract administrator | Human | Manage ceded contracts, layers, participants, terms, security, cession rules | Cession, Policy, Document |
 | Retrocession contract administrator | Human | Manage retro contracts, layers, participants, terms, security, retro rules | Retrocession, Contract, Document |
-| Reinsurance accountant | Human | Produce technical accounts, process bordereaux, settle balances, manage security | Contract, Assumed, Payment |
-| Claims adjuster | Human | Register claims, investigate, reserve, negotiate, settle | Direct, Party, Document, Payment, Notifications |
-| Senior adjuster / claims manager | Human | Approve reserves and settlements above authority, manage portfolio | Direct, Assumed, Payment, Notifications |
-| Coverage counsel | Human | Assess coverage, manage declaratory actions, allocate | Direct, Document |
-| Reinsurance claims adjuster | Human | Evaluate loss advices, set assumed reserves, pursue recoveries, commute | Assumed, Contract, Payment |
+| Reinsurance accountant | Human | Produce technical accounts, process bordereaux, settle balances, manage security | Contract, Reinsurance, Payment |
+| Claims adjuster | Human | Register claims, investigate, reserve, negotiate, settle | Primary, Party, Document, Payment, Notifications |
+| Senior adjuster / claims manager | Human | Approve reserves and settlements above authority, manage portfolio | Primary, Reinsurance, Payment, Notifications |
+| Coverage counsel | Human | Assess coverage, manage declaratory actions, allocate | Primary, Document |
+| Reinsurance claims adjuster | Human | Evaluate loss advices, set reinsurance reserves, pursue recoveries, commute | Reinsurance, Contract, Payment |
 | Payment approver | Human | Approve payments within delegated authority | Payment, Notifications |
 | Finance controller | Human | Reconcile payments, SAP postings, and technical accounts | Payment, Contract |
 | Data steward | Human | Maintain reference data, merge parties, resolve data quality | Party, Document |
 | Auditor | Human (read-only) | Inspect lineage, approvals, and financial history | All, read-only |
-| Actuary | Human | Reserve review, ultimate picks, IBNR, committee sign-off, model validation | Actuarial, Direct, Assumed, Policy, Contract |
+| Actuary | Human | Reserve review, ultimate picks, IBNR, committee sign-off, model validation | Actuarial, Primary, Reinsurance, Policy, Contract |
 | Platform administrator | Human | Operate the platform, manage configuration and access | Platform |
 | **External systems** | System | IdP, SAP S/4HANA, SAP FS-RI, email relay, object storage, sanctions screening, OCR, bank reporting, actuarial platform | Integrations |
 
@@ -277,28 +277,28 @@ Capabilities are expressed as `CAP-<domain>-<n>` and traced to the vertical and 
 | `CAP-POL-02` Issue policy and documents | Policy, Document, Notifications | `ISSUE_POLICY` |
 | `CAP-POL-03` Endorse coverage, limits, or parties | Policy | `ENDORSE_POLICY` |
 | `CAP-POL-04` Renew, cancel, reinstate | Policy | `RENEW_POLICY`, `CANCEL_POLICY`, `REINSTATE_POLICY` |
-| `CAP-POL-05` Erode and report aggregates | Policy, Direct | `APPLY_AGGREGATE_EROSION`, `QUERY_AGGREGATE_STATE` |
+| `CAP-POL-05` Erode and report aggregates | Policy, Primary | `APPLY_AGGREGATE_EROSION`, `QUERY_AGGREGATE_STATE` |
 | `CAP-POL-06` Maintain mass tort policy profile | Policy | `UPDATE_MASS_TORT_PROFILE` |
 | `CAP-POL-07` Bill premium and manage receivables | Policy, Payment | `INSTRUCT_BILLING`, `ISSUE_CREDIT_NOTE` |
-| `CAP-CES-01` Administer direct outward reinsurance contracts and hand off to FS-RI | Cession | `CREATE_CEDED_CONTRACT`, `BIND_CEDED_CONTRACT`, `SEND_FSRI_HANDOFF`, `RECONCILE_CESSION` |
+| `CAP-CES-01` Administer primary outward reinsurance contracts and hand off to FS-RI | Cession | `CREATE_CEDED_CONTRACT`, `BIND_CEDED_CONTRACT`, `SEND_FSRI_HANDOFF`, `RECONCILE_CESSION` |
 | `CAP-CON-01` Record and bind a treaty or facultative contract | Contract | `BIND_CONTRACT` |
 | `CAP-CON-02` Manage layers, participations, and security | Contract | `AMEND_PARTICIPATION`, `RECORD_SECURITY` |
 | `CAP-CON-03` Record cessions against policies and claims | Contract | `RECORD_CESSION` |
 | `CAP-CON-04` Ingest and reconcile bordereaux | Contract | `PROCESS_BORDEREAU` |
 | `CAP-CON-05` Produce technical accounts and cash calls | Contract | `PRODUCE_TECHNICAL_ACCOUNT`, `ISSUE_CASH_CALL` |
 | `CAP-CON-06` Reinstatement and commutation | Contract | `APPLY_REINSTATEMENT`, `COMMUTE_CONTRACT` |
-| `CAP-DIR-01` Register a first notice of loss | Direct | `REGISTER_FNOL` |
-| `CAP-DIR-02` Assess coverage and trigger | Direct | `ASSESS_COVERAGE`, `REFER_COVERAGE` |
-| `CAP-DIR-03` Capture injury, exposure, and medical criteria | Direct | `RECORD_INJURY`, `RECORD_EXPOSURE` |
-| `CAP-DIR-04` Establish and change reserves | Direct | `ESTABLISH_RESERVE`, `CHANGE_RESERVE` |
-| `CAP-DIR-05` Manage litigation | Direct | `UPDATE_LITIGATION`, `RECORD_TRIAL_OUTCOME` |
-| `CAP-DIR-06` Authorize and record settlement | Direct | `AUTHORIZE_SETTLEMENT`, `EXECUTE_SETTLEMENT` |
-| `CAP-DIR-07` Record recoveries and close claim | Direct | `RECORD_RECOVERY`, `CLOSE_CLAIM`, `REOPEN_CLAIM` |
-| `CAP-ASM-01` Record loss advice | Assumed | `RECORD_LOSS_ADVICE` |
-| `CAP-ASM-02` Establish and change assumed reserves | Assumed | `ESTABLISH_ASSUMED_RESERVE`, `CHANGE_ASSUMED_RESERVE` |
-| `CAP-ASM-03` Process claims bordereau | Assumed, Contract | `PROCESS_CLAIMS_BORDEREAU` |
-| `CAP-ASM-04` Cash call and recovery | Assumed, Payment | `REQUEST_CASH_CALL`, `RECORD_ASSUMED_RECOVERY` |
-| `CAP-ASM-05` Commute an assumed claim | Assumed | `COMMUTE_ASSUMED_CLAIM` |
+| `CAP-DIR-01` Register a first notice of loss | Primary | `REGISTER_FNOL` |
+| `CAP-DIR-02` Assess coverage and trigger | Primary | `ASSESS_COVERAGE`, `REFER_COVERAGE` |
+| `CAP-DIR-03` Capture injury, exposure, and medical criteria | Primary | `RECORD_INJURY`, `RECORD_EXPOSURE` |
+| `CAP-DIR-04` Establish and change reserves | Primary | `ESTABLISH_RESERVE`, `CHANGE_RESERVE` |
+| `CAP-DIR-05` Manage litigation | Primary | `UPDATE_LITIGATION`, `RECORD_TRIAL_OUTCOME` |
+| `CAP-DIR-06` Authorize and record settlement | Primary | `AUTHORIZE_SETTLEMENT`, `EXECUTE_SETTLEMENT` |
+| `CAP-DIR-07` Record recoveries and close claim | Primary | `RECORD_RECOVERY`, `CLOSE_CLAIM`, `REOPEN_CLAIM` |
+| `CAP-RNS-01` Record loss advice | Reinsurance | `RECORD_LOSS_ADVICE` |
+| `CAP-RNS-02` Establish and change reinsurance reserves | Reinsurance | `ESTABLISH_REINSURANCE_RESERVE`, `CHANGE_REINSURANCE_RESERVE` |
+| `CAP-RNS-03` Process claims bordereau | Reinsurance, Contract | `PROCESS_CLAIMS_BORDEREAU` |
+| `CAP-RNS-04` Cash call and recovery | Reinsurance, Payment | `REQUEST_CASH_CALL`, `RECORD_REINSURANCE_RECOVERY` |
+| `CAP-RNS-05` Commute a reinsurance claim | Reinsurance | `COMMUTE_REINSURANCE_CLAIM` |
 | `CAP-PTY-01` Create and maintain parties | Party | `CREATE_PARTY`, `UPDATE_PARTY` |
 | `CAP-PTY-02` Manage roles and associations | Party | `ADD_PARTY_ROLE`, `END_PARTY_ROLE` |
 | `CAP-PTY-03` Deduplicate and merge parties | Party | `MERGE_PARTY` |
@@ -313,10 +313,10 @@ Capabilities are expressed as `CAP-<domain>-<n>` and traced to the vertical and 
 | `CAP-PAY-04` Post to SAP S/4HANA | Payment, SAP | `POST_TO_SAP` |
 | `CAP-PAY-05` Reconcile bank and SAP | Payment | `RECONCILE_PAYMENT` |
 | `CAP-PAY-06` Reconcile SAP ledger and certify close | Payment | `RUN_RECONCILIATION`, `CERTIFY_CLOSE` |
-| `CAP-ACT-01` Actuarial reserve review | Direct, Assumed | `RUN_RESERVE_REVIEW`, `POST_IBNR` |
+| `CAP-ACT-01` Actuarial reserve review | Primary, Reinsurance | `RUN_RESERVE_REVIEW`, `POST_IBNR` |
 | `CAP-RET-01` Administer retrocessional contracts and hand off to FS-RI | Retrocession | `CREATE_RETRO_CONTRACT`, `BIND_RETRO_CONTRACT`, `SEND_FSRI_HANDOFF`, `RECONCILE_RETROCESSION` |
-| `CAP-DIR-08` Manage coverage litigation and legal spend | Direct | `RECORD_COVERAGE_POSITION`, `APPROVE_LEGAL_INVOICE` |
-| `CAP-DIR-09` Administer class and trust settlements | Direct | `ADMINISTER_CLASS`, `FILE_TRUST_CLAIM` |
+| `CAP-DIR-08` Manage coverage litigation and legal spend | Primary | `RECORD_COVERAGE_POSITION`, `APPROVE_LEGAL_INVOICE` |
+| `CAP-DIR-09` Administer class and trust settlements | Primary | `ADMINISTER_CLASS`, `FILE_TRUST_CLAIM` |
 | `CAP-PAY-07` Determine and remit tax | Policy, Payment | `DETERMINE_TAX`, `FILE_TAX_RETURN` |
 | `CAP-REG-01` Manage regulatory filings and complaints | Platform | `MANAGE_FILING`, `MANAGE_COMPLAINT` |
 | `CAP-BI-01` Report and govern data | Platform | `RUN_REPORT`, `MANAGE_DATA_QUALITY` |
@@ -341,7 +341,7 @@ Capabilities are expressed as `CAP-<domain>-<n>` and traced to the vertical and 
 |---|---|---|
 | R1 — all front-end components federated-injected | Runtime module federation; shell injects remotes from a signed manifest; no compile-time cross-vertical imports | §5, ADR-0002 |
 | R2 — React + JavaScript, no external libraries beyond minimum | Runtime dependency set is exactly `react` and `react-dom`; browser APIs and in-house modules only; build tooling excluded by ADR-0003 | §5.1, §5.13, ADR-0003 |
-| R3 — Spring Boot/Batch/Cloud back-end, Quartz scheduling, no other third-party dependencies | Direct dependency allowlist; Spring Boot BOM transitives only through adapters; Quartz is the only scheduler; custom schema migration runner replaces Flyway/Liquibase | §7, §3.3, ADR-0004, ADR-0010 |
+| R3 — Spring Boot/Batch/Cloud back-end, Quartz scheduling, no other third-party dependencies | Primary dependency allowlist; Spring Boot BOM transitives only through adapters; Quartz is the only scheduler; custom schema migration runner replaces Flyway/Liquibase | §7, §3.3, ADR-0004, ADR-0010 |
 | R4 — business logic in a domain service between front-end and database-writing expert service | Three-tier vertical; domain service owns rules and orchestration; expert service owns persistence and batch | §4, §6, §7, ADR-0001 |
 | R5 — front-end constructs transactions and monitors them through back-end services | Transaction catalog, transaction draft, business transaction envelope, SSE monitoring | §6.2–§6.7, ADR-0009 |
 | Components: 10 verticals (8 business + 2 FS-RI integration), each with front-end, back-end, database | 10 × (`-web`, `-domain`, `-expert`, database) | §4.3, §11 |
@@ -349,7 +349,7 @@ Capabilities are expressed as `CAP-<domain>-<n>` and traced to the vertical and 
 
 ### 2.6 System boundary and business responsibilities
 
-The platform is the **system of record and transactional system** for policy, claims, assumed contracts, cessions, retrocessions, party, document, payment instructions, and notifications. It is not the business itself.
+The platform is the **system of record and transactional system** for policy, claims, reinsurance contracts, cessions, retrocessions, party, document, payment instructions, and notifications. It is not the business itself.
 
 | Capability | System provides | Business provides |
 |---|---|---|
@@ -390,13 +390,13 @@ The platform is the **system of record and transactional system** for policy, cl
 | `P-08` | **Audit is a first-class output** | Every command, approval, read of sensitive data, and integration call is auditable with actor, reason, and correlation. |
 | `P-09` | **Lineage is a feature** | Typed links are written as part of the same transaction as the state change that creates them. |
 | `P-10` | **Standards before invention** | External code lists and message formats are adopted where they exist (§13). Internal enums are documented, versioned, and stable. |
-| `P-11` | **Zero unnecessary runtime dependencies** | Front-end runtime is React only. Back-end direct dependencies are Spring projects, Quartz, and the JDBC driver. |
+| `P-11` | **Zero unnecessary runtime dependencies** | Front-end runtime is React only. Back-end primary dependencies are Spring projects, Quartz, and the JDBC driver. |
 | `P-12` | **Idempotency everywhere** | Every command, event consumer, scheduled job, and external call is safe to repeat. |
 | `P-13` | **Observable by default** | Every transaction, step, integration call, and job emits structured telemetry with correlation identifiers. |
 | `P-14` | **Accessible and fast** | WCAG 2.2 AA, keyboard-complete, screen-reader-verified; performance budgets are release gates. |
 | `P-15` | **Least privilege, need to know** | PHI, privileged material, and settlement strategy are compartmented; ethical walls are enforceable. |
 | `P-16` | **Multi-tenant by construction** | Every row carries `tenant_id`; every query is tenant-scoped; row-level security is available without redesign. |
-| `P-17` | **Reinsurance system boundary and book wall** | SAP FS-RI owns cessions, retrocessions, ceded amounts, and recoverables. **Policy** owns the direct cession adapter; **Contract** owns the assumed retrocession adapter. The two books do not call or link to each other. |
+| `P-17` | **Reinsurance system boundary and book wall** | SAP FS-RI owns cessions, retrocessions, ceded amounts, and recoverables. **Policy** owns the primary cession adapter; **Contract** owns the reinsurance retrocession adapter. The two books do not call or link to each other. |
 
 ### 3.2 Constraints
 
@@ -473,7 +473,7 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 
 #### 3.3.2 Back-end
 
-**Permitted direct runtime dependencies:**
+**Permitted primary runtime dependencies:**
 
 | Group | Artifact | Use |
 |---|---|---|
@@ -490,7 +490,7 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 | JSON | Jackson via Spring Boot | Transitive, adapter use only |
 | Validation | Jakarta Bean Validation via Spring Boot | Transitive |
 
-**Prohibited direct dependencies (non-exhaustive):** Lombok, MapStruct, Guava, Apache Commons (`commons-lang3`, `commons-io`, `commons-collections`), Resilience4j, Hystrix, Kafka clients, RabbitMQ client, Redis/Lettuce/Jedis, Caffeine, Ehcache, Flyway, Liquibase, Hibernate Envers, Hibernate Validator as a direct dependency (transitive via Boot is permitted), Apache HttpClient, OkHttp, Retrofit, Feign core, OpenTelemetry SDK, Micrometer Prometheus registry beyond Spring Boot's managed version, Bouncy Castle, JJWT, Nimbus JOSE (Nimbus is transitive via Spring Security and used only through Spring Security APIs), PDFBox, Apache POI, iText, Tika, Quartz plugins, and any SDK for SAP, Salesforce, DocuSign, Twilio, SendGrid, or similar.
+**Prohibited primary dependencies (non-exhaustive):** Lombok, MapStruct, Guava, Apache Commons (`commons-lang3`, `commons-io`, `commons-collections`), Resilience4j, Hystrix, Kafka clients, RabbitMQ client, Redis/Lettuce/Jedis, Caffeine, Ehcache, Flyway, Liquibase, Hibernate Envers, Hibernate Validator as a primary dependency (transitive via Boot is permitted), Apache HttpClient, OkHttp, Retrofit, Feign core, OpenTelemetry SDK, Micrometer Prometheus registry beyond Spring Boot's managed version, Bouncy Castle, JJWT, Nimbus JOSE (Nimbus is transitive via Spring Security and used only through Spring Security APIs), PDFBox, Apache POI, iText, Tika, Quartz plugins, and any SDK for SAP, Salesforce, DocuSign, Twilio, SendGrid, or similar.
 
 **Permitted test-scope dependencies:** JUnit 5, Spring Boot Test, Spring Batch Test, Spring Security Test, AssertJ, Mockito, H2 (only for non-PostgreSQL-specific tests), and XMLUnit. These are test-only and must not appear on the runtime classpath.
 
@@ -506,8 +506,8 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 **Enforcement gates:**
 
 1. Maven Enforcer `bannedDependencies` with the prohibited group/artifact list.
-2. `maven-dependency-plugin:analyze` fails on undeclared or unused direct dependencies.
-3. A custom build check asserts every direct runtime dependency's group ID is in `{org.springframework.*, org.quartz-scheduler, org.postgresql}`.
+2. `maven-dependency-plugin:analyze` fails on undeclared or unused primary dependencies.
+3. A custom build check asserts every primary runtime dependency's group ID is in `{org.springframework.*, org.quartz-scheduler, org.postgresql}`.
 4. JDK module check: application code imports only `java.*`, `javax.*`, `jakarta.*`, `org.springframework.*`, `org.quartz.*`, and first-party packages.
 5. CycloneDX SBOM published per build.
 
@@ -530,8 +530,8 @@ Full ADR records live in `docs/adr/`. The decisions that shape this specificatio
 | `ADR-0011` | **Document content in S3-compatible object storage**, metadata and associations in the Document DB | Accepted | Scalable storage; retention and legal hold at object level |
 | `ADR-0012` | **Payment owns all SAP S/4HANA financial postings** | Accepted | Single integration boundary; consistent idempotency and reconciliation |
 | `ADR-0013` | **SAP S/4HANA is the AR and GL system of record; the platform owns business financial expectations and reconciliation** | Accepted | The platform does not duplicate the GL. It computes an independent expected financial position, sends billing/payment instructions through Payment, ingests SAP actuals, reconciles, and signs off proof of balance. Payment is the sole SAP AR/AP gateway. |
-| `ADR-0014` | **SAP FS-RI is the system of record for actual cessions and retrocessions; the platform manages the contracts and business-side rules** | Accepted | **Cession** administers direct-book ceded contracts and pulls Policy/Direct facts. **Retrocession** administers assumed-book retro contracts and pulls Contract/Assumed facts. Each hands off to FS-RI, stores confirmations and recoverable projections, and reconciles per book. FS-RI is authoritative for actual ceded amounts, recoverables, and statements. |
-| `ADR-0015` | **Direct and Assumed are separate books with a hard access wall** | Accepted | Policy + Direct form the `DIRECT` book; Contract + Assumed form the `ASSUMED` book. No cross-book calls, links, events, queues, or reports. Shared services are book-scoped; combined access requires both book roles and is audited. |
+| `ADR-0014` | **SAP FS-RI is the system of record for actual cessions and retrocessions; the platform manages the contracts and business-side rules** | Accepted | **Cession** administers primary-book ceded contracts and pulls Policy/Primary facts. **Retrocession** administers reinsurance-book retro contracts and pulls Contract/Reinsurance facts. Each hands off to FS-RI, stores confirmations and recoverable projections, and reconciles per book. FS-RI is authoritative for actual ceded amounts, recoverables, and statements. |
+| `ADR-0015` | **Primary and Reinsurance are separate books with a hard access wall** | Accepted | Policy + Primary form the `PRIMARY` book; Contract + Reinsurance form the `REINSURANCE` book. No cross-book calls, links, events, queues, or reports. Shared services are book-scoped; combined access requires both book roles and is audited. |
 | `ADR-0016` | **Cession and Retrocession are full reinsurance administration verticals** | Accepted | Each has its own front-end, domain, expert, database, queues, credentials, and access scope. Users manage contracts, layers, participants, terms, security, and rules; each pulls only from its own book and outputs contract and cession facts to FS-RI. No embedded adapter in Policy or Contract. |
 | `ADR-0017` | **Playwright is the mandatory front-end and E2E test framework** | Accepted | Every business rule is exercised through the front-end and a full transactional flow; business logic must reach 100% line and branch coverage; test endpoints and simulators stand in for FS-RI and S/4. |
 | `ADR-0018` | **Production readiness is governed by eight evidence gates** | Accepted | Access control, calculation, regulatory content, operations, and proof are incorporated; FS-RI/S4 production interfaces are implementation-time; the data model is canonical and migration is secondary. |
@@ -548,34 +548,34 @@ The platform supports **two distinct books** with separate value chains. They sh
 
 | Book | Business | Policy or contract administration | Claims | Reinsurance processing |
 |---|---|---|---|---|
-| `DIRECT` | Direct commercial insurance | **Policy** | **Direct** | **Cession** manages the ceded contracts and hands off to SAP FS-RI |
-| `ASSUMED` | Assumed reinsurance | **Contract** | **Assumed** | **Retrocession** manages the retro contracts and hands off to SAP FS-RI |
+| `PRIMARY` | Primary commercial insurance | **Policy** | **Primary** | **Cession** manages the ceded contracts and hands off to SAP FS-RI |
+| `REINSURANCE` | Reinsurance | **Contract** | **Reinsurance** | **Retrocession** manages the retro contracts and hands off to SAP FS-RI |
 
 **The wall:**
 
 | Rule | Requirement |
 |---|---|
-| `WALL-01` | Direct and Policy are one book. Assumed and Contract are another. They MUST NOT call each other's domain services. |
-| `WALL-02` | **Cession** manages the direct-book ceded contracts and cession rules, pulls policy facts from Policy and claim facts from Direct, and hands off to FS-RI. Direct and Policy never call FS-RI or Contract. |
-| `WALL-03` | **Retrocession** manages the assumed-book retro contracts and retro rules, pulls contract facts from Contract and claim facts from Assumed, and hands off to FS-RI. Assumed and Contract never call FS-RI or Policy. |
-| `WALL-04` | No `Policy`↔`Contract`, `Direct`↔`Assumed`, `Direct`↔`Contract`, `Policy`↔`Assumed`, or `Cession`↔`Retrocession` business links or calls are permitted. |
+| `WALL-01` | Primary and Policy are one book. Reinsurance and Contract are another. They MUST NOT call each other's domain services. |
+| `WALL-02` | **Cession** manages the primary-book ceded contracts and cession rules, pulls policy facts from Policy and claim facts from Primary, and hands off to FS-RI. Primary and Policy never call FS-RI or Contract. |
+| `WALL-03` | **Retrocession** manages the reinsurance-book retro contracts and retro rules, pulls contract facts from Contract and claim facts from Reinsurance, and hands off to FS-RI. Reinsurance and Contract never call FS-RI or Policy. |
+| `WALL-04` | No `Policy`↔`Contract`, `Primary`↔`Reinsurance`, `Primary`↔`Contract`, `Policy`↔`Reinsurance`, or `Cession`↔`Retrocession` business links or calls are permitted. |
 | `WALL-05` | Shared services (`party`, `document`, `payment`, `notifications`, `lineage`) are book-aware and MUST enforce the caller's book scope. |
-| `WALL-06` | A user with `DIRECT` scope MUST NOT see, infer, or reference `ASSUMED` records, and vice versa. |
+| `WALL-06` | A user with `PRIMARY` scope MUST NOT see, infer, or reference `REINSURANCE` records, and vice versa. |
 | `WALL-07` | Cross-book access requires both book roles and an audit record. |
 | `WALL-08` | No cross-book queues, authority matrices, templates, or report definitions. Group reporting is separate and aggregated. |
 
 #### 3.6.1 Data model
 
-Every business table carries `business_book` with value `DIRECT` or `ASSUMED`.
+Every business table carries `business_book` with value `PRIMARY` or `REINSURANCE`.
 
 | Vertical | Book behavior |
 |---|---|
-| Policy | Fixed `DIRECT` |
-| Direct | Fixed `DIRECT` |
-| Contract | Fixed `ASSUMED` |
-| Assumed | Fixed `ASSUMED` |
-| Cession | Fixed `DIRECT` |
-| Retrocession | Fixed `ASSUMED` |
+| Policy | Fixed `PRIMARY` |
+| Primary | Fixed `PRIMARY` |
+| Contract | Fixed `REINSURANCE` |
+| Reinsurance | Fixed `REINSURANCE` |
+| Cession | Fixed `PRIMARY` |
+| Retrocession | Fixed `REINSURANCE` |
 | Party | Shared identity; every role association carries the book of the subject |
 | Document | Shared repository; every association carries the book of the subject |
 | Payment | Every payment and allocation carries the book |
@@ -588,9 +588,9 @@ Every business table carries `business_book` with value `DIRECT` or `ASSUMED`.
 
 | Control | Requirement |
 |---|---|
-| Book role | Access is granted by `DIRECT_ROLE` for the `DIRECT` book and `ASSUMED_ROLE` for the `ASSUMED` book. A user may hold either or both. |
+| Book role | Access is granted by `PRIMARY_ROLE` for the `PRIMARY` book and `REINSURANCE_ROLE` for the `REINSURANCE` book. A user may hold either or both. |
 | Default assignment | Most users hold one book role. Financial controllers and group users typically hold both; a user with both sees both books side-by-side. |
-| Combined visibility | Holding both roles enables a combined Direct/Assumed finance view: side-by-side AR, AP, GL reconciliation, cession/retro recoverables, and close status. The view does not merge records or net the books. |
+| Combined visibility | Holding both roles enables a combined Primary/Reinsurance finance view: side-by-side AR, AP, GL reconciliation, cession/retro recoverables, and close status. The view does not merge records or net the books. |
 | Access profiles | Within each book, `VIEWER`, `OPERATOR`, `APPROVER`, `ADMIN`, `AUDITOR`, and `SERVICE` profiles enforce least privilege (§9.12). The book role grants entry; the profile and authority grant the action. |
 | API guard | The domain service resolves the record's book and checks the user's book role. A mismatch returns `404 NOT_FOUND`, never `403`, to avoid confirming existence. |
 | Row-level security | PostgreSQL RLS uses `app.book_scope`; every business table has a policy `business_book = ANY(app.book_scope)`. |
@@ -604,16 +604,16 @@ Every business table carries `business_book` with value `DIRECT` or `ASSUMED`.
 
 ```mermaid
 flowchart LR
-    subgraph DIRECT["DIRECT book"]
+    subgraph PRIMARY["PRIMARY book"]
         P[Policy]
-        D[Direct claims]
+        D[Primary claims]
         CES[Cession vertical]
         P -->|policy facts| CES
         D -->|claim events| CES
     end
-    subgraph ASSUMED["ASSUMED book"]
+    subgraph REINSURANCE["REINSURANCE book"]
         C[Contract]
-        A[Assumed claims]
+        A[Reinsurance claims]
         RET[Retrocession vertical]
         C -->|contract facts| RET
         A -->|claim events| RET
@@ -643,8 +643,8 @@ Financial controllers are the main users who hold both book roles. The design su
 | Rule | Requirement |
 |---|---|
 | `COMB-01` | Most users have roles in one book only; combined visibility is the exception, not the default. |
-| `COMB-02` | A financial controller holds `DIRECT_ROLE` and `ASSUMED_ROLE`; there is no separate combined role. |
-| `COMB-03` | The combined finance view shows Direct and Assumed side-by-side: AR ageing, AP, GL proof of balance, cession and retro recoverables, close status, and exceptions. |
+| `COMB-02` | A financial controller holds `PRIMARY_ROLE` and `REINSURANCE_ROLE`; there is no separate combined role. |
+| `COMB-03` | The combined finance view shows Primary and Reinsurance side-by-side: AR ageing, AP, GL proof of balance, cession and retro recoverables, close status, and exceptions. |
 | `COMB-04` | The combined view does not net, offset, merge, or re-key the two books; totals remain separate and are presented as two columns plus a group total. |
 | `COMB-05` | Drill-down from a combined figure opens the book-specific record; the user must have that book's role to see detail. |
 | `COMB-06` | Operational actions (approve a payment, change a reserve, issue a cession hand-off) are performed in the book-specific workbench, never from the combined view. |
@@ -672,7 +672,7 @@ flowchart LR
 
     subgraph Platform["Enterprise Insurance Administration Platform"]
         SHELL[Federated Application Shell]
-        VERT[Ten Verticals<br/>Policy · Contract · Direct · Assumed<br/>Cession · Retrocession<br/>Party · Document · Payment · Notifications]
+        VERT[Ten Verticals<br/>Policy · Contract · Primary · Reinsurance<br/>Cession · Retrocession<br/>Party · Document · Payment · Notifications]
     end
 
     subgraph External["External systems"]
@@ -718,8 +718,8 @@ flowchart TB
         SHELL["eia-shell<br/>React host · router · session · transaction monitor"]
         R1["eia-policy-web"]
         R2["eia-contract-web"]
-        R3["eia-direct-web"]
-        R4["eia-assumed-web"]
+        R3["eia-primary-web"]
+        R4["eia-reinsurance-web"]
         R5["eia-party-web"]
         R6["eia-document-web"]
         R7["eia-payment-web"]
@@ -741,11 +741,11 @@ flowchart TB
     end
 
     subgraph Verticals["Ten verticals (each: domain + expert + DB)"]
-        direction LR
+        primaryion LR
         PD["policy-domain"] --> PE["policy-expert"] --> PDB[("eia_policy")]
         CD["contract-domain"] --> CE["contract-expert"] --> CDB[("eia_contract")]
-        DD["direct-domain"] --> DE["direct-expert"] --> DDB[("eia_direct")]
-        AD["assumed-domain"] --> AE["assumed-expert"] --> ADB[("eia_assumed")]
+        DD["primary-domain"] --> DE["primary-expert"] --> DDB[("eia_primary")]
+        AD["reinsurance-domain"] --> AE["reinsurance-expert"] --> ADB[("eia_reinsurance")]
         TD["party-domain"] --> TE["party-expert"] --> TDB[("eia_party")]
         OD["document-domain"] --> OE["document-expert"] --> ODB[("eia_document")]
         MD["payment-domain"] --> ME["payment-expert"] --> MDB[("eia_payment")]
@@ -768,8 +768,8 @@ flowchart TB
     CFG -.-> Verticals
     PD & CD & DD & AD & TD & OD & MD & ND -->|"internal API"| LIN
     MD -->|OData / REST| SAP[(SAP S/4HANA)]
-    CSD -->|"hand-off (direct)"| FSRI[(SAP FS-RI)]
-    RTD -->|"hand-off (assumed)"| FSRI[(SAP FS-RI)]
+    CSD -->|"hand-off (primary)"| FSRI[(SAP FS-RI)]
+    RTD -->|"hand-off (reinsurance)"| FSRI[(SAP FS-RI)]
     FSRI -.->|postings| SAP
     OD --> OBJ[(Object storage)]
     MD --> BANK[(Bank camt.053)]
@@ -903,7 +903,7 @@ sequenceDiagram
 sequenceDiagram
     autonumber
     actor A as Adjuster
-    participant DIR as Direct domain
+    participant DIR as Primary domain
     participant PTY as Party domain
     participant DOC as Document domain
     participant PAY as Payment domain
@@ -937,7 +937,7 @@ sequenceDiagram
     participant PAYE as Payment expert
     participant SAP as SAP S/4HANA
     participant BANK as Bank (camt.053)
-    participant DIR as Direct domain
+    participant DIR as Primary domain
     participant NTF as Notifications
 
     AP->>PAYD: AUTHORIZE_PAYMENT draft (paymentId, authority evidence)
@@ -959,7 +959,7 @@ sequenceDiagram
     PAYD->>NTF: payment.reconciled / reconciliation.exception
 ```
 
-#### 4.5.4 Bordereau ingestion → assumed claims → cessions → technical account
+#### 4.5.4 Bordereau ingestion → reinsurance claims → cessions → technical account
 
 ```mermaid
 sequenceDiagram
@@ -967,7 +967,7 @@ sequenceDiagram
     actor RA as Reinsurance accountant
     participant CD as Contract domain
     participant CE as Contract expert
-    participant AD as Assumed domain
+    participant AD as Reinsurance domain
     participant DOC as Document domain
     participant PAY as Payment domain
 
@@ -976,8 +976,8 @@ sequenceDiagram
     CD->>CE: Spring Batch job: parse, validate, stage lines
     CE-->>CD: Staged lines + exceptions
     CD->>CD: Reconcile totals, validate contract, period, currency
-    CD->>AD: POST /internal/v1/assumed-claims/import (batch of advices)
-    AD->>AD: Match or create assumed claims, apply loss advices
+    CD->>AD: POST /internal/v1/reinsurance-claims/import (batch of advices)
+    AD->>AD: Match or create reinsurance claims, apply loss advices
     AD-->>CD: Import result (created/updated/rejected)
     CD->>CD: Recompute cessions, aggregates, reinstatements
     CD->>CE: Persist technical account for period
@@ -1000,10 +1000,10 @@ sequenceDiagram
     S->>LIN: GET /api/v1/lineage/record/{vertical}/{type}/{id}
     LIN-->>S: Node + typed links (counts, top links)
     U->>S: Expand "Claims"
-    S->>LIN: GET /api/v1/lineage/{vertical}/{type}/{id}?direction=OUT&linkTypes=POLICY_HAS_CLAIM&page[size]=50
+    S->>LIN: GET /api/v1/lineage/{vertical}/{type}/{id}?primaryion=OUT&linkTypes=POLICY_HAS_CLAIM&page[size]=50
     LIN-->>S: Page of claim nodes + cursors
     U->>S: Open claim
-    S->>V: GET /api/v1/direct/claims/{claimId}
+    S->>V: GET /api/v1/primary/claims/{claimId}
     V-->>S: Claim detail
     U->>S: View timeline
     S->>LIN: GET /api/v1/lineage/timeline/{vertical}/{type}/{id}
@@ -1012,20 +1012,20 @@ sequenceDiagram
 
 ### 4.6 Cross-vertical interaction matrix
 
-`S` = synchronous API call from the row's domain service; `E` = asynchronous event consumed by the row; `P` = read-only projection maintained by the row; blank = no direct interaction.
+`S` = synchronous API call from the row's domain service; `E` = asynchronous event consumed by the row; `P` = read-only projection maintained by the row; blank = no primary interaction.
 
-| Consumer ↓ / Producer → | Policy | Contract | Direct | Assumed | Party | Document | Payment | Notifications |
+| Consumer ↓ / Producer → | Policy | Contract | Primary | Reinsurance | Party | Document | Payment | Notifications |
 |---|---|---|---|---|---|---|---|---|
 | **Policy** | — | — | S (coverage, limits) / E (claim events) | — | S (party validation) | E (document linked) | S (billing instruction) / E (posting status) | S (issue notification) |
-| **Contract** | — | — | — | P (assumed loss aggregate) / E (retro projection) | S | E (bordereau registered) | S (settlement) | S |
-| **Direct** | S (coverage, limits) / E (cession projection) | — | — | — | S (claimant resolve) | E (document linked) | S (payment capacity) | S |
-| **Assumed** | — | S (terms and claim events) | — | — | S | E | S (payment capacity) | S |
+| **Contract** | — | — | — | P (reinsurance loss aggregate) / E (retro projection) | S | E (bordereau registered) | S (settlement) | S |
+| **Primary** | S (coverage, limits) / E (cession projection) | — | — | — | S (claimant resolve) | E (document linked) | S (payment capacity) | S |
+| **Reinsurance** | — | S (terms and claim events) | — | — | S | E | S (payment capacity) | S |
 | **Party** | E (role events) | E | E | E | — | E (document party) | E (payee) | E (recipient) |
 | **Document** | E | E | E | E | S (resolve party) | — | E | E |
-| **Payment** | E (premium/commission) | E (cash call/balance) | S (claim payment request) | S (assumed payment request) | S (payee/bank) | S (supporting docs) | — | S |
+| **Payment** | E (premium/commission) | E (cash call/balance) | S (claim payment request) | S (reinsurance payment request) | S (payee/bank) | S (supporting docs) | — | S |
 | **Notifications** | E | E | E | E | S (recipient) | E | E | — |
 
-**FS-RI is external to this matrix.** Cession and Retrocession are separate reinsurance administration verticals (§7.18): Cession pulls from Policy/Direct, Retrocession pulls from Contract/Assumed, and neither appears as a business counterparty here. The blank cells between the `DIRECT` pair (Policy, Direct) and the `ASSUMED` pair (Contract, Assumed) are the **book wall** (§3.6): no cross-book calls, links, events, or reports.
+**FS-RI is external to this matrix.** Cession and Retrocession are separate reinsurance administration verticals (§7.18): Cession pulls from Policy/Primary, Retrocession pulls from Contract/Reinsurance, and neither appears as a business counterparty here. The blank cells between the `PRIMARY` pair (Policy, Primary) and the `REINSURANCE` pair (Contract, Reinsurance) are the **book wall** (§3.6): no cross-book calls, links, events, or reports.
 
 **Interaction rules:**
 
@@ -1034,7 +1034,7 @@ sequenceDiagram
 3. Asynchronous events are the default for propagation. A consumer MUST tolerate duplicates, out-of-order delivery within a partition, and late arrival.
 4. No vertical reads another vertical's database, cache, or object prefixes. There is no shared cache.
 5. A vertical may keep a **reference projection** of another vertical's entity (ID, business key, display name, status, version) for display and validation. Projections carry `source_version` and `projected_at`, are read-only, and are reconciled nightly.
-6. Read-only capacity checks may be bidirectional (for example, Direct checks Payment for outstanding payments while Payment checks Direct for reserve capacity). Such calls MUST be timeout-bounded, MUST NOT hold database locks, and MUST NOT be part of a write transaction on either side.
+6. Read-only capacity checks may be biprimaryional (for example, Primary checks Payment for outstanding payments while Payment checks Primary for reserve capacity). Such calls MUST be timeout-bounded, MUST NOT hold database locks, and MUST NOT be part of a write transaction on either side.
 
 ### 4.7 Consistency model
 
@@ -1048,7 +1048,7 @@ sequenceDiagram
 | Aggregate / limit erosion | Serializable per policy | `SELECT … FOR UPDATE` on `policy_limit_state`, or `SERIALIZABLE` transaction with retry |
 | Lineage graph | Eventual, rebuildable | Projection from domain events and synchronous link writes |
 
-**Money and coverage are fail-closed.** If the Policy service cannot confirm available limit, the Direct service MUST NOT silently proceed as if limit exists; it opens an exception task and blocks the dependent step.
+**Money and coverage are fail-closed.** If the Policy service cannot confirm available limit, the Primary service MUST NOT silently proceed as if limit exists; it opens an exception task and blocks the dependent step.
 
 **Event ordering.** Events carry `aggregateType`, `aggregateId`, and a monotonic `aggregateVersion` (per aggregate). Consumers apply events only in increasing `aggregateVersion` per aggregate and discard duplicates by `eventId`. Global ordering is not promised.
 
@@ -1065,7 +1065,7 @@ sequenceDiagram
 | Database unavailable | Connection pool, health | Readiness fails; pods removed; retries with backoff | Degraded |
 | SAP S/4HANA unavailable | Timeout, 5xx | Payment remains `AUTHORIZED`; posting queued in `integration_message`; retries; alert | "Posting pending" |
 | Object storage unavailable | Timeout | Document registration rejected (no orphan metadata); downloads fail cleanly | Error with retry |
-| Lineage index unavailable | Health | Shell falls back to direct link expansion via each vertical's `/links` endpoint | Slower lineage, still correct |
+| Lineage index unavailable | Health | Shell falls back to primary link expansion via each vertical's `/links` endpoint | Slower lineage, still correct |
 | Event delivery backlog | Outbox lag metric | Alerts at 60 s; no data loss; consumers catch up | Delayed notifications/lineage |
 | Notification relay unavailable | Delivery failure | Retries with backoff; in-app inbox always written first | In-app present; email delayed |
 | Quartz misfire storm | Misfire metrics | Per-job misfire policy; missed runs summarized, not replayed wholesale | Delayed jobs |
@@ -1121,7 +1121,7 @@ Each remote exposes exactly one federated module, `./module`, whose default expo
 /**
  * @typedef {Object} VerticalFrontendModule
  * @property {string} contractVersion      Semver of this contract the module implements, e.g. "1.0.0".
- * @property {string} verticalId           One of policy|contract|direct|assumed|cession|retrocession|party|document|payment|notifications.
+ * @property {string} verticalId           One of policy|contract|primary|reinsurance|cession|retrocession|party|document|payment|notifications.
  * @property {string} displayName
  * @property {string} moduleVersion        Semver of this deployment.
  * @property {string} buildId              Git SHA + build number.
@@ -1148,7 +1148,7 @@ Each remote exposes exactly one federated module, `./module`, whose default expo
 | `verticalId` | Yes | Must equal the manifest entry's `verticalId`; mismatch is a load failure. |
 | `moduleVersion` | Yes | Semver; must equal manifest `moduleVersion`. |
 | `requiredShellApi` | Yes | Semver range. Shell rejects the module if unsatisfied, before `initialize`. |
-| `permissions` | Yes | Descriptive metadata for future RBAC; current enforcement is `DIRECT_ROLE` / `ASSUMED_ROLE`. |
+| `permissions` | Yes | Descriptive metadata for future RBAC; current enforcement is `PRIMARY_ROLE` / `REINSURANCE_ROLE`. |
 | `navigation` | Yes (may be empty) | Items the shell renders in the primary navigation. |
 | `routes` | Yes | Path patterns the shell registers. Route components are lazy-loaded inside the remote. |
 | `slots` | Yes (may be empty) | Widgets injected into shell-owned layout slots. |
@@ -1181,7 +1181,7 @@ Each remote exposes exactly one federated module, `./module`, whose default expo
 /**
  * @typedef {Object} RouteDef
  * @property {string} id
- * @property {string} path             e.g. "/v/direct/claims/:claimId"
+ * @property {string} path             e.g. "/v/primary/claims/:claimId"
  * @property {function(): Promise<{default: function}>} load
  * @property {string} [permission]
  * @property {function(object): boolean} [guard]
@@ -1196,7 +1196,7 @@ Each remote exposes exactly one federated module, `./module`, whose default expo
 ```js
 /**
  * @typedef {Object} RecordTypeDef
- * @property {string} type              "policy" | "contract" | "claim" | "assumedClaim" | "cessionCase" | "retroCase" | "party" | "document" | "payment" | "notification"
+ * @property {string} type              "policy" | "contract" | "claim" | "reinsuranceClaim" | "cessionCase" | "retroCase" | "party" | "document" | "payment" | "notification"
  * @property {string} verticalId
  * @property {string} labelKey
  * @property {string} icon
@@ -1380,7 +1380,7 @@ The shell injects a frozen context object. It is the **only** supported way for 
 
 | Namespace | Members | Contract |
 |---|---|---|
-| `context.session` | `user`, `tenant`, `roles`, `bookRoles`, `hasBookRole(book)`, `profiles`, `hasProfile(profile)`, `onChange(cb)` | Identity is server-derived. Book roles are `DIRECT_ROLE` and `ASSUMED_ROLE`; profiles are the least-privilege bundles in §9.12. The UI check is an affordance only. |
+| `context.session` | `user`, `tenant`, `roles`, `bookRoles`, `hasBookRole(book)`, `profiles`, `hasProfile(profile)`, `onChange(cb)` | Identity is server-derived. Book roles are `PRIMARY_ROLE` and `REINSURANCE_ROLE`; profiles are the least-privilege bundles in §9.12. The UI check is an affordance only. |
 | `context.http` | `request(path, {method, body, headers, signal, idempotencyKey})`, `get`, `post`, `put`, `patch`, `del`, `stream(path, handlers)` | Prefixes `/api/v1`, adds correlation ID and CSRF token, parses `application/problem+json` into `ApiError`, retries only idempotent GETs, 30 s default timeout. |
 | `context.router` | `navigate(to, {replace, state})`, `back()`, `match(pattern)`, `params`, `query`, `setQuery(patch)`, `hrefFor(ref)` | Shell owns history. Deep links are stable and shareable. |
 | `context.records` | `open(ref, {tab})`, `resolve(ref)`, `refFor(verticalId, type, id)`, `recent()` | Universal record navigation. |
@@ -1429,10 +1429,10 @@ The shell implements a small history-based router. Patterns support static segme
 | `/v/contract/contracts` | Contract list | Contract |
 | `/v/contract/contracts/:contractId` | Contract record | Contract |
 | `/v/contract/bordereaux/:bordereauId` | Bordereau detail | Contract |
-| `/v/direct/claims` | Claim list / queue | Direct |
-| `/v/direct/claims/:claimId` | Claim record | Direct |
-| `/v/assumed/claims` | Assumed claim list | Assumed |
-| `/v/assumed/claims/:assumedClaimId` | Assumed claim record | Assumed |
+| `/v/primary/claims` | Claim list / queue | Primary |
+| `/v/primary/claims/:claimId` | Claim record | Primary |
+| `/v/reinsurance/claims` | Reinsurance claim list | Reinsurance |
+| `/v/reinsurance/claims/:reinsuranceClaimId` | Reinsurance claim record | Reinsurance |
 | `/v/party/parties` | Party search | Party |
 | `/v/party/parties/:partyId` | Party record | Party |
 | `/v/document/documents/:documentId` | Document viewer | Document |
@@ -1458,9 +1458,9 @@ The shell implements a small history-based router. Patterns support static segme
 |---|---|---|
 | Summary | Policy | Terms, coverage, limits, status |
 | Coverage & limits | Policy | Layers, aggregates, erosion |
-| Claims | Direct | Claims under the policy, paginated, with counts |
+| Claims | Primary | Claims under the policy, paginated, with counts |
 | Parties | Party | Insureds, additional insureds, brokers, counsel |
-| Direct cessions | Policy | Cession requests and FS-RI confirmations for this policy |
+| Primary cessions | Policy | Cession requests and FS-RI confirmations for this policy |
 | Documents | Document | Associated documents by type |
 | Payments | Payment | Payment history and outstanding authority |
 | Notifications | Notifications | Notifications about this policy |
@@ -1761,7 +1761,7 @@ The catalog is the **published menu of everything the front-end can ask for**. I
     {
       "id": "verify-claim-capacity",
       "type": "READ",
-      "target": "direct.domain.claim.payment-capacity",
+      "target": "primary.domain.claim.payment-capacity",
       "timeoutMs": 2500,
       "retry": { "attempts": 0 },
       "inputs": { "claimId": "$.steps.load-payment.output.payment.claimId" },
@@ -1894,9 +1894,9 @@ A **draft** is the front-end's composed intent. It is not an executable transact
 
 ```json
 {
-  "catalogId": "direct.claim.register",
+  "catalogId": "primary.claim.register",
   "catalogVersion": "3.1.0",
-  "verticalId": "direct",
+  "verticalId": "primary",
   "subjectRefs": [
     { "vertical": "policy", "type": "policy", "id": "0192f3a4-...", "businessKey": "GL-2024-0041827" }
   ],
@@ -1914,7 +1914,7 @@ A **draft** is the front-end's composed intent. It is not an executable transact
   },
   "options": { "priority": "NORMAL", "dryRun": false, "notify": true },
   "clientContext": {
-    "buildId": "direct-web@2.14.3+9f2c1a7",
+    "buildId": "primary-web@2.14.3+9f2c1a7",
     "locale": "en-US",
     "formId": "claim.fnol.v5",
     "timezone": "America/New_York"
@@ -2035,7 +2035,7 @@ stateDiagram-v2
   "output": { "paymentVersion": 8, "authorizedAmount": "1250000.00" },
   "compensationState": "NOT_REQUIRED",
   "links": [
-    { "linkType": "PAYMENT_FOR_CLAIM", "to": { "vertical": "direct", "type": "claim", "id": "0192..." } }
+    { "linkType": "PAYMENT_FOR_CLAIM", "to": { "vertical": "primary", "type": "claim", "id": "0192..." } }
   ]
 }
 ```
@@ -2114,7 +2114,7 @@ The domain service calls expert capabilities over an authenticated internal API.
   "result": { "paymentVersion": 8, "authorizedAmount": { "amount": "1250000.00", "currency": "USD" } },
   "warnings": [],
   "links": [
-    { "linkType": "PAYMENT_FOR_CLAIM", "from": { "vertical": "payment", "type": "payment", "id": "…" }, "to": { "vertical": "direct", "type": "claim", "id": "…" } }
+    { "linkType": "PAYMENT_FOR_CLAIM", "from": { "vertical": "payment", "type": "payment", "id": "…" }, "to": { "vertical": "primary", "type": "claim", "id": "…" } }
   ],
   "events": [
     { "eventId": "…", "eventType": "payment.payment.authorized", "aggregateVersion": 4 }
@@ -2164,7 +2164,7 @@ The front-end monitors a transaction through the domain service. The domain serv
     "canApprove": true,
     "cannotApproveReason": null
   },
-  "subjects": [ { "vertical": "direct", "type": "claim", "id": "…", "businessKey": "CLM-2026-0193382" } ],
+  "subjects": [ { "vertical": "primary", "type": "claim", "id": "…", "businessKey": "CLM-2026-0193382" } ],
   "result": null,
   "error": null,
   "links": { "self": "/api/v1/payment/transactions/0192f3a4-…", "stream": "…", "record": "…" },
@@ -2254,11 +2254,11 @@ data: {"state":"COMMITTED","result":{...}}
 
 Authority is a first-class domain concept because every financial action in insurance is authority-bound.
 
-**Authority model:** access and authority are separate. A user gets into a book through `DIRECT_ROLE` or `ASSUMED_ROLE`; high-risk actions additionally require an **authority position** and limit assigned within that book. A position never grants book access by itself.
+**Authority model:** access and authority are separate. A user gets into a book through `PRIMARY_ROLE` or `REINSURANCE_ROLE`; high-risk actions additionally require an **authority position** and limit assigned within that book. A position never grants book access by itself.
 
 | Dimension | Description |
 |---|---|
-| Book role | `DIRECT_ROLE` or `ASSUMED_ROLE`; required before any authority position applies |
+| Book role | `PRIMARY_ROLE` or `REINSURANCE_ROLE`; required before any authority position applies |
 | Authority position | `ADJUSTER`, `SENIOR_ADJUSTER`, `CLAIMS_MANAGER`, `PAYMENT_PREPARER`, `PAYMENT_APPROVER`, `SENIOR_PAYMENT_APPROVER`, `FINANCE_CONTROLLER`, `CONTRACT_ADMIN`, `CONTRACT_APPROVER`, `COMMUTATION_APPROVER`, `COMPLIANCE_OFFICER`, `RECORDS_MANAGER`, `PLATFORM_ADMIN` |
 | Action | The transaction or approval action, e.g. `claim.reserve.approve`, `payment.approve`, `contract.bind`, `contract.commute`, `collateral.release` |
 | Limit | Amount per component (`INDEMNITY`, `DEFENSE`, `ALAE`, `EXPENSE`), currency, and line of business |
@@ -2384,7 +2384,7 @@ This is the v1 catalog. Each entry is specified in its vertical chapter; this ta
 | Cession | `cession.contract.cancel` | `CANCEL_CEDED_CONTRACT` | Yes | Sync | Cession |
 | Cession | `cession.contract.commute` | `COMMUTE_CEDED_CONTRACT` | Yes | Async | Cession, Finance |
 | Cession | `cession.rule.define` | `DEFINE_CESSION_RULE` | No | Sync | Cession |
-| Cession | `cession.handoff` | `SEND_FSRI_HANDOFF` | No | Async | Policy, Direct, FS-RI |
+| Cession | `cession.handoff` | `SEND_FSRI_HANDOFF` | No | Async | Policy, Primary, FS-RI |
 | Cession | `cession.reconcile` | `RECONCILE_CESSION` | No | Async | Finance |
 | Policy | `policy.billing.instruct` | `INSTRUCT_BILLING` | Yes* | Sync | Policy, Payment |
 | Policy | `policy.billing.credit-note` | `ISSUE_CREDIT_NOTE` | Yes | Sync | Policy, Payment |
@@ -2399,7 +2399,7 @@ This is the v1 catalog. Each entry is specified in its vertical chapter; this ta
 | Contract | `contract.cash-call` | `ISSUE_CASH_CALL` | Yes | Sync | Contract, Payment |
 | Contract | `contract.reinstatement` | `APPLY_REINSTATEMENT` | No | Sync | Contract |
 | Contract | `contract.security` | `RECORD_SECURITY` | Yes | Sync | Contract |
-| Contract | `contract.commute` | `COMMUTE_CONTRACT` | Yes | Async | Contract, Assumed, Payment |
+| Contract | `contract.commute` | `COMMUTE_CONTRACT` | Yes | Async | Contract, Reinsurance, Payment |
 | Contract | `contract.renew` | `RENEW_CONTRACT` | Yes | Sync | Contract |
 | Retrocession | `retrocession.contract.create` | `CREATE_RETRO_CONTRACT` | No | Sync | Retrocession |
 | Retrocession | `retrocession.contract.bind` | `BIND_RETRO_CONTRACT` | Yes | Sync | Retrocession |
@@ -2408,32 +2408,32 @@ This is the v1 catalog. Each entry is specified in its vertical chapter; this ta
 | Retrocession | `retrocession.contract.cancel` | `CANCEL_RETRO_CONTRACT` | Yes | Sync | Retrocession |
 | Retrocession | `retrocession.contract.commute` | `COMMUTE_RETRO_CONTRACT` | Yes | Async | Retrocession, Finance |
 | Retrocession | `retrocession.rule.define` | `DEFINE_RETRO_RULE` | No | Sync | Retrocession |
-| Retrocession | `retrocession.handoff` | `SEND_FSRI_HANDOFF` | No | Async | Contract, Assumed, FS-RI |
+| Retrocession | `retrocession.handoff` | `SEND_FSRI_HANDOFF` | No | Async | Contract, Reinsurance, FS-RI |
 | Retrocession | `retrocession.reconcile` | `RECONCILE_RETROCESSION` | No | Async | Finance |
-| Direct | `direct.claim.register` | `REGISTER_FNOL` | No | Sync | Claim, Party, Policy |
-| Direct | `direct.claim.assess-coverage` | `ASSESS_COVERAGE` | Yes* | Sync | Claim |
-| Direct | `direct.claim.injury` | `RECORD_INJURY` | No | Sync | Claim, Party |
-| Direct | `direct.claim.exposure` | `RECORD_EXPOSURE` | No | Sync | Claim |
-| Direct | `direct.claim.reserve` | `ESTABLISH_RESERVE` | Yes* | Sync | Claim |
-| Direct | `direct.claim.change-reserve` | `CHANGE_RESERVE` | Yes* | Sync | Claim |
-| Direct | `direct.claim.litigation` | `UPDATE_LITIGATION` | No | Sync | Claim |
-| Direct | `direct.claim.settle-authorize` | `AUTHORIZE_SETTLEMENT` | Yes | Sync | Claim, Payment |
-| Direct | `direct.claim.settle-execute` | `EXECUTE_SETTLEMENT` | No | Sync | Claim, Document |
-| Direct | `direct.claim.recovery` | `RECORD_RECOVERY` | No | Sync | Claim, Payment |
-| Direct | `direct.claim.close` | `CLOSE_CLAIM` | No | Sync | Claim |
-| Direct | `direct.claim.reopen` | `REOPEN_CLAIM` | Yes | Sync | Claim |
-| Direct | `direct.claim.allocate` | `ALLOCATE_CLAIM` | Yes* | Sync | Claim, Policy |
-| Assumed | `assumed.claim.loss-advice` | `RECORD_LOSS_ADVICE` | No | Sync | AssumedClaim |
-| Assumed | `assumed.claim.bordereau` | `PROCESS_CLAIMS_BORDEREAU` | No | Async | AssumedClaim, Contract |
-| Assumed | `assumed.claim.reserve` | `ESTABLISH_ASSUMED_RESERVE` | Yes* | Sync | AssumedClaim |
-| Assumed | `assumed.claim.change-reserve` | `CHANGE_ASSUMED_RESERVE` | Yes* | Sync | AssumedClaim |
-| Assumed | `assumed.claim.payment` | `AUTHORIZE_ASSUMED_PAYMENT` | Yes | Sync | AssumedClaim, Payment |
-| Assumed | `assumed.claim.cash-call` | `REQUEST_CASH_CALL` | Yes | Sync | AssumedClaim, Contract, Payment |
-| Assumed | `assumed.claim.recovery` | `RECORD_ASSUMED_RECOVERY` | No | Sync | AssumedClaim, Payment |
-| Assumed | `assumed.claim.reinstatement` | `APPLY_REINSTATEMENT` | No | Sync | AssumedClaim, Contract |
-| Assumed | `assumed.claim.commute` | `COMMUTE_ASSUMED_CLAIM` | Yes | Async | AssumedClaim, Contract, Payment |
-| Assumed | `assumed.claim.dispute` | `DISPUTE_LOSS_ADVICE` | No | Sync | AssumedClaim |
-| Assumed | `assumed.claim.close` | `CLOSE_ASSUMED_CLAIM` | No | Sync | AssumedClaim |
+| Primary | `primary.claim.register` | `REGISTER_FNOL` | No | Sync | Claim, Party, Policy |
+| Primary | `primary.claim.assess-coverage` | `ASSESS_COVERAGE` | Yes* | Sync | Claim |
+| Primary | `primary.claim.injury` | `RECORD_INJURY` | No | Sync | Claim, Party |
+| Primary | `primary.claim.exposure` | `RECORD_EXPOSURE` | No | Sync | Claim |
+| Primary | `primary.claim.reserve` | `ESTABLISH_RESERVE` | Yes* | Sync | Claim |
+| Primary | `primary.claim.change-reserve` | `CHANGE_RESERVE` | Yes* | Sync | Claim |
+| Primary | `primary.claim.litigation` | `UPDATE_LITIGATION` | No | Sync | Claim |
+| Primary | `primary.claim.settle-authorize` | `AUTHORIZE_SETTLEMENT` | Yes | Sync | Claim, Payment |
+| Primary | `primary.claim.settle-execute` | `EXECUTE_SETTLEMENT` | No | Sync | Claim, Document |
+| Primary | `primary.claim.recovery` | `RECORD_RECOVERY` | No | Sync | Claim, Payment |
+| Primary | `primary.claim.close` | `CLOSE_CLAIM` | No | Sync | Claim |
+| Primary | `primary.claim.reopen` | `REOPEN_CLAIM` | Yes | Sync | Claim |
+| Primary | `primary.claim.allocate` | `ALLOCATE_CLAIM` | Yes* | Sync | Claim, Policy |
+| Reinsurance | `reinsurance.claim.loss-advice` | `RECORD_LOSS_ADVICE` | No | Sync | ReinsuranceClaim |
+| Reinsurance | `reinsurance.claim.bordereau` | `PROCESS_CLAIMS_BORDEREAU` | No | Async | ReinsuranceClaim, Contract |
+| Reinsurance | `reinsurance.claim.reserve` | `ESTABLISH_REINSURANCE_RESERVE` | Yes* | Sync | ReinsuranceClaim |
+| Reinsurance | `reinsurance.claim.change-reserve` | `CHANGE_REINSURANCE_RESERVE` | Yes* | Sync | ReinsuranceClaim |
+| Reinsurance | `reinsurance.claim.payment` | `AUTHORIZE_REINSURANCE_PAYMENT` | Yes | Sync | ReinsuranceClaim, Payment |
+| Reinsurance | `reinsurance.claim.cash-call` | `REQUEST_CASH_CALL` | Yes | Sync | ReinsuranceClaim, Contract, Payment |
+| Reinsurance | `reinsurance.claim.recovery` | `RECORD_REINSURANCE_RECOVERY` | No | Sync | ReinsuranceClaim, Payment |
+| Reinsurance | `reinsurance.claim.reinstatement` | `APPLY_REINSTATEMENT` | No | Sync | ReinsuranceClaim, Contract |
+| Reinsurance | `reinsurance.claim.commute` | `COMMUTE_REINSURANCE_CLAIM` | Yes | Async | ReinsuranceClaim, Contract, Payment |
+| Reinsurance | `reinsurance.claim.dispute` | `DISPUTE_LOSS_ADVICE` | No | Sync | ReinsuranceClaim |
+| Reinsurance | `reinsurance.claim.close` | `CLOSE_REINSURANCE_CLAIM` | No | Sync | ReinsuranceClaim |
 | Payment | `payment.authorize` | `AUTHORIZE_PAYMENT` | Yes | Sync | Payment, Claim |
 | Payment | `payment.issue` | `ISSUE_PAYMENT` | Yes* | Async | Payment |
 | Payment | `payment.confirm` | `CONFIRM_PAYMENT` | No | Async | Payment |
@@ -2504,12 +2504,12 @@ There is no central orchestrator. **The vertical that owns the business intent o
 
 | Business intent | Owning vertical | Delegated steps |
 |---|---|---|
-| Register a claim and reserve it | Direct | Party resolve, Policy coverage read, Document associate, Notifications issue |
-| Settle a claim and pay the claimant | Direct (authorize) → Payment (execute) | Direct owns authorization; Payment owns issuance and SAP posting; a `SUB_TRANSACTION` step links them |
-| Record an assumed cession and claim recovery | Contract | Cedent terms, Assumed claim, Payment recovery |
-| Cede a direct policy or claim to SAP FS-RI | Policy | Policy/Direct facts, FS-RI request, confirmation, projection |
-| Retrocede an assumed contract or claim to SAP FS-RI | Contract | Assumed facts, FS-RI retro request, confirmation, projection |
-| Process a bordereau and create assumed claims | Contract | Assumed import, Document associate, Payment balance |
+| Register a claim and reserve it | Primary | Party resolve, Policy coverage read, Document associate, Notifications issue |
+| Settle a claim and pay the claimant | Primary (authorize) → Payment (execute) | Primary owns authorization; Payment owns issuance and SAP posting; a `SUB_TRANSACTION` step links them |
+| Record a reinsurance cession and claim recovery | Contract | Cedent terms, Reinsurance claim, Payment recovery |
+| Cede a primary policy or claim to SAP FS-RI | Policy | Policy/Primary facts, FS-RI request, confirmation, projection |
+| Retrocede a reinsurance contract or claim to SAP FS-RI | Contract | Reinsurance facts, FS-RI retro request, confirmation, projection |
+| Process a bordereau and create reinsurance claims | Contract | Reinsurance import, Document associate, Payment balance |
 | Merge two parties and repoint references | Party | Notifications, Lineage edge rewrite; other verticals consume `party.merged` and lazily re-resolve |
 | Dispose of documents under legal hold | Document | Notifications, Audit |
 
@@ -2664,23 +2664,23 @@ Spring Batch executes **bulk and long-running data movement**. It is not used fo
 | Contract | `contract.premium-adjustment-batch` | Quartz quarterly | Sliding-scale and adjustable premium computation |
 | Contract | `contract.security-expiry` | Quartz daily | Expire collateral, raise requirements |
 | Contract | `contract.portfolio-extract` | Manual | Extract treaty, premium, and loss data for actuarial use |
-| Cession | `cession.export` | Quartz | Export pending direct hand-offs to FS-RI |
-| Cession | `cession.statement-import` | Quartz | Import direct FS-RI statements and recoverables |
-| Cession | `cession.reconciliation-batch` | Quartz | Reconcile direct cessions, recoverables, and S/4 |
+| Cession | `cession.export` | Quartz | Export pending primary hand-offs to FS-RI |
+| Cession | `cession.statement-import` | Quartz | Import primary FS-RI statements and recoverables |
+| Cession | `cession.reconciliation-batch` | Quartz | Reconcile primary cessions, recoverables, and S/4 |
 | Retrocession | `retrocession.export` | Quartz | Export pending retro hand-offs to FS-RI |
 | Retrocession | `retrocession.statement-import` | Quartz | Import retro FS-RI statements and recoverables |
 | Retrocession | `retrocession.reconciliation-batch` | Quartz | Reconcile retrocessions, retro recoverables, and S/4 |
-| Direct | `direct.claim-bulk-import` | Manual | Import legacy or portfolio claims |
-| Direct | `direct.reserve-review-batch` | Quartz monthly | Flag claims with stale reserves or missing reviews |
-| Direct | `direct.closure-sweep` | Quartz weekly | Close eligible zero-balance claims |
-| Direct | `direct.recovery-match` | Quartz daily | Match incoming recoveries to claims |
-| Direct | `direct.aggregate-erosion-sync` | Quartz daily | Send erosion facts to Policy, reconcile differences |
-| Direct | `direct.extract-actuarial` | Manual | Loss development extract (Schedule P shape) |
-| Assumed | `assumed.loss-advice-import` | Manual / event | Import loss advices from a bordereau |
-| Assumed | `assumed.cash-call-batch` | Quartz monthly | Compute cash calls due |
-| Assumed | `assumed.recovery-match` | Quartz daily | Match reinsurance recoveries |
-| Assumed | `assumed.commutation-batch` | Manual | Bulk commutation valuation |
-| Assumed | `assumed.extract-actuarial` | Manual | Assumed loss development extract |
+| Primary | `primary.claim-bulk-import` | Manual | Import legacy or portfolio claims |
+| Primary | `primary.reserve-review-batch` | Quartz monthly | Flag claims with stale reserves or missing reviews |
+| Primary | `primary.closure-sweep` | Quartz weekly | Close eligible zero-balance claims |
+| Primary | `primary.recovery-match` | Quartz daily | Match incoming recoveries to claims |
+| Primary | `primary.aggregate-erosion-sync` | Quartz daily | Send erosion facts to Policy, reconcile differences |
+| Primary | `primary.extract-actuarial` | Manual | Loss development extract (Schedule P shape) |
+| Reinsurance | `reinsurance.loss-advice-import` | Manual / event | Import loss advices from a bordereau |
+| Reinsurance | `reinsurance.cash-call-batch` | Quartz monthly | Compute cash calls due |
+| Reinsurance | `reinsurance.recovery-match` | Quartz daily | Match reinsurance recoveries |
+| Reinsurance | `reinsurance.commutation-batch` | Manual | Bulk commutation valuation |
+| Reinsurance | `reinsurance.extract-actuarial` | Manual | Reinsurance loss development extract |
 | Document | `document.ingest` | Event | Virus scan, checksum, OCR, text extraction, classification |
 | Document | `document.retention-scan` | Quartz daily | Identify records eligible for disposition |
 | Document | `document.disposition` | Quartz weekly | Execute approved dispositions with certificate |
@@ -2759,14 +2759,14 @@ Quartz is the **only** scheduler (C-04). `@Scheduled`, `ScheduledExecutorService
 | `contract.statement-generation` | Contract expert | monthly, 1st 05:00 | `FIRE_AND_PROCEED` |
 | `contract.security-expiry` | Contract expert | daily 01:00 | `FIRE_AND_PROCEED` |
 | `contract.commutation-window` | Contract domain | weekly Mon 08:00 | `FIRE_AND_PROCEED` |
-| `direct.diary-scan` | Direct domain | hourly | `DO_NOTHING` |
-| `direct.sla-breach-scan` | Direct domain | every 15 min | `DO_NOTHING` |
-| `direct.sol-alert` | Direct domain | daily 07:30 | `FIRE_AND_PROCEED` |
-| `direct.reserve-review-due` | Direct domain | daily 08:00 | `FIRE_AND_PROCEED` |
-| `direct.aggregate-sync` | Direct expert | daily 03:30 | `DO_NOTHING` |
-| `assumed.loss-advice-followup` | Assumed domain | daily 09:00 | `FIRE_AND_PROCEED` |
-| `assumed.cash-call-due` | Assumed domain | monthly, 5th 08:00 | `FIRE_AND_PROCEED` |
-| `assumed.recovery-due` | Assumed domain | daily 07:00 | `FIRE_AND_PROCEED` |
+| `primary.diary-scan` | Primary domain | hourly | `DO_NOTHING` |
+| `primary.sla-breach-scan` | Primary domain | every 15 min | `DO_NOTHING` |
+| `primary.sol-alert` | Primary domain | daily 07:30 | `FIRE_AND_PROCEED` |
+| `primary.reserve-review-due` | Primary domain | daily 08:00 | `FIRE_AND_PROCEED` |
+| `primary.aggregate-sync` | Primary expert | daily 03:30 | `DO_NOTHING` |
+| `reinsurance.loss-advice-followup` | Reinsurance domain | daily 09:00 | `FIRE_AND_PROCEED` |
+| `reinsurance.cash-call-due` | Reinsurance domain | monthly, 5th 08:00 | `FIRE_AND_PROCEED` |
+| `reinsurance.recovery-due` | Reinsurance domain | daily 07:00 | `FIRE_AND_PROCEED` |
 | `document.retention-scan` | Document expert | daily 02:30 | `FIRE_AND_PROCEED` |
 | `document.ocr-poll` | Document expert | every 5 min | `DO_NOTHING` |
 | `payment.run-schedule` | Payment domain | daily 11:00 | `FIRE_AND_PROCEED` |
@@ -2781,8 +2781,8 @@ Quartz is the **only** scheduler (C-04). `@Scheduled`, `ScheduledExecutorService
 | `notifications.digest` | Notifications expert | hourly at :05 | `DO_NOTHING` |
 | `notifications.delivery-retry` | Notifications expert | every 2 min | `DO_NOTHING` |
 | `notifications.subscription-cache` | Notifications expert | every 15 min | `DO_NOTHING` |
-| `actuarial.review-reminder` | Direct/Assumed domain | quarterly, 1st 08:00 | `FIRE_AND_PROCEED` |
-| `actuarial.development-monitor` | Direct/Assumed expert | monthly, 1st 04:00 | `DO_NOTHING` |
+| `actuarial.review-reminder` | Primary/Reinsurance domain | quarterly, 1st 08:00 | `FIRE_AND_PROCEED` |
+| `actuarial.development-monitor` | Primary/Reinsurance expert | monthly, 1st 04:00 | `DO_NOTHING` |
 | `regulatory.filing-calendar` | Platform | daily 06:00 | `FIRE_AND_PROCEED` |
 | `reporting.data-quality` | Platform | daily 03:00 | `DO_NOTHING` |
 | `reporting.refresh` | Platform | daily 04:00 | `FIRE_AND_PROCEED` |
@@ -2867,10 +2867,10 @@ CREATE TABLE ent.inbox_message (
 
 ```json
 {
-  "subscriptionId": "direct-claim-notifications",
+  "subscriptionId": "primary-claim-notifications",
   "consumer": "notifications-expert",
   "endpoint": "https://notifications-expert.internal/v1/events",
-  "eventTypes": ["direct.claim.registered", "direct.claim.reserve-changed", "direct.claim.settled"],
+  "eventTypes": ["primary.claim.registered", "primary.claim.reserve-changed", "primary.claim.settled"],
   "filter": { "tenantScope": "ALL" },
   "active": true,
   "maxAttempts": 12,
@@ -2886,12 +2886,12 @@ Subscriptions are configuration, not code. They are validated (the consumer must
 ```json
 {
   "eventId": "0192f3a4-8f1c-7c3a-9b2e-6a1d4f8e2b90",
-  "eventType": "direct.claim.registered",
+  "eventType": "primary.claim.registered",
   "eventVersion": 1,
   "occurredAt": "2026-10-19T13:04:11.240Z",
   "recordedAt": "2026-10-19T13:04:11.512Z",
   "tenantId": "0192f3a4-0000-7000-8000-000000000001",
-  "vertical": "direct",
+  "vertical": "primary",
   "aggregateType": "Claim",
   "aggregateId": "0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21",
   "aggregateVersion": 1,
@@ -2900,7 +2900,7 @@ Subscriptions are configuration, not code. They are validated (the consumer must
   "causationId": "0192f3a4-…",
   "transactionId": "0192f3a4-…",
   "actor": { "type": "USER", "id": "0192f3a4-…", "displayName": "A. Adjuster" },
-  "subject": { "vertical": "direct", "type": "claim", "id": "0192f3a4-…", "businessKey": "CLM-2026-0193382" },
+  "subject": { "vertical": "primary", "type": "claim", "id": "0192f3a4-…", "businessKey": "CLM-2026-0193382" },
   "links": [
     { "linkType": "CLAIM_UNDER_POLICY", "target": { "vertical": "policy", "type": "policy", "id": "0192f3a4-…" } },
     { "linkType": "CLAIM_HAS_CLAIMANT", "target": { "vertical": "party", "type": "party", "id": "0192f3a4-…" } }
@@ -2912,7 +2912,7 @@ Subscriptions are configuration, not code. They are validated (the consumer must
     "tortCode": "TALC",
     "status": "OPEN"
   },
-  "metadata": { "schemaVersion": "1.0.0", "sourceBuild": "direct-expert@1.9.0+abc123" }
+  "metadata": { "schemaVersion": "1.0.0", "sourceBuild": "primary-expert@1.9.0+abc123" }
 }
 ```
 
@@ -2920,7 +2920,7 @@ Subscriptions are configuration, not code. They are validated (the consumer must
 
 | ID | Rule |
 |---|---|
-| `EV-01` | Event names are `{vertical}.{aggregate}.{past-tense-verb}` in kebab case: `policy.policy.bound`, `direct.claim.reserve-changed`, `payment.payment.issued`. |
+| `EV-01` | Event names are `{vertical}.{aggregate}.{past-tense-verb}` in kebab case: `policy.policy.bound`, `primary.claim.reserve-changed`, `payment.payment.issued`. |
 | `EV-02` | Events are facts about the past; they are never commands or requests. |
 | `EV-03` | Events carry identifiers and deltas, not entire object graphs. Consumers fetch details they need through the domain API. |
 | `EV-04` | Events carry `links` for newly created relationships so lineage can be projected without a callback. |
@@ -2940,7 +2940,7 @@ These conventions apply to every public domain API and every internal API unless
 | Concern | Convention |
 |---|---|
 | Base path | `/api/v1/{vertical}` public; `/internal/v1` internal |
-| Resource names | Plural nouns, kebab case: `/policies`, `/assumed-claims`, `/legal-holds` |
+| Resource names | Plural nouns, kebab case: `/policies`, `/reinsurance-claims`, `/legal-holds` |
 | Identifiers | UUIDv7 in paths; business keys accepted via `?businessKey=` on lookup endpoints |
 | Sub-resources | At most two levels: `/claims/{id}/reserves`, `/contracts/{id}/participations` |
 | Actions | Only for non-CRUD business operations; prefer transaction submission. `/claims/{id}/close` is a transaction, not a PATCH. |
@@ -2983,11 +2983,11 @@ These conventions apply to every public domain API and every internal API unless
   "claimNumber": "CLM-2026-0193382",
   "status": "OPEN",
   "_links": {
-    "self": { "href": "/api/v1/direct/claims/0192f3a4-…" },
+    "self": { "href": "/api/v1/primary/claims/0192f3a4-…" },
     "policy": { "href": "/api/v1/policy/policies/0192f3a4-…", "type": "policy", "vertical": "policy" },
     "claimant": { "href": "/api/v1/party/parties/0192f3a4-…", "type": "party", "vertical": "party" },
-    "documents": { "href": "/api/v1/direct/claims/0192f3a4-…/documents" },
-    "lineage": { "href": "/api/v1/lineage/record/direct/claim/0192f3a4-…" }
+    "documents": { "href": "/api/v1/primary/claims/0192f3a4-…/documents" },
+    "lineage": { "href": "/api/v1/lineage/record/primary/claim/0192f3a4-…" }
   }
 }
 ```
@@ -2999,8 +2999,8 @@ These conventions apply to every public domain API and every internal API unless
 | Model | Owner | Freshness | Rebuild |
 |---|---|---|---|
 | Aggregate state (`policy_limit_state`) | Policy expert | Transactional | From policy versions + erosion facts |
-| Claim financial summary (`claim_financial_summary`) | Direct expert | Transactional within Direct; < 2 s for payment events | From reserves, payments, recoveries |
-| Contract loss aggregate (`contract_loss_aggregate`) | Contract expert | < 5 min | From assumed claims and cessions |
+| Claim financial summary (`claim_financial_summary`) | Primary expert | Transactional within Primary; < 2 s for payment events | From reserves, payments, recoveries |
+| Contract loss aggregate (`contract_loss_aggregate`) | Contract expert | < 5 min | From reinsurance claims and cessions |
 | Party reference projection (`party_ref`) | Each vertical | < 1 min | From `party.*` events; nightly reconcile |
 | Document reference projection (`document_ref`) | Each vertical | < 1 min | From `document.*` events; nightly reconcile |
 | Lineage graph | `eia-lineage` | < 2 s | Full rebuild from outbox replay and link snapshots |
@@ -3019,14 +3019,14 @@ All external communication is isolated behind an adapter interface in the expert
 | **SAP S/4HANA Payment Advice** | Payment expert | OData `API_PAYMENTADVICE` | OAuth2, mTLS | Payment number | Retry; manual queue after 12 attempts |
 | **SAP Supplier Invoice** | Payment expert | OData `API_SUPPLIERINVOICE_PROCESS_SRV` | OAuth2, mTLS | Invoice ID + supplier | Retry; duplicate check in SAP |
 | **SAP cost centre / GL master** | Payment expert | OData read | OAuth2, mTLS | Read-only cache | Serve stale cache up to 24 h with warning |
-| **SAP FS-RI direct cession** | Policy expert | FS-RI API, IDoc, or RFC as agreed; no FS-RI SDK | OAuth2, mTLS, or SAP principal | Cession request ID + payload hash | Queue, retry, exception; FS-RI authoritative |
+| **SAP FS-RI primary cession** | Policy expert | FS-RI API, IDoc, or RFC as agreed; no FS-RI SDK | OAuth2, mTLS, or SAP principal | Cession request ID + payload hash | Queue, retry, exception; FS-RI authoritative |
 | **SAP FS-RI retrocession** | Contract expert | FS-RI API, IDoc, or RFC as agreed; no FS-RI SDK | Separate credentials and scope | Retro request ID + payload hash | Queue, retry, exception; FS-RI authoritative |
 | **Bank statements** | Payment expert | ISO 20022 `camt.053` XML delivered to object storage | Object storage credentials | File hash | Quarantine unparseable files |
 | **Object storage** | Document expert | S3-compatible REST with SigV4 implemented via JDK HMAC | IAM role or scoped credentials | Content SHA-256 | Retry; no orphan metadata |
 | **Sanctions / PEP screening** | Party expert | HTTPS JSON | OAuth2 / API key in secret manager | `screeningRequestId` | Fail closed; queue re-screen |
 | **Email / messaging relay** | Notifications expert | HTTPS JSON relay | OAuth2 / API key | `notificationId` + attempt | Retry; in-app remains authoritative |
 | **OCR / document AI** | Document expert | HTTPS async submit + callback | OAuth2 | Document version hash | Timeout → manual queue |
-| **Actuarial extract** | Direct / Assumed / Policy / Contract expert | Encrypted file to object storage or API | Scoped credentials | Extract ID | Retry; checksum verification |
+| **Actuarial extract** | Primary / Reinsurance / Policy / Contract expert | Encrypted file to object storage or API | Scoped credentials | Extract ID | Retry; checksum verification |
 
 **Adapter rules:**
 
@@ -3115,9 +3115,9 @@ CREATE TABLE ent.audit_event (
 
 | Reconciliation | Cadence | Compares | Action on difference |
 |---|---|---|---|
-| Policy aggregate vs Direct erosion facts | Daily | `policy_limit_state` vs sum of claim allocations and payments | Raise `aggregate.drift` notification; block new allocations until resolved |
-| Claim financial summary vs payments/reserves | Daily | Direct summary vs Payment ledger and reserve history | Recompute summary; investigate unmatched payments |
-| Contract technical account vs assumed advices | Monthly | Statement totals vs accepted loss advices and payments | Hold statement; create exception |
+| Policy aggregate vs Primary erosion facts | Daily | `policy_limit_state` vs sum of claim allocations and payments | Raise `aggregate.drift` notification; block new allocations until resolved |
+| Claim financial summary vs payments/reserves | Daily | Primary summary vs Payment ledger and reserve history | Recompute summary; investigate unmatched payments |
+| Contract technical account vs reinsurance advices | Monthly | Statement totals vs accepted loss advices and payments | Hold statement; create exception |
 | Payment vs SAP vs bank | Daily | Payment status, SAP document, camt.053 line | Exception queue; no silent write-off |
 | Party reference projections | Nightly | Projected `party_ref` vs Party source versions | Refresh stale rows |
 | Document reference projections | Nightly | `document_ref` vs Document source versions | Refresh stale rows |
@@ -3136,7 +3136,7 @@ CREATE TABLE ent.audit_event (
 | Batch windows | Isolated worker pool; throttled to protect OLTP; resource Governor via connection pool caps |
 | Hot aggregates | Limit-erosion serialization per policy; short transactions; retry on serialization failure |
 | Reference data | In-process cache with 60 s TTL and event-driven invalidation; no distributed cache |
-| Document content | Presigned URLs direct to object storage; the application never proxies multi-megabyte downloads |
+| Document content | Presigned URLs primary to object storage; the application never proxies multi-megabyte downloads |
 | Search | PostgreSQL `tsvector` + trigram indexes; external search is out of scope for v1 |
 
 ---
@@ -3157,7 +3157,7 @@ SAP S/4HANA is the **AR ledger, AP execution, and general ledger**. The platform
 | AR invoice | SAP | Invoice number, customer balance, payment terms, dunning |
 | Cash application | SAP | Invoice clearing, residual items, unapplied cash |
 | Dunning and credit management | SAP | Status fed back to the platform |
-| Claim/contract financial obligation | Platform (Direct, Assumed, Contract) | Expected payment, recovery, or balance |
+| Claim/contract financial obligation | Platform (Primary, Reinsurance, Contract) | Expected payment, recovery, or balance |
 | Payment instruction and status | Platform (Payment) → SAP | Platform decides authority; SAP executes |
 | GL balance and financial statements | SAP | Platform never maintains a competing GL |
 | Reconciliation, breaks, proof of balance | Platform (Payment/Finance) | The control layer |
@@ -3205,7 +3205,7 @@ Every financial expectation belongs to exactly one legal entity, and every legal
 | `id` | uuid | PK |
 | `tenant_id` | uuid | |
 | `event_type` | enum | `POLICY_ISSUED`, `ENDORSEMENT_ISSUED`, `POLICY_CANCELLED`, `PREMIUM_AUDITED`, `CLAIM_SETTLED`, `PAYMENT_AUTHORIZED`, `PAYMENT_ISSUED`, `RECOVERY_RECEIVED`, `BORDEREAU_POSTED`, `TECHNICAL_ACCOUNT_ISSUED`, `COMMUTATION_EXECUTED`, `CASH_RECEIVED` |
-| `source_vertical` | enum | Policy, Direct, Assumed, Contract, Payment |
+| `source_vertical` | enum | Policy, Primary, Reinsurance, Contract, Payment |
 | `source_type` / `source_id` | varchar / uuid | Business object |
 | `description` | varchar(300) | |
 | `expected_lines` | jsonb | Debit/credit lines with account, amount, currency, cost centre |
@@ -3230,7 +3230,7 @@ Every financial expectation belongs to exactly one legal entity, and every legal
 | `base_amount`, `base_currency`, `fx_rate` | numeric | Company-code currency |
 | `due_date` | date | |
 | `gl_account`, `cost_center`, `profit_center`, `tax_code` | varchar | Mapping |
-| `direction` | enum | `AR`, `AP` |
+| `primaryion` | enum | `AR`, `AP` |
 | `status` | enum | `OPEN`, `INSTRUCTED`, `POSTED`, `MATCHED`, `PARTIALLY_MATCHED`, `BREAK`, `CANCELLED` |
 | `supersedes_id` | uuid | Corrections |
 | `correlation_id` | varchar(64) | |
@@ -3352,7 +3352,7 @@ sequenceDiagram
 | Type | Frequency | Key |
 |---|---|---|
 | AR invoice reconciliation | Daily | Billing instruction ↔ SAP invoice |
-| FS-RI direct cession / assumed retro | Daily / monthly | Per-book request ↔ FS-RI confirmation and recoverable |
+| FS-RI primary cession / reinsurance retro | Daily / monthly | Per-book request ↔ FS-RI confirmation and recoverable |
 | Cash reconciliation | Daily | SAP invoice ↔ cash application ↔ bank |
 | AP payment reconciliation | Daily | Payment ↔ SAP payment document ↔ bank |
 | GL balance reconciliation | Monthly / on demand | Expected lines ↔ SAP GL balances |
@@ -3391,7 +3391,7 @@ sequenceDiagram
 
 **Break lifecycle:** `OPEN → ASSIGNED → INVESTIGATING → RESOLVED → APPROVED → CLOSED`, or `WAIVED` with reason. Every break has an owner, age, amount, currency, and root cause. Breaks older than the configured SLA escalate to the finance controller.
 
-**Resolution actions:** correct the platform expectation, correct the SAP document, reclassify, allocate cash, create a credit note, write off, or accept a timing difference. All actions are approved and audited; no direct database correction is permitted.
+**Resolution actions:** correct the platform expectation, correct the SAP document, reclassify, allocate cash, create a credit note, write off, or accept a timing difference. All actions are approved and audited; no primary database correction is permitted.
 
 **Proof of balance:**
 
@@ -3444,7 +3444,7 @@ For each material GL account, the platform produces:
 
 #### 7.13.6 SAP interfaces
 
-| Interface | Direction | Content | Frequency | Idempotency |
+| Interface | Primaryion | Content | Frequency | Idempotency |
 |---|---|---|---|---|
 | AR invoice instruction | Platform → SAP | Company code, customer, amount, tax, due date, payment terms, business reference | Event | `billingInstructionId` |
 | AR invoice confirmation | SAP → Platform | Invoice number, status, amounts, due date | Event / batch | Invoice number |
@@ -3464,7 +3464,7 @@ For each material GL account, the platform produces:
 
 **Published:** `finance.expectation.created`, `finance.invoice.posted`, `finance.cash.applied`, `finance.cash.unapplied`, `finance.dunning.changed`, `finance.reconciliation.completed`, `finance.reconciliation.break-opened`, `finance.reconciliation.break-resolved`, `finance.proof.signed`, `finance.close.period-opened`, `finance.close.period-certified`.
 
-**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.audited`, `direct.claim.settlement-authorized`, `direct.claim.paid`, `contract.account.issued`, `contract.cash-call.issued`, `payment.payment.paid`, `payment.payment.returned`.
+**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.audited`, `primary.claim.settlement-authorized`, `primary.claim.paid`, `contract.account.issued`, `contract.cash-call.issued`, `payment.payment.paid`, `payment.payment.returned`.
 
 #### 7.13.8 Controls and metrics
 
@@ -3530,7 +3530,7 @@ The production S/4 interface is implementation-time. These principles define the
 
 **Intercompany:** a legal-entity transaction records `from_legal_entity`, `to_legal_entity`, `intercompany_type` (`PREMIUM`, `COMMISSION`, `CLAIM`, `EXPENSE`, `CAPITAL`, `LOAN`), amount, currency, and elimination reference.
 
-**Cost allocation:** `cost_pool` (expense pool), `allocation_basis` (`PREMIUM`, `HEADCOUNT`, `CLAIMS`, `POLICY_COUNT`, `SQUARE_FOOTAGE`, `DIRECT`), `allocation_run`, `allocation_result` (pool, target, amount, basis, period).
+**Cost allocation:** `cost_pool` (expense pool), `allocation_basis` (`PREMIUM`, `HEADCOUNT`, `CLAIMS`, `POLICY_COUNT`, `SQUARE_FOOTAGE`, `PRIMARY`), `allocation_run`, `allocation_result` (pool, target, amount, basis, period).
 
 | ID | Rule |
 |---|---|
@@ -3545,19 +3545,19 @@ The production S/4 interface is implementation-time. These principles define the
 
 #### 7.14.1 Purpose and ownership
 
-Recording a reserve is not reserving. Mass tort and assumed reinsurance require a governed actuarial process: data extraction, triangle construction, method selection, ultimate loss picks, ranges, committee review, sign-off, and ongoing development monitoring.
+Recording a reserve is not reserving. Mass tort and reinsurance require a governed actuarial process: data extraction, triangle construction, method selection, ultimate loss picks, ranges, committee review, sign-off, and ongoing development monitoring.
 
-Actuarial reserving is a **cross-cutting capability hosted in the Direct and Assumed domain services**, with Portfolio views in Policy and Contract. It is not a ninth business vertical. The workbench is shared; the reserve records remain owned by the vertical that owns the claim or contract.
+Actuarial reserving is a **cross-cutting capability hosted in the Primary and Reinsurance domain services**, with Portfolio views in Policy and Contract. It is not a ninth business vertical. The workbench is shared; the reserve records remain owned by the vertical that owns the claim or contract.
 
 | Capability | Hosted in | Consumers |
 |---|---|---|
-| Claim-level case reserve governance | Direct | Claims, Finance, Actuarial |
-| Assumed reserve governance | Assumed | Reinsurance claims, Finance, Actuarial |
-| Portfolio triangles and IBNR | Direct, Assumed | Actuarial, Finance, CFO |
+| Claim-level case reserve governance | Primary | Claims, Finance, Actuarial |
+| Reinsurance reserve governance | Reinsurance | Reinsurance claims, Finance, Actuarial |
+| Portfolio triangles and IBNR | Primary, Reinsurance | Actuarial, Finance, CFO |
 | Ceded IBNR and recoverable | Contract, Payment | Actuarial, Finance |
 | Reserve committee and sign-off | Platform workflow | Actuarial, Finance, Audit |
 
-**Book scope:** actuarial reviews run within one book. An actuary with only `DIRECT_ROLE` reviews direct reserves; an actuary with only `ASSUMED_ROLE` reviews assumed reserves. A group actuary with both roles may review both, but the two reviews remain separate and are not netted. No review combines Direct and Assumed data into one triangle.
+**Book scope:** actuarial reviews run within one book. An actuary with only `PRIMARY_ROLE` reviews primary reserves; an actuary with only `REINSURANCE_ROLE` reviews reinsurance reserves. A group actuary with both roles may review both, but the two reviews remain separate and are not netted. No review combines Primary and Reinsurance data into one triangle.
 
 #### 7.14.2 Entities
 
@@ -3568,7 +3568,7 @@ Actuarial reserving is a **cross-cutting capability hosted in the Direct and Ass
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
 | `review_number` | varchar(32) | Y | |
-| `scope` | enum | Y | `DIRECT_PORTFOLIO`, `ASSUMED_PORTFOLIO`, `POLICY_YEAR`, `TORT`, `TREATY`, `CLAIM_GROUP`, `LEGAL_ENTITY` |
+| `scope` | enum | Y | `PRIMARY_PORTFOLIO`, `REINSURANCE_PORTFOLIO`, `POLICY_YEAR`, `TORT`, `TREATY`, `CLAIM_GROUP`, `LEGAL_ENTITY` |
 | `scope_ref` | varchar(120) | N | Tort, treaty, year, or program |
 | `as_of_date` | date | Y | Valuation date |
 | `review_period` | varchar(16) | Y | Quarter or year |
@@ -3660,7 +3660,7 @@ Actuarial reserving is a **cross-cutting capability hosted in the Direct and Ass
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `review_id` | uuid | Y | |
-| `target_vertical` | enum | Y | `direct`, `assumed`, `contract`, `policy` |
+| `target_vertical` | enum | Y | `primary`, `reinsurance`, `contract`, `policy` |
 | `target_type` | varchar(48) | Y | Claim, treaty year, policy year, tort |
 | `target_id` | uuid | N | |
 | `amount` | numeric(19,4) | Y | |
@@ -3685,7 +3685,7 @@ Actuarial reserving is a **cross-cutting capability hosted in the Direct and Ass
 sequenceDiagram
     autonumber
     participant ACT as Actuary
-    participant DIR as Direct or Assumed (per book)
+    participant DIR as Primary or Reinsurance (per book)
     participant POL as Policy or Contract (per book)
     participant COM as Reserve Committee
     participant FIN as Finance
@@ -3713,26 +3713,26 @@ sequenceDiagram
 | `ACT-02` | IBNR MUST have a method, a selected ultimate, an as-of date, and an actuarial owner. |
 | `ACT-03` | A reserve review is reproducible from the extract, triangles, factors, and selections. |
 | `ACT-04` | Reserve changes above the approved materiality or authority require reserve committee approval. |
-| `ACT-05` | Actuarial reserves are posted to Direct/Assumed as `reserve_basis=ACTUARIAL`; the platform does not net them against case reserves. |
+| `ACT-05` | Actuarial reserves are posted to Primary/Reinsurance as `reserve_basis=ACTUARIAL`; the platform does not net them against case reserves. |
 | `ACT-06` | The approved range and best estimate are disclosed; a pick outside the range requires documented rationale. |
 | `ACT-07` | Ceded IBNR is computed separately and reconciled to the ceded recoverable. |
 | `ACT-08` | The actuarial memorandum and committee minutes are Documents and are retained with the review. |
 | `ACT-09` | A published review is immutable; a subsequent review supersedes it and preserves the prior version. |
 | `ACT-10` | Reserving follows the applicable actuarial standards of practice and the tenant's reserve policy. |
-| `ACT-11` | A reserve review is book-scoped; no review, triangle, IBNR allocation, or committee approval mixes `DIRECT` and `ASSUMED` data. |
+| `ACT-11` | A reserve review is book-scoped; no review, triangle, IBNR allocation, or committee approval mixes `PRIMARY` and `REINSURANCE` data. |
 
 #### 7.14.5 APIs and events
 
 | Method | Path | Purpose |
 |---|---|---|
-| `GET` | `/api/v1/direct/actuarial/reviews` | Reviews |
-| `POST` | `/api/v1/direct/actuarial/reviews` | Create review |
-| `POST` | `/api/v1/direct/actuarial/reviews/{reviewId}/publish` | Publish approved review |
-| `GET` | `/api/v1/direct/actuarial/reviews/{reviewId}/triangles` | Triangles |
-| `GET` | `/api/v1/direct/actuarial/reviews/{reviewId}/ultimates` | Ultimate picks and ranges |
-| `POST` | `/api/v1/direct/actuarial/ibnr/allocate` | Allocate IBNR |
-| `GET` | `/api/v1/assumed/actuarial/reviews` | Assumed reviews |
-| `POST` | `/api/v1/assumed/actuarial/reviews` | Create assumed review |
+| `GET` | `/api/v1/primary/actuarial/reviews` | Reviews |
+| `POST` | `/api/v1/primary/actuarial/reviews` | Create review |
+| `POST` | `/api/v1/primary/actuarial/reviews/{reviewId}/publish` | Publish approved review |
+| `GET` | `/api/v1/primary/actuarial/reviews/{reviewId}/triangles` | Triangles |
+| `GET` | `/api/v1/primary/actuarial/reviews/{reviewId}/ultimates` | Ultimate picks and ranges |
+| `POST` | `/api/v1/primary/actuarial/ibnr/allocate` | Allocate IBNR |
+| `GET` | `/api/v1/reinsurance/actuarial/reviews` | Reinsurance reviews |
+| `POST` | `/api/v1/reinsurance/actuarial/reviews` | Create reinsurance review |
 | `GET` | `/api/v1/policy/portfolio/reserve-summary` | Policy-year view |
 | `GET` | `/api/v1/contract/portfolio/reserve-summary` | Treaty-year view |
 
@@ -3904,20 +3904,20 @@ Regulatory reporting is not a downstream afterthought. The platform must produce
 
 | Report or filing | Regulator or body | Frequency | Primary source | Section |
 |---|---|---|---|---|
-| NAIC annual statement | State insurance departments / NAIC | Annual | Policy, Contract, Direct, Assumed, Payment | §7.15 |
-| Schedule P (loss reserves) | NAIC | Annual | Direct, Assumed, Actuarial | §7.14, §7.15 |
+| NAIC annual statement | State insurance departments / NAIC | Annual | Policy, Contract, Primary, Reinsurance, Payment | §7.15 |
+| Schedule P (loss reserves) | NAIC | Annual | Primary, Reinsurance, Actuarial | §7.14, §7.15 |
 | Schedule F (reinsurance) | NAIC | Annual | Contract, Payment | §11.3.13, §7.15 |
-| Statutory premium and loss exhibits | State insurance departments | Annual / quarterly | Policy, Direct, Assumed | §7.15 |
-| ISO statistical reporting | ISO | Monthly / quarterly | Policy, Direct | §7.15 |
+| Statutory premium and loss exhibits | State insurance departments | Annual / quarterly | Policy, Primary, Reinsurance | §7.15 |
+| ISO statistical reporting | ISO | Monthly / quarterly | Policy, Primary | §7.15 |
 | NCCI statistical reporting | NCCI | Quarterly | Policy | §7.15 |
 | Surplus lines tax and stamping | State surplus lines offices | Monthly / quarterly | Policy, Payment | §7.15, §11.7.15 |
 | Premium tax return | State tax authorities | Quarterly / annual | Policy, Payment | §11.7.15 |
 | TRIA premium and disclosure | Federal / state | Annual / policy | Policy | §11.7.15 |
 | Rate and form filings | State insurance departments | Event-driven | Policy | §11.2.14, §7.15 |
 | Market conduct data call | State insurance departments | Event-driven | All | §7.15 |
-| Complaint register and responses | State insurance departments | Event-driven | Direct, Policy, Notifications | §7.15 |
+| Complaint register and responses | State insurance departments | Event-driven | Primary, Policy, Notifications | §7.15 |
 | ORSA summary report | State / group supervisor | Annual | Actuarial, Finance | §7.14, §7.15 |
-| IFRS 17 disclosure pack (if applicable) | Group reporting | Annual / interim | Contract, Direct, Finance | §7.15 |
+| IFRS 17 disclosure pack (if applicable) | Group reporting | Annual / interim | Contract, Primary, Finance | §7.15 |
 | Solvency II reports (if applicable) | EU supervisor | Quarterly / annual | Finance, Contract | §7.15 |
 
 #### 7.15.3 Workflow and rules
@@ -4131,9 +4131,9 @@ flowchart LR
 | `BI-04` | Refresh SLAs are published; stale reports show the last refresh time and a warning. |
 | `BI-05` | Data quality rules run on every load; failures create issues with owners. |
 | `BI-06` | Every report traces to source systems and transformation versions. |
-| `BI-07` | Ad hoc access is read-only, bounded, and audited; no direct production database access. |
+| `BI-07` | Ad hoc access is read-only, bounded, and audited; no primary production database access. |
 | `BI-08` | Regulatory and actuarial extracts use the same certified metrics as management reporting. |
-| `BI-09` | Combined finance and executive reports require a combined role; they present `DIRECT` and `ASSUMED` side-by-side without netting, merging, or record-level cross-book export. |
+| `BI-09` | Combined finance and executive reports require a combined role; they present `PRIMARY` and `REINSURANCE` side-by-side without netting, merging, or record-level cross-book export. |
 
 **APIs:** `/api/v1/reporting/catalog`, `/api/v1/reporting/reports/{code}/run`, `/api/v1/reporting/metrics`, `/api/v1/reporting/data-quality`, `/api/v1/reporting/issues`.
 
@@ -4149,12 +4149,12 @@ SAP FS-RI is the system of record for **actual cessions, retrocessions, ceded am
 
 | Capability | System of record | Platform role |
 |---|---|---|
-| Direct policy administration | Platform (Policy) | Own |
-| Direct claims handling | Platform (Direct) | Own |
-| Assumed contract administration | Platform (Contract) | Own |
-| Assumed claims handling | Platform (Assumed) | Own |
-| Direct outward reinsurance contract administration | Platform (Cession) | Own contract terms, layers, participants, security, cession rules; calculate expected cession |
-| Assumed retrocessional contract administration | Platform (Retrocession) | Own retro contract terms, layers, participants, security, retro rules; calculate expected retro |
+| Primary policy administration | Platform (Policy) | Own |
+| Primary claims handling | Platform (Primary) | Own |
+| Reinsurance contract administration | Platform (Contract) | Own |
+| Reinsurance claims handling | Platform (Reinsurance) | Own |
+| Primary outward reinsurance contract administration | Platform (Cession) | Own contract terms, layers, participants, security, cession rules; calculate expected cession |
+| Reinsurance retrocessional contract administration | Platform (Retrocession) | Own retro contract terms, layers, participants, security, retro rules; calculate expected retro |
 | Actual ceded and retroceded amounts | SAP FS-RI | Authoritative; platform reconciles |
 | Ceded and retroceded recoverables | SAP FS-RI | Authoritative; platform projects and reconciles |
 | Reinsurance statements and cash calls | SAP FS-RI | Receive, link, reconcile |
@@ -4164,8 +4164,8 @@ SAP FS-RI is the system of record for **actual cessions, retrocessions, ceded am
 
 | Vertical | Book | Owns business side | Sources | Output |
 |---|---|---|---|---|
-| **Cession** | `DIRECT` | Ceded contracts, layers, participants, terms, security, cession rules | Policy, Direct | Contract and cession hand-offs to SAP FS-RI |
-| **Retrocession** | `ASSUMED` | Retro contracts, layers, participants, terms, security, retro rules | Contract, Assumed | Contract and retro hand-offs to SAP FS-RI |
+| **Cession** | `PRIMARY` | Ceded contracts, layers, participants, terms, security, cession rules | Policy, Primary | Contract and cession hand-offs to SAP FS-RI |
+| **Retrocession** | `REINSURANCE` | Retro contracts, layers, participants, terms, security, retro rules | Contract, Reinsurance | Contract and retro hand-offs to SAP FS-RI |
 
 The verticals are separate, with their own front-end, domain, expert, database, credentials, queues, and mapping tables. Their design is in §7.18, §11.9, and §11.10.
 
@@ -4177,8 +4177,8 @@ The verticals are separate, with their own front-end, domain, expert, database, 
 
 | ID | Rule |
 |---|---|
-| `FSRI-01` | Policy and Direct never call FS-RI or Cession; they publish facts and read Cession projections. Assumed and Contract never call FS-RI or Retrocession. |
-| `FSRI-02` | Cession pulls only `DIRECT` sources; Retrocession pulls only `ASSUMED` sources. |
+| `FSRI-01` | Policy and Primary never call FS-RI or Cession; they publish facts and read Cession projections. Reinsurance and Contract never call FS-RI or Retrocession. |
+| `FSRI-02` | Cession pulls only `PRIMARY` sources; Retrocession pulls only `REINSURANCE` sources. |
 | `FSRI-03` | Cession and Retrocession may calculate an expected cession from their contract terms and rules for validation and display; FS-RI is authoritative for the actual cession, recoverable, and statement. |
 | `FSRI-04` | Every hand-off has an idempotency key and a stored FS-RI acknowledgement. |
 | `FSRI-05` | Cession and Retrocession do not call each other and do not share tables, queues, or credentials. |
@@ -4194,8 +4194,8 @@ Cession and Retrocession are **full reinsurance administration verticals**, not 
 
 | Vertical | Code | Book | Pulls from | Owns | Hands off to |
 |---|---|---|---|---|---|
-| **Cession** | `cession` | `DIRECT` | Policy, Direct | Outward contract administration, layers, participants, terms, security, cession rules, cession cases, hand-off events, confirmations, ceded recoverables, statements, exceptions, reconciliation | SAP FS-RI |
-| **Retrocession** | `retrocession` | `ASSUMED` | Contract, Assumed | Retrocessional contract administration, layers, participants, terms, security, retro rules, retro cases, hand-off events, confirmations, retro recoverables, statements, exceptions, reconciliation | SAP FS-RI |
+| **Cession** | `cession` | `PRIMARY` | Policy, Primary | Outward contract administration, layers, participants, terms, security, cession rules, cession cases, hand-off events, confirmations, ceded recoverables, statements, exceptions, reconciliation | SAP FS-RI |
+| **Retrocession** | `retrocession` | `REINSURANCE` | Contract, Reinsurance | Retrocessional contract administration, layers, participants, terms, security, retro rules, retro cases, hand-off events, confirmations, retro recoverables, statements, exceptions, reconciliation | SAP FS-RI |
 
 | Application | Type | Database |
 |---|---|---|
@@ -4212,18 +4212,18 @@ The Cession and Retrocession verticals **pull** what they need from the source v
 
 | Vertical | Event triggers | Detail reads |
 |---|---|---|
-| Cession | `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.changed`, `direct.claim.registered`, `direct.claim.reserve-changed`, `direct.claim.paid`, `direct.claim.recovery-recorded`, `direct.claim.closed` | Policy coverage/limits/premium; Direct claim facts, reserves, payments, recoveries |
-| Retrocession | `contract.contract.bound`, `contract.contract.endorsed`, `contract.contract.commuted`, `assumed.claim.registered`, `assumed.claim.reserve-changed`, `assumed.claim.paid`, `assumed.claim.recovery-recorded`, `assumed.claim.closed` | Contract terms/layers/participations; Assumed claim facts, reserves, payments, recoveries |
+| Cession | `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.changed`, `primary.claim.registered`, `primary.claim.reserve-changed`, `primary.claim.paid`, `primary.claim.recovery-recorded`, `primary.claim.closed` | Policy coverage/limits/premium; Primary claim facts, reserves, payments, recoveries |
+| Retrocession | `contract.contract.bound`, `contract.contract.endorsed`, `contract.contract.commuted`, `reinsurance.claim.registered`, `reinsurance.claim.reserve-changed`, `reinsurance.claim.paid`, `reinsurance.claim.recovery-recorded`, `reinsurance.claim.closed` | Contract terms/layers/participations; Reinsurance claim facts, reserves, payments, recoveries |
 
 **Pull rules:**
 
 | ID | Rule |
 |---|---|
 | `PULL-01` | The vertical consumes domain events; it fetches detail through the source vertical's internal read API. |
-| `PULL-02` | The vertical never writes to Policy, Direct, Contract, or Assumed. |
+| `PULL-02` | The vertical never writes to Policy, Primary, Contract, or Reinsurance. |
 | `PULL-03` | A missing or stale source record creates an exception; the vertical does not invent or infer business facts. |
 | `PULL-04` | A daily snapshot reconciliation detects missed events by comparing source business keys to its cases. |
-| `PULL-05` | Cession pulls only from `DIRECT` sources; Retrocession pulls only from `ASSUMED` sources. |
+| `PULL-05` | Cession pulls only from `PRIMARY` sources; Retrocession pulls only from `REINSURANCE` sources. |
 | `PULL-06` | No cross-book pull is permitted; a source record from the other book is rejected as a wall violation. |
 
 #### 7.18.3 Hand-off model
@@ -4233,7 +4233,7 @@ The vertical builds an FS-RI hand-off event, writes it to its outbox, and delive
 ```mermaid
 sequenceDiagram
     autonumber
-    participant SRC as Policy/Direct or Contract/Assumed
+    participant SRC as Policy/Primary or Contract/Reinsurance
     participant AD as Cession or Retrocession
     participant OUT as Vertical outbox
     participant FSRI as SAP FS-RI
@@ -4266,14 +4266,14 @@ The Cession and Retrocession verticals own **contract administration and FS-RI r
 
 `ceded_contract` / `retrocession_contract`, layers, participants, terms, security, cession/retro rules, `cession_case` / `retro_case`, `fsri_handoff`, `fsri_confirmation`, `fsri_recoverable`, `fsri_statement`, `fsri_mapping`, `fsri_exception`, `fsri_reconciliation`, `fsri_message`.
 
-They do not own policy, claim, assumed contract, reserve, payment, or party truth. Source verticals may display the contract or cession projection through the vertical's read API or events.
+They do not own policy, claim, reinsurance contract, reserve, payment, or party truth. Source verticals may display the contract or cession projection through the vertical's read API or events.
 
 #### 7.18.5 Access and wall
 
-* `cession` is `DIRECT` only; `retrocession` is `ASSUMED` only.
+* `cession` is `PRIMARY` only; `retrocession` is `REINSURANCE` only.
 * Permissions are `cession.*` and `retrocession.*`; they require the matching `bookScope`.
 * Cession and Retrocession never call each other.
-* Cession calls only Policy and Direct; Retrocession calls only Contract and Assumed.
+* Cession calls only Policy and Primary; Retrocession calls only Contract and Reinsurance.
 * No shared database, queue, credential, or mapping table between the two.
 * Users with both book roles may read both workbenches, but cannot combine their data in one hand-off or one case.
 
@@ -4318,8 +4318,8 @@ Cession and Retrocession calculate an **expected** cession or retrocession from 
 | Input | Source | Rule |
 |---|---|---|
 | Subject premium | Policy or Contract | Gross written or earned, as stated by the rule |
-| Gross loss | Direct or Assumed | Paid, reserve, or ultimate, as stated by the rule |
-| Expenses | Policy, Direct, Assumed, Contract | Allocated or direct, as stated by the rule |
+| Gross loss | Primary or Reinsurance | Paid, reserve, or ultimate, as stated by the rule |
+| Expenses | Policy, Primary, Reinsurance, Contract | Allocated or primary, as stated by the rule |
 | Layer attachment and limit | Ceded/retro contract | Absolute amount or percentage of subject premium |
 | Cession percentage | Quota share, surplus, or rule | 0–100% |
 | Commission and brokerage | Contract terms | Percentage of ceded premium |
@@ -4423,7 +4423,7 @@ retro_ceded_loss = min(max(ceded_loss − retro_attachment, 0), retro_limit) × 
 retro_recoverable = retro_ceded_loss − retro_commission_adjustment
 ```
 
-Retro rules apply to the **ceded loss after the assumed contract's inuring cessions**, in the retro program's own order. A retro program may not attach to gross assumed loss unless the contract explicitly says so.
+Retro rules apply to the **ceded loss after the reinsurance contract's inuring cessions**, in the retro program's own order. A retro program may not attach to gross reinsurance loss unless the contract explicitly says so.
 
 #### 7.19.9 Commutation
 
@@ -4699,7 +4699,7 @@ Every integration is registered:
 | `interface_id` | Stable ID, e.g. `FSRI-CESSION-HANDOFF` |
 | `system` | Target system |
 | `owner` | Business and technical owner |
-| `direction` | Inbound, outbound, bidirectional |
+| `primaryion` | Inbound, outbound, biprimaryional |
 | `pattern` | Sync request/response, async event, batch file, polling |
 | `frequency` | Real-time, scheduled, on-demand |
 | `data_classification` | Highest classification exchanged |
@@ -4718,7 +4718,7 @@ Every request and event carries:
 | `correlation_id` | End-to-end trace |
 | `causation_id` | Prior message or event |
 | `tenant_id` | Tenant |
-| `business_book` | `DIRECT` or `ASSUMED` where applicable |
+| `business_book` | `PRIMARY` or `REINSURANCE` where applicable |
 | `source_system` | Origin |
 | `target_system` | Destination |
 | `schema_version` | Contract version |
@@ -4759,13 +4759,13 @@ Every request and event carries:
 
 #### 7.23.5 FS-RI minimum contract
 
-| Interface | Direction | Required content |
+| Interface | Primaryion | Required content |
 |---|---|---|
 | Contract master | Platform → FS-RI | Contract number, parties, type, term, layers, participants, currency, status |
 | Contract acknowledgement | FS-RI → Platform | FS-RI contract reference, status, errors |
 | Cession hand-off | Platform → FS-RI | Contract ref, policy/claim ref, source version, cession case, expected amount, documents |
 | Cession confirmation | FS-RI → Platform | FS-RI cession ID, confirmed amount, status, errors |
-| Retro hand-off | Platform → FS-RI | Retro contract ref, assumed contract/claim ref, source version, expected amount |
+| Retro hand-off | Platform → FS-RI | Retro contract ref, reinsurance contract/claim ref, source version, expected amount |
 | Retro confirmation | FS-RI → Platform | FS-RI retro ID, confirmed amount, status |
 | Recoverable | FS-RI → Platform | Recoverable ID, paid/unpaid/IBNR, currency, due date |
 | Statement | FS-RI → Platform | Statement ID, period, lines, amounts, currency |
@@ -4773,7 +4773,7 @@ Every request and event carries:
 
 #### 7.23.6 S/4 minimum contract
 
-| Interface | Direction | Required content |
+| Interface | Primaryion | Required content |
 |---|---|---|
 | AR invoice | Platform → S/4 | Company code, customer, amount, tax, due date, business reference |
 | AP invoice | Platform → S/4 | Company code, vendor, amount, tax, due date, business reference |
@@ -4814,8 +4814,8 @@ Every cross-vertical reference is a typed `EntityRef`. It is the only currency o
 ```json
 {
   "tenantId": "0192f3a4-0000-7000-8000-000000000001",
-  "book": "DIRECT",
-  "vertical": "direct",
+  "book": "PRIMARY",
+  "vertical": "primary",
   "type": "claim",
   "id": "0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21",
   "businessKey": "CLM-2026-0193382",
@@ -4823,14 +4823,14 @@ Every cross-vertical reference is a typed `EntityRef`. It is the only currency o
   "status": "OPEN",
   "version": 7,
   "classification": "CONFIDENTIAL",
-  "href": "/v/direct/claims/0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21"
+  "href": "/v/primary/claims/0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21"
 }
 ```
 
 | Field | Required | Semantics |
 |---|---|---|
 | `tenantId` | Yes | Tenant; must match the request tenant |
-| `vertical` | Yes | `party`, `policy`, `contract`, `direct`, `assumed`, `document`, `payment`, `notifications` |
+| `vertical` | Yes | `party`, `policy`, `contract`, `primary`, `reinsurance`, `document`, `payment`, `notifications` |
 | `type` | Yes | Type within the vertical; see §8.3 |
 | `id` | Yes | Canonical UUIDv7 |
 | `businessKey` | No | Human-facing key; never used for resolution |
@@ -4846,11 +4846,11 @@ Every cross-vertical reference is a typed `EntityRef`. It is the only currency o
 
 Link types are a **closed, versioned enumeration**. Adding a link type requires a schema change, documentation, and a lineage projection update. Link types are named from the perspective of the canonical source: `SOURCE_VERB_TARGET`.
 
-**Book wall:** link types that cross `DIRECT` and `ASSUMED` are prohibited. A Policy links only to its own direct cession records, never to a Contract. An Assumed claim links only to its own assumed contract, never to a Direct claim or Policy. Shared Party, Document, and Payment links are permitted but are filtered by the caller's book scope (§3.6, §8.10).
+**Book wall:** link types that cross `PRIMARY` and `REINSURANCE` are prohibited. A Policy links only to its own primary cession records, never to a Contract. A Reinsurance claim links only to its own reinsurance contract, never to a Primary claim or Policy. Shared Party, Document, and Payment links are permitted but are filtered by the caller's book scope (§3.6, §8.10).
 
-**Canonical direction:** the link points from the entity that owns the relationship fact to the related entity. Traversal supports `OUT`, `IN`, and `BOTH`; the UI labels inbound links with the inverse label.
+**Canonical primaryion:** the link points from the entity that owns the relationship fact to the related entity. Traversal supports `OUT`, `IN`, and `BOTH`; the UI labels inbound links with the inverse label.
 
-**Canonical versus inverse types.** Each business relationship has exactly **one canonical stored link type**. Where a table also lists the reverse direction — for example `POLICY_HAS_CLAIM` alongside `CLAIM_UNDER_POLICY` — the reverse type is a **derived inverse**: the lineage projector materializes it for query performance, but no service ever writes it. Derived inverse types are marked *(inverse)* below. This guarantees a single writer per relationship and prevents duplicate edges.
+**Canonical versus inverse types.** Each business relationship has exactly **one canonical stored link type**. Where a table also lists the reverse primaryion — for example `POLICY_HAS_CLAIM` alongside `CLAIM_UNDER_POLICY` — the reverse type is a **derived inverse**: the lineage projector materializes it for query performance, but no service ever writes it. Derived inverse types are marked *(inverse)* below. This guarantees a single writer per relationship and prevents duplicate edges.
 
 **Link ownership:** the vertical that owns the relationship fact writes the canonical link. This is normally the from-entity's vertical, with three deliberate exceptions: party role links (`CLAIM_HAS_CLAIMANT`, `CLAIM_HAS_PARTY`, `POLICY_HAS_INSURED`) are written by **Party** because Party owns the role; document association links (`*_HAS_DOCUMENT`) are written by **Document** because Document owns the association; and notification-subject links are written by **Notifications** because Notifications owns the notification.
 
@@ -4864,7 +4864,7 @@ Link types are a **closed, versioned enumeration**. Adding a link type requires 
 | `POLICY_HAS_CLAIM` | `policy` → `claim` | 1:N | *(inverse of `CLAIM_UNDER_POLICY`)*; `coveragePart`, `policyYear`, `allocationPct` | Claim under |
 | `POLICY_HAS_OCCURRENCE` | `policy` → `policyOccurrence` | 1:N | `occurrenceNumber` | Occurrence of |
 | `POLICY_HAS_COVERAGE` | `policy` → `policyCoverage` | 1:N | `coverageCode` | Coverage in |
-| `POLICY_HAS_CESSION` | `policy` → `directCession` | 1:N | `cessionType`, `treatyReference`, `status` | Cession of |
+| `POLICY_HAS_CESSION` | `policy` → `primaryCession` | 1:N | `cessionType`, `treatyReference`, `status` | Cession of |
 | `POLICY_IN_PROGRAM` | `policy` → `massTortProgram` | N:1 | `programRole` | Program includes |
 | `POLICY_HAS_DOCUMENT` | `policy` → `document` | 1:N | `role` (see §8.3.6) | Document for |
 | `POLICY_HAS_NOTIFICATION` | `policy` → `notification` | 1:N | `notificationType` | Notification about |
@@ -4888,7 +4888,7 @@ Link types are a **closed, versioned enumeration**. Adding a link type requires 
 | `CONTRACT_HAS_BORDEREAU` | `contract` → `bordereau` | 1:N | `bordereauType`, `period` | Bordereau for |
 | `CONTRACT_HAS_STATEMENT` | `contract` → `technicalAccount` | 1:N | `period` | Statement for |
 | `CONTRACT_HAS_SECURITY` | `contract` → `contractSecurity` | 1:N | `securityType` | Security for |
-| `CONTRACT_HAS_ASSUMED_CLAIM` | `contract` → `assumedClaim` | 1:N | *(inverse of `ASSUMED_CLAIM_UNDER_CONTRACT`)*; `treatyYear` | Assumed claim under |
+| `CONTRACT_HAS_REINSURANCE_CLAIM` | `contract` → `reinsuranceClaim` | 1:N | *(inverse of `REINSURANCE_CLAIM_UNDER_CONTRACT`)*; `treatyYear` | Reinsurance claim under |
 | `CONTRACT_HAS_COMMUTATION` | `contract` → `commutation` | 1:N | `effectiveDate` | Commutation of |
 | `CONTRACT_HAS_RETRO` | `contract` → `retroCession` | 1:N | `retroType`, `treatyReference`, `status` | Retrocession of |
 | `CONTRACT_RENEWS` | `contract` → `contract` | 1:1 | — | Renewed by |
@@ -4897,7 +4897,7 @@ Link types are a **closed, versioned enumeration**. Adding a link type requires 
 | `BORDEREAU_INCLUDES_LOSS_ADVICE` | `bordereau` → `lossAdvice` | 1:N | `lineNumber` | Advised in |
 | `LAYER_PARTICIPATED_BY` | `contractLayer` → `party` | 1:N | `sharePct` | Participates in |
 
-#### 8.3.3 Direct (claim) vertical links
+#### 8.3.3 Primary (claim) vertical links
 
 | Link type | Canonical from → to | Cardinality | Role / attributes | Inverse label |
 |---|---|---|---|---|
@@ -4921,28 +4921,28 @@ Link types are a **closed, versioned enumeration**. Adding a link type requires 
 | `INJURY_HAS_MEDICAL_CRITERIA` | `claimInjury` → `document` | 1:N | `criteriaCode` | Medical criteria evidence |
 | `SETTLEMENT_HAS_PAYMENT` | `claimSettlement` → `payment` | 1:N | *(inverse of `PAYMENT_SETTLES`)* | Settlement paid by |
 
-#### 8.3.4 Assumed (claim) vertical links
+#### 8.3.4 Reinsurance (claim) vertical links
 
 | Link type | Canonical from → to | Cardinality | Role / attributes | Inverse label |
 |---|---|---|---|---|
-| `ASSUMED_CLAIM_UNDER_CONTRACT` | `assumedClaim` → `contract` | N:1 | `treatyYear`, `section` | Contract for |
-| `ASSUMED_CLAIM_FROM_ADVICE` | `assumedClaim` → `lossAdvice` | 1:N | `adviceType` | Advised by |
-| `ASSUMED_CLAIM_HAS_RESERVE` | `assumedClaim` → `assumedReserve` | 1:N | `component` | Reserve for |
-| `ASSUMED_CLAIM_HAS_PAYMENT` | `assumedClaim` → `payment` | 1:N | *(inverse of `PAYMENT_FOR_ASSUMED_CLAIM`)*; `component` | Payment for |
-| `ASSUMED_CLAIM_HAS_RECOVERY` | `assumedClaim` → `payment` | 1:N | `recoveryType` | Recovery against |
-| `ASSUMED_CLAIM_HAS_DOCUMENT` | `assumedClaim` → `document` | 1:N | `role` | Document for |
-| `ASSUMED_CLAIM_HAS_NOTIFICATION` | `assumedClaim` → `notification` | 1:N | `notificationType` | Notification about |
-| `ASSUMED_CLAIM_CORRESPONDS_TO_CLAIM` | Removed | — | Cross-book link prohibited: Assumed has no relationship to Direct | — |
-| `ASSUMED_CLAIM_HAS_COMMUTATION` | `assumedClaim` → `commutation` | 1:N | — | Commuted by |
-| `ASSUMED_CLAIM_DISPUTED_BY` | `assumedClaim` → `claimDispute` | 1:N | `disputeType` | Dispute of |
-| `ASSUMED_CLAIM_HAS_PARTY` | `assumedClaim` → `party` | 1:N | `role`: `CEDENT`, `BROKER`, `REINSURER`, `TPA` | Party to |
+| `REINSURANCE_CLAIM_UNDER_CONTRACT` | `reinsuranceClaim` → `contract` | N:1 | `treatyYear`, `section` | Contract for |
+| `REINSURANCE_CLAIM_FROM_ADVICE` | `reinsuranceClaim` → `lossAdvice` | 1:N | `adviceType` | Advised by |
+| `REINSURANCE_CLAIM_HAS_RESERVE` | `reinsuranceClaim` → `reinsuranceReserve` | 1:N | `component` | Reserve for |
+| `REINSURANCE_CLAIM_HAS_PAYMENT` | `reinsuranceClaim` → `payment` | 1:N | *(inverse of `PAYMENT_FOR_REINSURANCE_CLAIM`)*; `component` | Payment for |
+| `REINSURANCE_CLAIM_HAS_RECOVERY` | `reinsuranceClaim` → `payment` | 1:N | `recoveryType` | Recovery against |
+| `REINSURANCE_CLAIM_HAS_DOCUMENT` | `reinsuranceClaim` → `document` | 1:N | `role` | Document for |
+| `REINSURANCE_CLAIM_HAS_NOTIFICATION` | `reinsuranceClaim` → `notification` | 1:N | `notificationType` | Notification about |
+| `REINSURANCE_CLAIM_CORRESPONDS_TO_CLAIM` | Removed | — | Cross-book link prohibited: Reinsurance has no relationship to Primary | — |
+| `REINSURANCE_CLAIM_HAS_COMMUTATION` | `reinsuranceClaim` → `commutation` | 1:N | — | Commuted by |
+| `REINSURANCE_CLAIM_DISPUTED_BY` | `reinsuranceClaim` → `claimDispute` | 1:N | `disputeType` | Dispute of |
+| `REINSURANCE_CLAIM_HAS_PARTY` | `reinsuranceClaim` → `party` | 1:N | `role`: `CEDENT`, `BROKER`, `REINSURER`, `TPA` | Party to |
 
 #### 8.3.5 Payment vertical links
 
 | Link type | Canonical from → to | Cardinality | Role / attributes | Inverse label |
 |---|---|---|---|---|
 | `PAYMENT_FOR_CLAIM` | `payment` → `claim` | N:1 | `component` | Payment on |
-| `PAYMENT_FOR_ASSUMED_CLAIM` | `payment` → `assumedClaim` | N:1 | `component` | Payment on |
+| `PAYMENT_FOR_REINSURANCE_CLAIM` | `payment` → `reinsuranceClaim` | N:1 | `component` | Payment on |
 | `PAYMENT_TO_PAYEE` | `payment` → `party` | N:1 | `payeeRole` | Payee of |
 | `PAYMENT_HAS_ALLOCATION` | `payment` → `paymentAllocation` | 1:N | `component` | Allocation of |
 | `PAYMENT_HAS_AUTHORITY` | `payment` → `paymentAuthority` | 1:1 | — | Authority for |
@@ -5036,7 +5036,7 @@ CREATE INDEX ix_entity_link_to ON ent.entity_link (tenant_id, to_vertical, to_ty
 |---|---|---|
 | `DOMAIN_WRITE` | Created deliberately as part of a business action | Expert capability in the same transaction |
 | `EVENT` | Derived from a domain event's `links` array | Lineage projector |
-| `DERIVED` | Inferred by reconciliation (e.g., matching an assumed claim to a direct claim) | Reconciliation job, with `confidence < 1` |
+| `DERIVED` | Inferred by reconciliation (e.g., matching a reinsurance claim to a primary claim) | Reconciliation job, with `confidence < 1` |
 | `MANUAL` | Created by a user with a reason | Data steward capability, audited |
 | `MIGRATION` | Loaded from legacy data | Migration job, with provenance |
 
@@ -5109,16 +5109,16 @@ CREATE INDEX ix_edge_to   ON lineage.lineage_edge (tenant_id, to_node_id, link_t
 
 `GET /api/v1/lineage/record/{vertical}/{type}/{id}`
 
-Returns the node, grouped connections by link type and direction, counts, and a small set of representative links. This powers the record "Connections" panel.
+Returns the node, grouped connections by link type and primaryion, counts, and a small set of representative links. This powers the record "Connections" panel.
 
 ```json
 {
   "node": { "vertical": "policy", "type": "policy", "id": "0192…", "businessKey": "GL-2024-0041827", "display": "GL-2024-0041827 · Acme Chemical", "status": "IN_FORCE", "classification": "INTERNAL" },
   "groups": [
-    { "linkType": "POLICY_HAS_INSURED", "direction": "OUT", "label": "Insured parties", "inverseLabel": "Insured under", "count": 14, "sample": [ { "…": "…" } ] },
-    { "linkType": "POLICY_HAS_CLAIM", "direction": "OUT", "label": "Claims", "derivedInverse": true, "count": 12431, "sample": [ { "…": "…" } ], "aggregated": true },
-    { "linkType": "POLICY_HAS_CESSION", "direction": "OUT", "label": "Direct cessions", "count": 3, "sample": [ { "…": "…" } ] },
-    { "linkType": "POLICY_HAS_DOCUMENT", "direction": "OUT", "label": "Documents", "count": 57, "sample": [ { "…": "…" } ] }
+    { "linkType": "POLICY_HAS_INSURED", "primaryion": "OUT", "label": "Insured parties", "inverseLabel": "Insured under", "count": 14, "sample": [ { "…": "…" } ] },
+    { "linkType": "POLICY_HAS_CLAIM", "primaryion": "OUT", "label": "Claims", "derivedInverse": true, "count": 12431, "sample": [ { "…": "…" } ], "aggregated": true },
+    { "linkType": "POLICY_HAS_CESSION", "primaryion": "OUT", "label": "Primary cessions", "count": 3, "sample": [ { "…": "…" } ] },
+    { "linkType": "POLICY_HAS_DOCUMENT", "primaryion": "OUT", "label": "Documents", "count": 57, "sample": [ { "…": "…" } ] }
   ],
   "timelineSummary": { "firstEventAt": "2019-01-01T…", "lastEventAt": "2026-10-18T…", "eventCount": 48210 },
   "asOf": "2026-10-19T13:00:00Z"
@@ -5131,7 +5131,7 @@ Returns the node, grouped connections by link type and direction, counts, and a 
 
 | Parameter | Values | Default |
 |---|---|---|
-| `direction` | `OUT`, `IN`, `BOTH` | `BOTH` |
+| `primaryion` | `OUT`, `IN`, `BOTH` | `BOTH` |
 | `linkTypes` | Comma-separated allowlist | All visible |
 | `role` | Filter by role | None |
 | `asOf` | RFC 3339 | Now |
@@ -5139,7 +5139,7 @@ Returns the node, grouped connections by link type and direction, counts, and a 
 | `page[after]` | Cursor | — |
 | `includeHidden` | Boolean (auditor only) | `false` |
 
-Response: `data[]` of `{linkId, linkType, direction, role, attributes, node}`, plus `page`, plus `_links` for the target records.
+Response: `data[]` of `{linkId, linkType, primaryion, role, attributes, node}`, plus `page`, plus `_links` for the target records.
 
 #### 8.6.3 Graph
 
@@ -5148,7 +5148,7 @@ Response: `data[]` of `{linkId, linkType, direction, role, attributes, node}`, p
 | Parameter | Values | Default |
 |---|---|---|
 | `depth` | 1–4 | 1 |
-| `direction` | `OUT`, `IN`, `BOTH` | `BOTH` |
+| `primaryion` | `OUT`, `IN`, `BOTH` | `BOTH` |
 | `linkTypes` | Allowlist | Recommended set per record type |
 | `maxNodes` | 1–500 | 200 |
 | `maxEdges` | 1–1,000 | 500 |
@@ -5178,16 +5178,16 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
       "timelineId": "…",
       "occurredAt": "2026-10-19T13:04:11.240Z",
       "recordedAt": "2026-10-19T13:04:11.512Z",
-      "vertical": "direct",
-      "eventType": "direct.claim.registered",
+      "vertical": "primary",
+      "eventType": "primary.claim.registered",
       "category": "LIFECYCLE",
       "title": "Claim registered",
       "summary": "CLM-2026-0193382 registered under GL-2024-0041827",
       "actor": { "type": "USER", "id": "…", "displayName": "A. Adjuster" },
       "transactionId": "0192…",
       "correlationId": "0192…",
-      "subject": { "vertical": "direct", "type": "claim", "id": "…" },
-      "links": [ { "rel": "subject", "href": "/v/direct/claims/0192…" } ],
+      "subject": { "vertical": "primary", "type": "claim", "id": "…" },
+      "links": [ { "rel": "subject", "href": "/v/primary/claims/0192…" } ],
       "episodeId": "corr:0192…"
     }
   ],
@@ -5202,7 +5202,7 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 
 | ID | Rule |
 |---|---|
-| `TL-01` | Ordering is by `occurredAt`, then `recordedAt`, then vertical precedence (`policy`, `contract`, `direct`, `assumed`, `party`, `document`, `payment`, `notifications`). |
+| `TL-01` | Ordering is by `occurredAt`, then `recordedAt`, then vertical precedence (`policy`, `contract`, `primary`, `reinsurance`, `party`, `document`, `payment`, `notifications`). |
 | `TL-02` | Events are grouped into episodes by `correlationId` when they occur within a 10-minute window; grouping is a presentation concern and never merges records. |
 | `TL-03` | The timeline includes related-record events only one hop away, filtered by the user's data scope. |
 | `TL-04` | Sensitive events (settlement strategy, reserve authority, privileged counsel) are shown with a redacted summary to users without the relevant permission. |
@@ -5215,9 +5215,9 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 |---|---|---|
 | Party | 1–50 policies, 1–20 claims, 1–5,000 documents | Group by link type; paginate parties and claims; documents summarized |
 | Policy | 1–500 parties, 1–100,000 claims, 1–20 contracts, 1–20,000 documents | Aggregated counts; claim drill-down with filters; timeline defaults to policy-level |
-| Contract | 1–20 parties, 1–50,000 assumed claims | Aggregate by treaty year and status; paginate |
+| Contract | 1–20 parties, 1–50,000 reinsurance claims | Aggregate by treaty year and status; paginate |
 | Claim | 1–20 parties, 1–200 reserves, 1–200 payments, 1–500 documents | Full detail; payment and reserve histories paginated by date |
-| Assumed claim | 1–20 parties, 1–1,000 advices | Full detail; advices paginated |
+| Reinsurance claim | 1–20 parties, 1–1,000 advices | Full detail; advices paginated |
 | Document | 1–10 subjects, 1–20 versions | Full detail |
 | Payment | 1–50 allocations, 1–20 documents | Full detail |
 | Notification | 1 subject, 1–50 recipients | Full detail |
@@ -5238,7 +5238,7 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 * **Policy versions:** `POLICY_HAS_VERSION` plus `VERSION_SUPERSEDES` form a chain. `asOf` returns the version in force at that time.
 * **Role periods:** `valid_from`/`valid_to` on `POLICY_HAS_INSURED`, `CLAIM_HAS_PARTY`, and `CONTRACT_HAS_REINSURER` allow "who was the adjuster in March?" and "which reinsurer was on the 2019 year?".
 * **Reserve history:** reserve links are point-in-time; the timeline and the reserve sequence reconstruct the evolution.
-* **Contract years:** `treatyYear` on `CONTRACT_HAS_ASSUMED_CLAIM` and `ASSUMED_CLAIM_UNDER_CONTRACT` supports year-by-year views.
+* **Contract years:** `treatyYear` on `CONTRACT_HAS_REINSURANCE_CLAIM` and `REINSURANCE_CLAIM_UNDER_CONTRACT` supports year-by-year views.
 * **Claim status history:** status transitions are events, not links; timeline exposes them with actor and reason.
 * **As-of semantics:** `asOf` filters links by validity and asks owning verticals for the version in force at that instant. The response includes `resolvedAsOf` and a per-node `version`.
 
@@ -5260,7 +5260,7 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 ### 8.10 Authorization and privacy in lineage
 
 * The lineage service enforces the caller's tenant, **book scope**, and data scope before returning a node or edge.
-* The `DIRECT` and `ASSUMED` books do not cross. A Policy node never returns a Contract edge; a Direct claim never returns an Assumed claim. Shared Party, Document, and Payment nodes return only the caller's book associations.
+* The `PRIMARY` and `REINSURANCE` books do not cross. A Policy node never returns a Contract edge; a Primary claim never returns a Reinsurance claim. Shared Party, Document, and Payment nodes return only the caller's book associations.
 * A caller without both book roles who attempts a cross-book traversal receives an omitted edge and a logged security event; the response does not confirm the other book's record.
 * Nodes the caller cannot see are returned as `{ hidden: true, type, vertical }` without business key or display, and counted in `hiddenCount`. Existence of a privileged record may itself be sensitive; the default is to omit entirely unless the caller has `lineage.viewHidden`.
 * Ethical walls: a configurable `lineage_suppression` rule set can suppress links between a party group and a matter group for specific users or roles. Suppression is audited.
@@ -5272,7 +5272,7 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 | Failure | Detection | Repair |
 |---|---|---|
 | Missing edge | Event consumed but projection write failed | Replay the event; snapshot sync |
-| Orphan edge | Source or target node deleted/merged | Supersede with a redirect edge; record merge mapping |
+| Orphan edge | Source or target node deleted/merged | Supersede with a reprimary edge; record merge mapping |
 | Duplicate edge | Unique constraint violation on projection | Idempotent upsert |
 | Stale label | Display mismatch vs source | Refresh job |
 | Suppression drift | Rule changed | Rebuild suppression view |
@@ -5327,7 +5327,7 @@ permit(user, action, resource) ⇔
 | Layer | Enforced in | Notes |
 |---|---|---|
 | Route and navigation visibility | Shell (UX only) | Never authoritative |
-| Book role | Gateway, domain service, expert query, RLS | `DIRECT_ROLE`, `ASSUMED_ROLE`, or both; mismatch returns 404 |
+| Book role | Gateway, domain service, expert query, RLS | `PRIMARY_ROLE`, `REINSURANCE_ROLE`, or both; mismatch returns 404 |
 | Access profile | Domain service | `VIEWER`, `OPERATOR`, `APPROVER`, `ADMIN`, `AUDITOR`, `SERVICE`; §9.12 |
 | Authority limit | Domain service approval engine | Position, action, amount, currency, book; §6.9 |
 | Record-level data scope | Domain service + expert query predicate | Office, portfolio, program, insured, tort, claim tier, assigned adjuster |
@@ -5335,7 +5335,7 @@ permit(user, action, resource) ⇔
 | Row-level tenancy | Database RLS + repository predicate | Defense in depth |
 | Segregation of duties | Domain service approval engine | Identity comparison, not role labels; role mapping deferred |
 
-**Book role is mandatory.** A user must hold the book role for the record's book. Most users have one book. Financial controllers and group users may hold `DIRECT_ROLE` and `ASSUMED_ROLE` together. Within the book, the access profile must permit the action and the authority limit must cover it; a book role alone does not authorize a high-risk action. Combined access is additive, not a bypass; cross-book requests outside the user's roles return `404`, and the attempt is logged.
+**Book role is mandatory.** A user must hold the book role for the record's book. Most users have one book. Financial controllers and group users may hold `PRIMARY_ROLE` and `REINSURANCE_ROLE` together. Within the book, the access profile must permit the action and the authority limit must cover it; a book role alone does not authorize a high-risk action. Combined access is additive, not a bypass; cross-book requests outside the user's roles return `404`, and the attempt is logged.
 
 ### 9.3 Book roles and deferred RBAC
 
@@ -5343,14 +5343,14 @@ For this iteration, only **two book roles** are defined. Within each book, acces
 
 | Role | Book | Grants |
 |---|---|---|
-| `DIRECT_ROLE` | `DIRECT` | Access to the direct book: Policy, Direct, Cession, and shared services for `DIRECT` records |
-| `ASSUMED_ROLE` | `ASSUMED` | Access to the assumed book: Contract, Assumed, Retrocession, and shared services for `ASSUMED` records |
+| `PRIMARY_ROLE` | `PRIMARY` | Access to the primary book: Policy, Primary, Cession, and shared services for `PRIMARY` records |
+| `REINSURANCE_ROLE` | `REINSURANCE` | Access to the reinsurance book: Contract, Reinsurance, Retrocession, and shared services for `REINSURANCE` records |
 
 **Rules:**
 
 | ID | Rule |
 |---|---|
-| `RBAC-01` | A user may hold `DIRECT_ROLE`, `ASSUMED_ROLE`, or both. |
+| `RBAC-01` | A user may hold `PRIMARY_ROLE`, `REINSURANCE_ROLE`, or both. |
 | `RBAC-02` | Holding both roles enables combined visibility, such as the financial controller view; the two books remain separate and are not netted. |
 | `RBAC-03` | A user without a book role cannot read, write, link, report, or receive notifications for that book. |
 | `RBAC-04` | The book role is enforced at the API, query, and row-level-security layers. |
@@ -5363,11 +5363,11 @@ For this iteration, only **two book roles** are defined. Within each book, acces
 
 | User type | Book roles | Typical profiles |
 |---|---|---|
-| Direct-only user | `DIRECT_ROLE` | `VIEWER` or `OPERATOR`; `APPROVER` where authority applies |
-| Assumed-only user | `ASSUMED_ROLE` | `VIEWER` or `OPERATOR`; `APPROVER` where authority applies |
-| Financial controller or group user | `DIRECT_ROLE` + `ASSUMED_ROLE` | `VIEWER`/`OPERATOR` in each book; `APPROVER` where authority applies |
+| Primary-only user | `PRIMARY_ROLE` | `VIEWER` or `OPERATOR`; `APPROVER` where authority applies |
+| Reinsurance-only user | `REINSURANCE_ROLE` | `VIEWER` or `OPERATOR`; `APPROVER` where authority applies |
+| Financial controller or group user | `PRIMARY_ROLE` + `REINSURANCE_ROLE` | `VIEWER`/`OPERATOR` in each book; `APPROVER` where authority applies |
 | Auditor | Book role(s), time-bound | `AUDITOR` |
-| Platform administrator | `DIRECT_ROLE` + `ASSUMED_ROLE` (operations only) | `ADMIN`; no business data write |
+| Platform administrator | `PRIMARY_ROLE` + `REINSURANCE_ROLE` (operations only) | `ADMIN`; no business data write |
 | Service account | None | `SERVICE`, scoped to one vertical and environment |
 
 **Profiles are not book roles.** They refine what a user can do inside a book they already hold. A user with a book role but no write profile is read-only.
@@ -5461,7 +5461,7 @@ These are **business approval controls**, not access roles. The transaction engi
 | Malicious remote injection | Compromised CDN or manifest | Signed manifest, pinned key, SRI on every script, CSP `strict-dynamic`, immutable versioned assets, canary + anomaly detection |
 | Cross-tenant data access | IDOR or missing tenant predicate | Tenant in session, repository predicate, RLS, integration tests per endpoint, UUIDs not guessable |
 | Payment fraud | Altered payee or amount | Dual control, authority limits, sanctions screening, duplicate detection, bank account change verification callback, SAP reconciliation |
-| Document exfiltration | Bulk download, export | Classification-aware permissions, DLP, watermarking, rate limits, audit, no direct object URLs without authorization |
+| Document exfiltration | Bulk download, export | Classification-aware permissions, DLP, watermarking, rate limits, audit, no primary object URLs without authorization |
 | Privilege escalation | Role misconfiguration | Deny by default, permission tests, quarterly access review, SoD checks |
 | Event spoofing | Forged internal call | mTLS, signed service token, HMAC on events, network policy |
 | Session hijacking | XSS or stolen cookie | No tokens in JS, `HttpOnly`, `Secure`, `SameSite`, CSP, Trusted Types, short idle timeout, step-up auth |
@@ -5502,9 +5502,9 @@ A user may hold more than one profile. Effective permission is the union, constr
 |---|---|---|---|---|
 | Party | `party.read` | `party.write`, `party.merge.request` | `party.merge.approve` | `party.admin` |
 | Policy | `policy.read` | `policy.write`, `policy.quote`, `policy.issue` | `policy.bind`, `policy.endorse.approve`, `policy.cancel.approve` | `policy.admin` |
-| Direct claims | `claim.read` | `claim.write`, `claim.reserve.propose`, `claim.settle.propose` | `claim.reserve.approve`, `claim.settle.authorize` | `claim.admin` |
+| Primary claims | `claim.read` | `claim.write`, `claim.reserve.propose`, `claim.settle.propose` | `claim.reserve.approve`, `claim.settle.authorize` | `claim.admin` |
 | Contract | `contract.read` | `contract.write`, `contract.account.produce` | `contract.bind`, `contract.commute.approve` | `contract.admin` |
-| Assumed claims | `assumed-claim.read` | `assumed-claim.write`, `assumed-claim.reserve.propose` | `assumed-claim.reserve.approve`, `assumed-claim.payment.authorize` | `assumed-claim.admin` |
+| Reinsurance claims | `reinsurance-claim.read` | `reinsurance-claim.write`, `reinsurance-claim.reserve.propose` | `reinsurance-claim.reserve.approve`, `reinsurance-claim.payment.authorize` | `reinsurance-claim.admin` |
 | Cession | `cession.read` | `cession.contract.write`, `cession.handoff`, `cession.case.write` | `cession.contract.bind`, `cession.contract.commute`, `cession.reconcile.approve` | `cession.admin` |
 | Retrocession | `retrocession.read` | `retrocession.contract.write`, `retrocession.handoff`, `retrocession.case.write` | `retrocession.contract.bind`, `retrocession.contract.commute`, `retrocession.reconcile.approve` | `retrocession.admin` |
 | Payment | `payment.read` | `payment.prepare`, `payment.bank-account.read` | `payment.approve`, `payment.issue` | `payment.admin` |
@@ -5512,7 +5512,7 @@ A user may hold more than one profile. Effective permission is the union, constr
 | Notifications | `notification.read` | `notification.issue`, `notification.dispatch` | `notification.template.approve` | `notification.admin` |
 | Platform | `lineage.read`, `audit.read` | `ops.jobs.run` | `ops.config.approve` | `admin.tenant`, `admin.user` |
 
-Permissions are book-qualified: `policy.*`, `direct.*`, `cession.*` apply only to `DIRECT`; `contract.*`, `assumed.*`, `retrocession.*` apply only to `ASSUMED`; shared permissions are evaluated against the record's book.
+Permissions are book-qualified: `policy.*`, `primary.*`, `cession.*` apply only to `PRIMARY`; `contract.*`, `reinsurance.*`, `retrocession.*` apply only to `REINSURANCE`; shared permissions are evaluated against the record's book.
 
 #### 9.12.3 Segregation of duties
 
@@ -5549,14 +5549,14 @@ Permissions are book-qualified: `policy.*`, `direct.*`, `cession.*` apply only t
 | Rule | Standard |
 |---|---|
 | Primary keys | UUIDv7 (RFC 9562), generated in the application, time-ordered for index locality |
-| Book | Every business row carries `business_book` (`DIRECT` or `ASSUMED`); shared associations carry the subject's book; keys are unique per tenant and book |
+| Book | Every business row carries `business_book` (`PRIMARY` or `REINSURANCE`); shared associations carry the subject's book; keys are unique per tenant and book |
 | Business keys | `{PREFIX}-{YEAR}-{SEQ}`; sequence per tenant and entity; never reused; immutable |
-| Prefixes | `PTY`, `POL`, `PVN` (policy version), `CTR`, `CLM`, `ASM`, `CES` (cession case), `RTS` (retro case), `DOC`, `PAY`, `NTF`, `BRD` (bordereau), `STL` (settlement), `RSV` (reserve) |
-| External references | Stored as `(source_system, external_id)` with a unique constraint; never assumed globally unique |
+| Prefixes | `PTY`, `POL`, `PVN` (policy version), `CTR`, `CLM`, `RNS`, `CES` (cession case), `RTS` (retro case), `DOC`, `PAY`, `NTF`, `BRD` (bordereau), `STL` (settlement), `RSV` (reserve) |
+| External references | Stored as `(source_system, external_id)` with a unique constraint; never reinsurance globally unique |
 | Cross-vertical references | `EntityRef` columns; no foreign keys across databases |
 | Correlation | UUIDv7 per user action; `causationId` links derived actions |
 | Public exposure | Only UUIDs and business keys; no sequential database IDs |
-| Merged entities | Old ID remains resolvable and redirects to the survivor; merge mapping retained permanently |
+| Merged entities | Old ID remains resolvable and reprimarys to the survivor; merge mapping retained permanently |
 
 ### 10.2 Temporal modeling
 
@@ -5633,11 +5633,11 @@ Permissions are book-qualified: `policy.*`, `direct.*`, `cession.*` apply only t
 |---|---|---|
 | Parties and roles | Party | All |
 | Legal entity, NAIC company code, SAP company code | Finance and data governance | Policy, Payment, Contract, Compliance |
-| Organization hierarchy and carrier assignments | Data governance and Finance | Policy, Direct, Payment, Reporting |
-| Program, LOB, subline, coverage, coverage type | Data governance with Product and Policy | Policy, Direct, Contract, Reporting |
+| Organization hierarchy and carrier assignments | Data governance and Finance | Policy, Primary, Payment, Reporting |
+| Program, LOB, subline, coverage, coverage type | Data governance with Product and Policy | Policy, Primary, Contract, Reporting |
 | External code map (ACORD, NAIC, ISO, SAP) | Data governance | All integrations and reporting |
 | Code lists (tort, injury, coverage, document type, payment type) | Platform reference data, curated with business owners | All |
-| Policy forms and endorsements | Policy | Contract, Direct, Document |
+| Policy forms and endorsements | Policy | Contract, Primary, Document |
 | Reinsurance clause library | Contract | Contract, Document |
 | GL mapping, cost centres, company codes | Payment (synced from SAP) | Payment, Contract |
 | Notification templates | Notifications | All |
@@ -5670,9 +5670,9 @@ Permissions are book-qualified: `policy.*`, `direct.*`, `cession.*` apply only t
 | Policies | 50,000 | 250,000 | — |
 | Policy versions and endorsements | 150,000 | 900,000 | — |
 | Reinsurance contracts | 2,000 | 8,000 | — |
-| Claims (Direct) | 250,000 | 1,500,000 | Mass tort portfolio: 500,000 open claims |
+| Claims (Primary) | 250,000 | 1,500,000 | Mass tort portfolio: 500,000 open claims |
 | Claims per policy (max) | 50,000 | 150,000 | 250,000 |
-| Assumed claims | 40,000 | 200,000 | — |
+| Reinsurance claims | 40,000 | 200,000 | — |
 | Reserves (rows) | 1,000,000 | 8,000,000 | — |
 | Payments | 300,000 | 2,000,000 | 20,000 per run |
 | Documents | 5,000,000 | 30,000,000 | 10 TB content |
@@ -5964,7 +5964,7 @@ Internal codes are examples. Official ACORD, NAIC, ISO, and SAP values are loade
 | Coverage category | `BI`, `PD`, `MEDPAY`, `UM_UIM`, `DEFENSE`, `EXPENSE`, `PROPERTY_DAMAGE`, `OTHER` | Internal |
 | Limit structure | `PER_OCCURRENCE`, `AGGREGATE`, `PER_PROJECT`, `PER_RISK`, `BLANKET` | ACORD limit applies / ISO form |
 
-The seed catalog is **not** a substitute for the official external code sets. It is the minimum internal catalog that lets Policy, Direct, Cession, and Retrocession operate while the official mappings are loaded.
+The seed catalog is **not** a substitute for the official external code sets. It is the minimum internal catalog that lets Policy, Primary, Cession, and Retrocession operate while the official mappings are loaded.
 
 #### 10.12.2 Data quality rules
 
@@ -6029,7 +6029,7 @@ No row is deleted. A correction creates a new version and retires the old one.
 | Data quality issues past SLA | 0 |
 ## 11. Vertical Domain Specifications
 
-The vertical chapters are ordered by dependency: Party and Document are shared reference verticals; Policy and Contract create risk; Direct and Assumed administer claims; Payment moves money; Notifications coordinates attention.
+The vertical chapters are ordered by dependency: Party and Document are shared reference verticals; Policy and Contract create risk; Primary and Reinsurance administer claims; Payment moves money; Notifications coordinates attention.
 
 Each chapter uses the template in §0.2. Entity dictionaries are the normative data definition. Physical DDL follows §7.2 and Appendix I.
 
@@ -6039,13 +6039,13 @@ Each chapter uses the template in §0.2. Entity dictionaries are the normative d
 |---|---|---|
 | Premium billing, receivables, producer payables | Policy (business), Payment (SAP AR/recon) | §11.2.13, §7.13 |
 | Product, rating, underwriting, producer licensing | Policy | §11.2.14 |
-| Actuarial reserving and reserve governance | Direct and Assumed, with platform workbench | §7.14 |
-| Inward assumed reinsurance | Contract, Assumed | §11.3, §11.5 |
-| Direct reinsurance administration and FS-RI hand-off | Cession | §11.9, §7.18 |
-| Assumed retrocession administration and FS-RI hand-off | Retrocession | §11.10, §7.18 |
-| Coverage litigation and legal spend | Direct | §11.4.13 |
-| Medical review, liens, structured settlements | Direct, Payment | §11.4.14 |
-| Class actions, global settlements, trust administration | Direct | §11.4.15 |
+| Actuarial reserving and reserve governance | Primary and Reinsurance, with platform workbench | §7.14 |
+| Inward reinsurance | Contract, Reinsurance | §11.3, §11.5 |
+| Primary-book reinsurance administration and FS-RI hand-off | Cession | §11.9, §7.18 |
+| Reinsurance retrocession administration and FS-RI hand-off | Retrocession | §11.10, §7.18 |
+| Coverage litigation and legal spend | Primary | §11.4.13 |
+| Medical review, liens, structured settlements | Primary, Payment | §11.4.14 |
+| Class actions, global settlements, trust administration | Primary | §11.4.15 |
 | Tax determination and remittance | Policy (calculation), Payment (posting/remittance) | §11.7.15 |
 | Regulatory reporting and complaints | Platform regulatory capability | §7.15 |
 | Management reporting, BI, data governance | Platform reporting capability | §7.16 |
@@ -6063,7 +6063,7 @@ Party owns **who** — every person, organization, trust, estate, government bod
 | Legal identity, names, identifiers, addresses, contacts | Bank accounts and payment instruments (Payment) |
 | Roles and associations to subjects | Coverage decisions, claim liability, payment authority |
 | Relationships between parties (parent, spouse, guardian, trustee) | Document content and retention (Document) |
-| Sanctions, PEP, and adverse-media screening results | Settlement strategy (Direct) |
+| Sanctions, PEP, and adverse-media screening results | Settlement strategy (Primary) |
 | Consent, communication preference, vulnerability flags | Notification delivery (Notifications) |
 | Duplicate detection and merge history | Policy underwriting (Policy) |
 
@@ -6251,7 +6251,7 @@ erDiagram
 | `party_id` | uuid | Y | FK |
 | `role_code` | enum | Y | See §11.1.5 |
 | `capacity` | enum | N | `INDIVIDUAL`, `ESTATE_REPRESENTATIVE`, `GUARDIAN`, `TRUSTEE`, `CLASS_REPRESENTATIVE`, `ASSIGNEE`, `BANKRUPTCY_TRUSTEE`, `ATTORNEY_IN_FACT`, `CORPORATE_OFFICER` |
-| `subject_vertical` | enum | Y | `policy`, `contract`, `direct`, `assumed`, `payment`, `document`, `notifications` |
+| `subject_vertical` | enum | Y | `policy`, `contract`, `primary`, `reinsurance`, `payment`, `document`, `notifications` |
 | `subject_type` | varchar(48) | Y | e.g., `policy`, `claim`, `payment` |
 | `subject_id` | uuid | Y | |
 | `subject_business_key` | varchar(64) | N | Cached for display |
@@ -6454,7 +6454,7 @@ stateDiagram-v2
 | `PTY-05` | A `CONFIRMED_MATCH` sanctions result sets status `BLOCKED`; all payments to that party are blocked until a dual-approved clearance. |
 | `PTY-06` | A merge MUST be approved by a different user than the requester, and the survivor MUST be `ACTIVE`. |
 | `PTY-07` | A merge MUST move or explicitly resolve every active role association; unresolved conflicts block completion. |
-| `PTY-08` | A merged party remains resolvable by ID and redirects to the survivor; its roles are closed with `ENDED` and re-created on the survivor. |
+| `PTY-08` | A merged party remains resolvable by ID and reprimarys to the survivor; its roles are closed with `ENDED` and re-created on the survivor. |
 | `PTY-09` | A party with any financial, claim, policy, contract, document, or audit reference MUST NOT be deleted; status is changed instead. |
 | `PTY-10` | SSNs, TINs, passport numbers, and bank details are encrypted and masked; only the last four characters are displayed. |
 | `PTY-11` | Role associations MUST reference an existing subject in the owning vertical, verified synchronously at creation. |
@@ -6516,7 +6516,7 @@ stateDiagram-v2
 | `party.screening.blocked` | `partyId`, `screeningId`, `listCode` |
 | `party.consent.changed` | `partyId`, `purpose`, `status` |
 
-**Consumed:** `policy.policy.issued` (create insured roles if not already), `contract.contract.bound` (cedent/reinsurer roles), `direct.claim.registered` (claimant roles when created outside Party), `assumed.claim.registered`, `payment.payment.paid` (payee verification), `document.document.registered` (author/signatory roles).
+**Consumed:** `policy.policy.issued` (create insured roles if not already), `contract.contract.bound` (cedent/reinsurer roles), `primary.claim.registered` (claimant roles when created outside Party), `reinsurance.claim.registered`, `payment.payment.paid` (payee verification), `document.document.registered` (author/signatory roles).
 
 #### 11.1.10 API surface
 
@@ -6607,15 +6607,15 @@ Policy owns **directly underwritten commercial insurance** from quote through ex
 | Policy owns | Policy does not own |
 |---|---|
 | Policy identity, status, terms, versions, endorsements | Insured party identity (Party) |
-| Coverage parts, forms, exclusions, limits, layers, retentions | Claim facts and reserves (Direct) |
+| Coverage parts, forms, exclusions, limits, layers, retentions | Claim facts and reserves (Primary) |
 | Premium, commission, taxes, fees, rating exposures, audits | Outward cession amounts and recoverables (SAP FS-RI) |
 | Occurrence definitions and occurrence records | Payments and SAP postings (Payment) |
 | Mass tort program and policy-level mass tort profile | Documents (Document) — it references them |
-| Aggregate/limit state used for coverage decisions | Claim-level allocation truth (Direct) — Policy owns the limit, Direct owns the allocation |
+| Aggregate/limit state used for coverage decisions | Claim-level allocation truth (Primary) — Policy owns the limit, Primary owns the allocation |
 
-**Boundary with Direct:** Policy declares *what coverage exists and how much remains*. Direct determines *whether a claim is covered and how much to reserve*. When a claim erodes a limit, Direct sends an erosion fact; Policy applies it to `policy_limit_state` and acknowledges the new remaining amount. Direct owns the claim allocation record; Policy owns the limit ledger.
+**Boundary with Primary:** Policy declares *what coverage exists and how much remains*. Primary determines *whether a claim is covered and how much to reserve*. When a claim erodes a limit, Primary sends an erosion fact; Policy applies it to `policy_limit_state` and acknowledges the new remaining amount. Primary owns the claim allocation record; Policy owns the limit ledger.
 
-**Boundary with Contract and SAP FS-RI:** Policy owns the direct book, but **Cession** owns direct cessions (§11.9). Policy publishes policy facts and exposes a read API; Cession pulls from Policy/Direct, hands off to SAP FS-RI, and stores the relationship data. Contract and Assumed are a different book and MUST NOT receive Policy or Direct data. Policy keeps a read-only cession projection for the policy 360 and does not calculate or post ceded premium or loss.
+**Boundary with Contract and SAP FS-RI:** Policy owns the primary book, but **Cession** owns primary cessions (§11.9). Policy publishes policy facts and exposes a read API; Cession pulls from Policy/Primary, hands off to SAP FS-RI, and stores the relationship data. Contract and Reinsurance are a different book and MUST NOT receive Policy or Primary data. Policy keeps a read-only cession projection for the policy 360 and does not calculate or post ceded premium or loss.
 
 #### 11.2.2 Ubiquitous language
 
@@ -6761,7 +6761,7 @@ erDiagram
 | `governing_law_country` | char(3) | N | ISO 3166-1 |
 | `governing_law_region` | varchar(6) | N | ISO 3166-2 |
 | `domicile_country` | char(3) | N | Insured domicile |
-| `placement_type` | enum | Y | `DIRECT`, `COINSURANCE`, `FRONTED`, `CAPTIVE`, `MGA_BINDING_AUTHORITY` |
+| `placement_type` | enum | Y | `PRIMARY`, `COINSURANCE`, `FRONTED`, `CAPTIVE`, `MGA_BINDING_AUTHORITY` |
 | `binding_authority_ref` | varchar(64) | N | MGA/BPA reference |
 | `quote_id` | uuid | N | Originating quote |
 | `binder_number` | varchar(32) | N | |
@@ -7103,7 +7103,7 @@ erDiagram
 | `product_names` | text[] | N | |
 | `exposure_period_from`, `exposure_period_to` | date | N | |
 | `claimant_estimate` | integer | N | |
-| `known_claim_count` | integer | N | Projection from Direct |
+| `known_claim_count` | integer | N | Projection from Primary |
 | `trigger_theory` | enum | Y | `EXPOSURE`, `INJURY_IN_FACT`, `MANIFESTATION`, `CONTINUOUS_TRIGGER`, `ALL_SUMS`, `CLAIMS_MADE` |
 | `allocation_method` | enum | Y | `ALL_SUMS`, `PRO_RATA_TIME_ON_RISK`, `PRO_RATA_PREMIUM`, `EQUAL_SHARES`, `STACKED_LIMITS`, `CUSTOM_MATRIX` |
 | `allocation_notes` | text | N | |
@@ -7273,7 +7273,7 @@ stateDiagram-v2
 | `POL-09` | Reinstatement MUST restore the cancelled period without creating overlapping active coverage. |
 | `POL-10` | Premium components MUST reconcile to `total_premium_amount`; commission and tax are computed from the rated premium, not the total. |
 | `POL-11` | `policy_limit_state.remaining_amount` MUST equal `original + reinstated − incurred + recovered` within 0.01; negative remaining is prohibited. |
-| `POL-12` | A claim allocation that would exceed a limit MUST be rejected by Policy and returned to Direct with the available amount. |
+| `POL-12` | A claim allocation that would exceed a limit MUST be rejected by Policy and returned to Primary with the available amount. |
 | `POL-13` | `mass_tort_flag=true` requires a `policy_mass_tort_profile` with `primary_tort_code` and `trigger_theory` before issue. |
 | `POL-14` | Occurrence dates used for allocation MUST fall within a policy term or within the exposure period of the applicable coverage block. |
 | `POL-15` | A policy with open claims MUST NOT be voided; it must be cancelled with a reason. |
@@ -7320,7 +7320,7 @@ stateDiagram-v2
 |---|---|---|---|---|
 | 1 | Load policy and in-force version | READ | expert | |
 | 2 | Determine cancellation type and refund | RULE | `policy.cancellation-terms` | Flat/pro-rata/short-rate |
-| 3 | Check open claims and documents | READ | Direct, Document | Warn if open claims |
+| 3 | Check open claims and documents | READ | Primary, Document | Warn if open claims |
 | 4 | Approval | HUMAN_APPROVAL | `policy.cancel.approve` | |
 | 5 | Persist cancellation | PERSIST | `policy.expert.cancellation.create` | New version, status |
 | 6 | Generate notice | SUB_TRANSACTION | `document.generate` | |
@@ -7342,16 +7342,16 @@ stateDiagram-v2
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Validate tort, trigger, allocation | RULE | `policy.mass-tort-valid` | Allocation percentages sum to 1 |
-| 2 | Check consistency with existing allocations | READ | Direct | Warn on conflict |
+| 2 | Check consistency with existing allocations | READ | Primary | Warn on conflict |
 | 3 | Approval | HUMAN_APPROVAL | `policy.mass-tort.approve` | |
 | 4 | Persist profile and blocks | PERSIST | expert | |
-| 5 | Emit | EVENT | `policy.policy.mass-tort-profile-updated` | Direct consumes |
+| 5 | Emit | EVENT | `policy.policy.mass-tort-profile-updated` | Primary consumes |
 
 #### 11.2.9 Events
 
 **Published:** `policy.policy.quoted`, `policy.policy.bound`, `policy.policy.issued`, `policy.policy.version-issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.policy.reinstated`, `policy.policy.renewed`, `policy.policy.expired`, `policy.policy.non-renewed`, `policy.policy.voided`, `policy.premium.changed`, `policy.premium.audited`, `policy.occurrence.recorded`, `policy.aggregate.eroded`, `policy.aggregate.reconciled`, `policy.mass-tort-profile.updated`, `policy.coverage-block.updated`.
 
-**Consumed:** `direct.claim.registered` (claim count projection), `direct.claim.allocated` (erosion), `direct.claim.paid` (erosion), `direct.claim.recovery-recorded` (restoration), `contract.cession.recorded` (reinsurance projection), `payment.payment.paid` (premium posting), `document.document.associated`, `party.party.merged`.
+**Consumed:** `primary.claim.registered` (claim count projection), `primary.claim.allocated` (erosion), `primary.claim.paid` (erosion), `primary.claim.recovery-recorded` (restoration), `contract.cession.recorded` (reinsurance projection), `payment.payment.paid` (premium posting), `document.document.associated`, `party.party.merged`.
 
 **`policy.aggregate.eroded` payload:**
 
@@ -7369,7 +7369,7 @@ stateDiagram-v2
   "remainingAmount": { "amount": "1875000.00", "currency": "USD" },
   "claimId": "0192…",
   "allocationId": "0192…",
-  "source": "DIRECT",
+  "source": "PRIMARY",
   "asOf": "2026-10-19T13:04:11Z"
 }
 ```
@@ -7403,7 +7403,7 @@ stateDiagram-v2
 | `GET` | `/api/v1/policy/programs/{programId}` | Program detail |
 | `GET` | `/api/v1/policy/policies/{policyId}/lineage` | Lineage summary |
 
-**Internal:** `GET /internal/v1/policies/{id}/coverage-summary` (Direct), `GET /internal/v1/policies/{id}/limits/{limitId}/availability`, `POST /internal/v1/policies/{id}/erosion` (Direct), `GET /internal/v1/policies/{id}/cession-terms` (Contract), `GET /internal/v1/policies/{id}/cession-context` (Cession), `GET /internal/v1/policies/{id}/premium-summary`.
+**Internal:** `GET /internal/v1/policies/{id}/coverage-summary` (Primary), `GET /internal/v1/policies/{id}/limits/{limitId}/availability`, `POST /internal/v1/policies/{id}/erosion` (Primary), `GET /internal/v1/policies/{id}/cession-terms` (Contract), `GET /internal/v1/policies/{id}/cession-context` (Cession), `GET /internal/v1/policies/{id}/premium-summary`.
 
 #### 11.2.11 Mass tort specifics
 
@@ -7422,13 +7422,13 @@ stateDiagram-v2
 
 **Occurrence definitions.** Mass tort policies commonly define occurrence as per claimant, per occurrence, per location, or per event, and may include a batch clause. `policy_occurrence.occurrence_definition` captures the definition; `claimants_asserted` supports occurrence-level reserving and limit testing.
 
-**Defense within limits.** Where defense is inside limits, defense payments erode the same limit as indemnity. Policy exposes this flag on the coverage; Direct and Payment must apply it when testing capacity.
+**Defense within limits.** Where defense is inside limits, defense payments erode the same limit as indemnity. Policy exposes this flag on the coverage; Primary and Payment must apply it when testing capacity.
 
-**Aggregate erosion.** Policy maintains the limit ledger. Direct sends erosion facts when a reserve is established or changed and when a payment is issued or recovered. Policy applies them idempotently by `(claimId, allocationId, sourceVersion)` and publishes the new state. A daily reconciliation compares the ledger to Direct's allocation totals.
+**Aggregate erosion.** Policy maintains the limit ledger. Primary sends erosion facts when a reserve is established or changed and when a payment is issued or recovered. Policy applies them idempotently by `(claimId, allocationId, sourceVersion)` and publishes the new state. A daily reconciliation compares the ledger to Primary's allocation totals.
 
 **Bankruptcy trusts and QSFs.** The program records funding structure, trust references, and settlement administrator; Party records the trust and trustee; Document stores trust agreements and claim forms; Payment pays trust distributions. Policy does not administer the trust.
 
-**MDL and global settlements.** `mdl_references` and `defense_strategy` record the litigation context. Settlement authority is policy-level; individual settlement authorization remains in Direct.
+**MDL and global settlements.** `mdl_references` and `defense_strategy` record the litigation context. Settlement authority is policy-level; individual settlement authorization remains in Primary.
 
 **Reinsurance interaction.** A mass tort policy may be ceded under quota share or excess of loss. Contract records the cession against policy and claim facts; Policy displays the projection and includes ceded premium in its premium view without owning it.
 
@@ -7703,7 +7703,7 @@ Business billing is owned by Policy. SAP owns the AR ledger. Policy produces bil
 * **Cancellation.** Pro-rata and short-rate refunds are computed by Policy, approved, and issued as credit notes through SAP.
 * **Coinsurance and fronting.** Billing lines split by capacity provider and legal entity so each carrier's AR and commission are correct.
 * **Commission.** Program commissions may be flat, sliding, or fee-based; the producer statement records the basis and any chargeback.
-* **Deductible/SIR reimbursement.** Treated as a claim-side recovery in Direct/Payment, not as premium.
+* **Deductible/SIR reimbursement.** Treated as a claim-side recovery in Primary/Payment, not as premium.
 
 ##### Front-end views
 
@@ -8164,9 +8164,9 @@ premium = base_rate
 
 ---
 
-#### 11.2.15 Direct Cessions (Cession Vertical)
+#### 11.2.15 Primary Cessions (Cession Vertical)
 
-Direct cessions are operated by the **Cession** vertical (§11.9). Cession manages the ceded contracts, layers, participants, terms, security, and cession rules; pulls policy facts from Policy and claim facts from Direct; builds the FS-RI hand-off; and stores confirmations and recoverables. Policy and Direct do not call FS-RI and do not own cession tables.
+Primary cessions are operated by the **Cession** vertical (§11.9). Cession manages the ceded contracts, layers, participants, terms, security, and cession rules; pulls policy facts from Policy and claim facts from Primary; builds the FS-RI hand-off; and stores confirmations and recoverables. Policy and Primary do not call FS-RI and do not own cession tables.
 
 #### 11.2.16 Legal entity, program, capacity, coinsurance, and fronting
 
@@ -8208,23 +8208,23 @@ The **organization hierarchy**, **program**, **LOB**, **subline**, **coverage**,
 
 #### 11.3.1 Purpose and boundary
 
-Contract owns **assumed reinsurance contract administration**: treaties, facultative placements, layers, participations, premium and commission, technical accounts, bordereaux, security, reinstatements, and commutations for business the company has accepted. It does not own the retrocession adapter; **Retrocession** is a separate vertical (§11.10). Contract has no relationship to Direct or Policy.
+Contract owns **reinsurance contract administration**: treaties, facultative placements, layers, participations, premium and commission, technical accounts, bordereaux, security, reinstatements, and commutations for business the company has accepted. It does not own the retrocession adapter; **Retrocession** is a separate vertical (§11.10). Contract has no relationship to Primary or Policy.
 
 | Contract owns | Contract does not own |
 |---|---|
-| Assumed contract identity, terms, versions, endorsements | Cedent and reinsurer identity (Party) |
-| Assumed layers, limits, retentions, participations, security | Direct policy terms or direct claim facts (Policy, Direct) |
-| Assumed premium, commission, brokerage, technical accounts | Direct cessions (Cession) |
-| Assumed bordereaux ingestion and reconciliation | Direct ceded amounts and recoverables (SAP FS-RI) |
-| Assumed reinstatements, commutations, LPT/ADC terms | Retrocession calculations and hand-off (Retrocession, SAP FS-RI) |
-| Assumed facts and read API for Retrocession | Assumed claim facts and reserves (Assumed) |
+| Reinsurance contract identity, terms, versions, endorsements | Cedent and reinsurer identity (Party) |
+| Reinsurance layers, limits, retentions, participations, security | Primary policy terms or primary claim facts (Policy, Primary) |
+| Reinsurance premium, commission, brokerage, technical accounts | Primary cessions (Cession) |
+| Reinsurance bordereaux ingestion and reconciliation | Primary ceded amounts and recoverables (SAP FS-RI) |
+| Reinsurance reinstatements, commutations, LPT/ADC terms | Retrocession calculations and hand-off (Retrocession, SAP FS-RI) |
+| Reinsurance facts and read API for Retrocession | Reinsurance claim facts and reserves (Reinsurance) |
 | — | Payment execution and SAP S/4 postings (Payment) |
 
-**Boundary with Policy and Direct:** there is a hard wall. Contract MUST NOT receive Policy records, Direct claim facts, direct cession requests, or direct recoverable projections. Policy owns the direct book; direct cessions are owned by Cession (§11.9). Contract has no direct-book responsibility.
+**Boundary with Policy and Primary:** there is a hard wall. Contract MUST NOT receive Policy records, Primary claim facts, primary cession requests, or primary recoverable projections. Policy owns the primary book; primary cessions are owned by Cession (§11.9). Contract has no primary-book responsibility.
 
-**Boundary with Assumed:** Contract declares the assumed terms; Assumed administers the assumed claims. Contract aggregates assumed results and produces assumed technical accounts. For retrocession, Contract publishes assumed contract facts and exposes a read API; **Retrocession** pulls them (and Assumed claim facts), hands off to FS-RI, and stores the retro relationship data. Contract does not own retro tables.
+**Boundary with Reinsurance:** Contract declares the reinsurance terms; Reinsurance administers the reinsurance claims. Contract aggregates reinsurance results and produces reinsurance technical accounts. For retrocession, Contract publishes reinsurance contract facts and exposes a read API; **Retrocession** pulls them (and Reinsurance claim facts), hands off to FS-RI, and stores the retro relationship data. Contract does not own retro tables.
 
-**Boundary with SAP FS-RI:** FS-RI is the system of record for both books' actual cessions and retrocessions, but the platform integrates through two separate verticals: **Cession** for `DIRECT`, **Retrocession** for `ASSUMED`. Contract never calls FS-RI and never processes direct cessions or retrocessions. Each vertical may calculate an expected cession from its managed contract terms and rules for validation and display; FS-RI is authoritative for the actual amount, recoverable, and statement (§7.17, §7.18).
+**Boundary with SAP FS-RI:** FS-RI is the system of record for both books' actual cessions and retrocessions, but the platform integrates through two separate verticals: **Cession** for `PRIMARY`, **Retrocession** for `REINSURANCE`. Contract never calls FS-RI and never processes primary cessions or retrocessions. Each vertical may calculate an expected cession from its managed contract terms and rules for validation and display; FS-RI is authoritative for the actual amount, recoverable, and statement (§7.17, §7.18).
 
 #### 11.3.2 Ubiquitous language
 
@@ -8292,7 +8292,7 @@ erDiagram
 | `contract_number` | varchar(32) | Y | `XOL-2025-00091`; unique |
 | `treaty_number` | varchar(32) | N | Cedent or market treaty reference |
 | `contract_type` | enum | Y | See §11.3.5 |
-| `contract_direction` | enum | Y | `INWARD`, `OUTWARD`, `RETRO`; default `INWARD` |
+| `contract_primaryion` | enum | Y | `INWARD`, `OUTWARD`, `RETRO`; default `INWARD` |
 | `contract_basis` | enum | Y | `LOSSES_OCCURRING`, `CLAIMS_MADE`, `RISKS_ATTACHING`, `OCCURRENCE` |
 | `contract_section` | enum | Y | `CASUALTY`, `PROPERTY`, `MARINE`, `AVIATION`, `ENERGY`, `PROFESSIONAL`, `MASS_TORT`, `WORKERS_COMPENSATION`, `CYBER`, `MOTOR`, `AGRICULTURE`, `MULTI_LINE` |
 | `cedent_party_id` | uuid | Y | |
@@ -8490,7 +8490,7 @@ erDiagram
 | `tenant_id` | uuid | Y | |
 | `contract_id` | uuid | Y | |
 | `layer_id` | uuid | N | |
-| `source_vertical` | enum | Y | `policy`, `direct`, `assumed` |
+| `source_vertical` | enum | Y | `policy`, `primary`, `reinsurance` |
 | `source_type` | varchar(48) | Y | `policy`, `claim`, `lossAdvice` |
 | `source_id` | uuid | Y | |
 | `source_business_key` | varchar(64) | N | |
@@ -8559,7 +8559,7 @@ erDiagram
 | `status` | enum | Y | `VALID`, `EXCEPTION`, `POSTED`, `REJECTED`, `DUPLICATE` |
 | `exception_code` | varchar(48) | N | |
 | `raw` | jsonb | N | Original row |
-| `assumed_claim_id` | uuid | N | Created or matched claim |
+| `reinsurance_claim_id` | uuid | N | Created or matched claim |
 
 ##### `bordereau_exception`
 
@@ -8599,7 +8599,7 @@ erDiagram
 | `cash_call_amount` | numeric(19,4) | N | |
 | `funds_withheld_amount` | numeric(19,4) | N | |
 | `balance_amount` | numeric(19,4) | Y | Positive = due to reinsurer |
-| `settlement_direction` | enum | Y | `CEDENT_TO_REINSURER`, `REINSURER_TO_CEDENT`, `NIL` |
+| `settlement_primaryion` | enum | Y | `CEDENT_TO_REINSURER`, `REINSURER_TO_CEDENT`, `NIL` |
 | `currency` | char(3) | Y | |
 | `due_date` | date | N | |
 | `approved_by` | uuid | N | |
@@ -8806,13 +8806,13 @@ stateDiagram-v2
 | `CTR-09` | A bordereau MUST reconcile line totals to the declared total before posting; unreconciled bordereaux remain `PARTIALLY_POSTED`. |
 | `CTR-10` | Duplicate bordereau lines are detected by cedent claim reference, advice type, amount, and period; duplicates are rejected, not posted twice. |
 | `CTR-11` | Security held MUST be at least the required amount when the reinsurer's rating is below the approved threshold; a breach blocks new cessions. |
-| `CTR-12` | Commutation requires no open assumed claims unless the commutation explicitly includes them, and requires a signed release document. |
+| `CTR-12` | Commutation requires no open reinsurance claims unless the commutation explicitly includes them, and requires a signed release document. |
 | `CTR-13` | LPT and ADC contracts require a portfolio schedule, an inception balance, and approved actuarial assumptions. |
 | `CTR-14` | The sunset date, if present, blocks new loss advices after that date; late advices require approval and are flagged. |
 | `CTR-15` | Contract bind requires approval by an underwriter with authority for the limit and the cedent. |
 | `CTR-16` | A signed contract's economic terms are immutable; changes are endorsements or new versions. |
 | `CTR-17` | Currency of premium, loss, and account MUST match the contract currency unless the terms define a settlement currency and an FX basis. |
-| `CTR-18` | A contract with open assumed claims MUST NOT be closed. |
+| `CTR-18` | A contract with open reinsurance claims MUST NOT be closed. |
 
 #### 11.3.8 Commands and transactions
 
@@ -8834,7 +8834,7 @@ stateDiagram-v2
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
-| 1 | Resolve source and cession basis | READ | Policy/Direct | |
+| 1 | Resolve source and cession basis | READ | Policy/Primary | |
 | 2 | Check capacity | RULE | `contract.cession-capacity` | Layer remaining, security |
 | 3 | Compute ceded premium/loss | COMPUTE | `contract.cession-calc` | Percentage or layer |
 | 4 | Persist cession | PERSIST | `contract.expert.cession.record` | |
@@ -8850,7 +8850,7 @@ stateDiagram-v2
 | 2 | Stage and parse | BATCH | `contract.bordereau-parse` | CSV/XLSX/XML |
 | 3 | Validate lines | RULE | `contract.bordereau-validate` | Contract, period, currency, duplicates |
 | 4 | Reconcile totals | RULE | `contract.bordereau-reconcile` | |
-| 5 | Create or match assumed claims | SUB_TRANSACTION | `assumed.claim.loss-advice` | Batch or per line |
+| 5 | Create or match reinsurance claims | SUB_TRANSACTION | `reinsurance.claim.loss-advice` | Batch or per line |
 | 6 | Post premium/cession lines | PERSIST | `contract.expert.bordereau.post` | |
 | 7 | Persist exceptions | PERSIST | `contract.expert.exception.record` | |
 | 8 | Generate exception report | SUB_TRANSACTION | `document.generate` | |
@@ -8861,7 +8861,7 @@ stateDiagram-v2
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load contract terms and period | READ | expert | |
-| 2 | Gather premium, commission, losses, IBNR | READ | expert, Assumed | |
+| 2 | Gather premium, commission, losses, IBNR | READ | expert, Reinsurance | |
 | 3 | Compute sliding scale and profit commission | COMPUTE | `contract.commission-calc` | Bands |
 | 4 | Compute balance | COMPUTE | `contract.account-balance` | |
 | 5 | Approval if balance exceeds authority | HUMAN_APPROVAL | `contract.account.approve` | |
@@ -8874,11 +8874,11 @@ stateDiagram-v2
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
-| 1 | Load contract and open claims | READ | expert, Assumed | |
+| 1 | Load contract and open claims | READ | expert, Reinsurance | |
 | 2 | Compute commutation value | COMPUTE | `contract.commutation-valuation` | Case, IBNR, expenses, discount |
 | 3 | Approval | HUMAN_APPROVAL | `contract.commute.approve` | Senior authority |
 | 4 | Persist commutation | PERSIST | `contract.expert.commutation.create` | |
-| 5 | Close or transfer assumed claims | SUB_TRANSACTION | `assumed.claim.commute` | |
+| 5 | Close or transfer reinsurance claims | SUB_TRANSACTION | `reinsurance.claim.commute` | |
 | 6 | Release security | SUB_TRANSACTION | `contract.security.release` | |
 | 7 | Payment | SUB_TRANSACTION | `payment.authorize` | |
 | 8 | Generate release | SUB_TRANSACTION | `document.generate` | |
@@ -8888,7 +8888,7 @@ stateDiagram-v2
 
 **Published:** `contract.contract.created`, `contract.contract.bound`, `contract.contract.signed`, `contract.contract.endorsed`, `contract.contract.renewed`, `contract.contract.expired`, `contract.contract.cancelled`, `contract.contract.commuted`, `contract.cession.recorded`, `contract.bordereau.received`, `contract.bordereau.posted`, `contract.bordereau.rejected`, `contract.account.issued`, `contract.account.agreed`, `contract.cash-call.issued`, `contract.security.recorded`, `contract.security.breached`, `contract.reinstatement.applied`, `contract.premium.adjusted`, `contract.loss-aggregate.updated`.
 
-**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.changed`, `direct.claim.registered`, `direct.claim.paid`, `assumed.claim.registered`, `assumed.claim.reserve-changed`, `assumed.claim.paid`, `assumed.claim.commuted`, `payment.payment.paid`, `document.document.registered`.
+**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.premium.changed`, `primary.claim.registered`, `primary.claim.paid`, `reinsurance.claim.registered`, `reinsurance.claim.reserve-changed`, `reinsurance.claim.paid`, `reinsurance.claim.commuted`, `payment.payment.paid`, `document.document.registered`.
 
 #### 11.3.10 API surface
 
@@ -8922,15 +8922,15 @@ stateDiagram-v2
 
 **Internal:** `GET /internal/v1/contracts/{id}/terms`, `GET /internal/v1/contracts/{id}/capacity`, `POST /internal/v1/contracts/{id}/cession`, `GET /internal/v1/contracts/{id}/aggregate`, `GET /internal/v1/contracts/{id}/retro-context` (Retrocession), `POST /internal/v1/contracts/{id}/payment-applied`, `POST /internal/v1/contracts/{id}/security/{securityId}/release`.
 
-#### 11.3.11 Mass tort and assumed-reinsurance specifics
+#### 11.3.11 Mass tort and reinsurance specifics
 
 **Non-proportional mass tort structures.** Aggregate excess of loss and stop-loss treaties are the principal vehicles for long-tail mass tort. The platform models attachment, limit, aggregate limit, reinstatements, and the loss corridor. `contract_layer.attachment_amount` and `limit_amount` apply to the ultimate net loss for the treaty year; `contract_terms.loss_corridor_from_pct` and `to_pct` model corridors where the reinsurer participates only within a band.
 
-**Loss portfolio transfers (LPT).** An LPT assumes existing reserves for a defined portfolio. Contract requires a portfolio schedule (policy, claim, reserve, paid, IBNR), an inception balance, and approval. `contract_mass_tort_profile.lpt_flag` marks the contract; Assumed creates the assumed claims from the portfolio schedule in a batch transaction.
+**Loss portfolio transfers (LPT).** An LPT assumes existing reserves for a defined portfolio. Contract requires a portfolio schedule (policy, claim, reserve, paid, IBNR), an inception balance, and approval. `contract_mass_tort_profile.lpt_flag` marks the contract; Reinsurance creates the reinsurance claims from the portfolio schedule in a batch transaction.
 
-**Adverse development covers (ADC).** An ADC protects against deterioration of reserves above an attachment. It requires actuarial assumptions, a development pattern, a term, and usually collateral. The contract records `adc_attachment_amount`, `adc_limit_amount`, and `adc_term_years`; Assumed tracks development and recovers when incurred exceeds attachment.
+**Adverse development covers (ADC).** An ADC protects against deterioration of reserves above an attachment. It requires actuarial assumptions, a development pattern, a term, and usually collateral. The contract records `adc_attachment_amount`, `adc_limit_amount`, and `adc_term_years`; Reinsurance tracks development and recovers when incurred exceeds attachment.
 
-**Cessions for mass tort.** For **inward assumed** business, a cession may attach to a policy, a claim, or an occurrence. For quota share, the cession percentage applies to premium and loss; for excess of loss, the cession is computed on ultimate net loss above the retention. The Contract domain service computes assumed ceded amounts; it never asks Assumed to compute them. **Outward cessions for the direct book are computed by SAP FS-RI, not Contract (§7.17).**
+**Cessions for mass tort.** For **inward reinsurance** business, a cession may attach to a policy, a claim, or an occurrence. For quota share, the cession percentage applies to premium and loss; for excess of loss, the cession is computed on ultimate net loss above the retention. The Contract domain service computes reinsurance ceded amounts; it never asks Reinsurance to compute them. **Outward cessions for the primary book are computed by SAP FS-RI, not Contract (§7.17).**
 
 **Bordereaux.** Mass tort claims bordereaux are typically large and repetitive. The platform supports CSV and XLSX with a documented header contract, staging tables, duplicate detection, reconciliation to declared totals, exception reports, and partial posting. Every bordereau is associated with the source document and its checksum.
 
@@ -8938,7 +8938,7 @@ stateDiagram-v2
 
 **Security and collateral.** Reinsurers with lower ratings must post collateral. Security records letters of credit, trust funds, funds withheld, and guarantees, with required and held amounts, expiry, and release conditions. A security breach blocks new cessions and raises a high-severity notification.
 
-**Commutation.** Commutations are common in run-off mass tort. The platform computes a value from case reserves, IBNR, expenses, and recoveries, requires approval, closes the assumed claims, releases security, pays the commutation amount, and stores the release.
+**Commutation.** Commutations are common in run-off mass tort. The platform computes a value from case reserves, IBNR, expenses, and recoveries, requires approval, closes the reinsurance claims, releases security, pays the commutation amount, and stores the release.
 
 **Clause library.** `contract_wording` captures the clause set, including follow-the-fortunes, follow-the-settlements, claims control and cooperation, cut-through, offset, ultimate net loss, occurrence, sunset, reinstatement, and the mass tort exclusions and buy-backs. Clause text is a summary; the authoritative wording is a Document.
 
@@ -8951,14 +8951,14 @@ stateDiagram-v2
 ---
 #### 11.3.13 Retrocessions (Retrocession Vertical)
 
-Assumed-book retrocessions are operated by the **Retrocession** vertical (§11.10). Retrocession manages the retro contracts, layers, participants, terms, security, and retro rules; pulls contract facts from Contract and claim facts from Assumed; builds the FS-RI hand-off; and stores confirmations and retro recoverables. Contract and Assumed do not call FS-RI and do not own retro tables.
-### 11.4 Direct (Claims for Policy)
+Reinsurance-book retrocessions are operated by the **Retrocession** vertical (§11.10). Retrocession manages the retro contracts, layers, participants, terms, security, and retro rules; pulls contract facts from Contract and claim facts from Reinsurance; builds the FS-RI hand-off; and stores confirmations and retro recoverables. Contract and Reinsurance do not call FS-RI and do not own retro tables.
+### 11.4 Primary (Claims for Policy)
 
 #### 11.4.1 Purpose and boundary
 
-Direct owns **claims arising under directly underwritten policies**: first notice of loss, coverage assessment, injury and exposure capture, reserving, litigation management, settlement, recovery, liens, and closure. It is the claim system of record for commercial mass tort and other liability claims.
+Primary owns **claims arising under directly underwritten policies**: first notice of loss, coverage assessment, injury and exposure capture, reserving, litigation management, settlement, recovery, liens, and closure. It is the claim system of record for commercial mass tort and other liability claims.
 
-| Direct owns | Direct does not own |
+| Primary owns | Primary does not own |
 |---|---|
 | Claim identity, status, facts, assignment | Claimant identity and roles (Party) |
 | Injury, disease, exposure, medical criteria | Policy terms, limits, aggregates (Policy) |
@@ -8969,13 +8969,13 @@ Direct owns **claims arising under directly underwritten policies**: first notic
 | Claim facts that trigger cession | Cession calculation and FS-RI processing (Policy) |
 | Claim financial summary | Financial postings (Payment) |
 
-**Boundary with Party:** Party owns the claimant, adjuster, counsel, expert, provider, and trustee identities and their claim roles. Direct requests role creation and consumes `party.role.*` events into `claim_party_ref`. The `CLAIM_HAS_CLAIMANT` link is written by Party because Party owns the role fact; Direct owns the claim and displays the link.
+**Boundary with Party:** Party owns the claimant, adjuster, counsel, expert, provider, and trustee identities and their claim roles. Primary requests role creation and consumes `party.role.*` events into `claim_party_ref`. The `CLAIM_HAS_CLAIMANT` link is written by Party because Party owns the role fact; Primary owns the claim and displays the link.
 
-**Boundary with Policy:** Policy declares coverage and remaining limits. Direct assesses coverage, allocates losses to policy years, and sends erosion facts. Direct cannot increase a limit or alter coverage. Direct publishes claim events and exposes a read API; **Cession** pulls them for FS-RI hand-off.
+**Boundary with Policy:** Policy declares coverage and remaining limits. Primary assesses coverage, allocates losses to policy years, and sends erosion facts. Primary cannot increase a limit or alter coverage. Primary publishes claim events and exposes a read API; **Cession** pulls them for FS-RI hand-off.
 
-**Boundary with Contract, Assumed, Cession, and SAP FS-RI:** Direct has **no relationship** with Contract, Assumed, or Retrocession. Direct never calls Contract, never calls FS-RI, and never receives assumed-book data. Claim registration, reserve changes, payments, recoveries, and closure produce event facts that Cession pulls to build the direct hand-off. Direct reads Cession projections for display only; it never owns cession data.
+**Boundary with Contract, Reinsurance, Cession, and SAP FS-RI:** Primary has **no relationship** with Contract, Reinsurance, or Retrocession. Primary never calls Contract, never calls FS-RI, and never receives reinsurance-book data. Claim registration, reserve changes, payments, recoveries, and closure produce event facts that Cession pulls to build the primary hand-off. Primary reads Cession projections for display only; it never owns cession data.
 
-**Boundary with Payment:** Direct authorizes settlement; Payment executes payment. Direct requests a payment through the Payment transaction catalog and records the resulting payment reference. Direct never calls SAP S/4 or FS-RI directly.
+**Boundary with Payment:** Primary authorizes settlement; Payment executes payment. Primary requests a payment through the Payment transaction catalog and records the resulting payment reference. Primary never calls SAP S/4 or FS-RI directly.
 
 #### 11.4.2 Ubiquitous language
 
@@ -9562,7 +9562,7 @@ stateDiagram-v2
 
 #### 11.4.8 Commands and transactions
 
-**`direct.claim.register`** (sync)
+**`primary.claim.register`** (sync)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
@@ -9575,11 +9575,11 @@ stateDiagram-v2
 | 7 | Allocate to policy year | RULE | `claim.allocation-propose` | Uses policy trigger and allocation method |
 | 8 | Establish initial reserve (if auto) | RULE | `claim.initial-reserve` | Or create authority request |
 | 9 | Associate documents | SUB_TRANSACTION | `document.associate` | FNOL packet |
-| 10 | Emit | EVENT | `direct.claim.registered` | Links: claim→policy, claim→claimant |
+| 10 | Emit | EVENT | `primary.claim.registered` | Links: claim→policy, claim→claimant |
 | 11 | Notify | NOTIFY | `claim.new-notice` | Adjuster, supervisor, broker if required |
 | 12 | Publish erosion request | SUB_TRANSACTION | `policy.erosion.request` | If reserve established |
 
-**`direct.claim.reserve`** (sync, conditional approval)
+**`primary.claim.reserve`** (sync, conditional approval)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
@@ -9590,10 +9590,10 @@ stateDiagram-v2
 | 5 | Approval if above authority | HUMAN_APPROVAL | `claim.reserve.approve` | Segregation of duties |
 | 6 | Persist reserve change | PERSIST | `claim.expert.reserve.change` | Append-only, closes prior |
 | 7 | Publish erosion | SUB_TRANSACTION | `policy.aggregate.erosion` | Idempotent by reserve sequence |
-| 8 | Emit | EVENT | `direct.claim.reserve-changed` | |
+| 8 | Emit | EVENT | `primary.claim.reserve-changed` | |
 | 9 | Notify | NOTIFY | `claim.reserve-authority` or `claim.reserve-changed` | |
 
-**`direct.claim.settle-authorize`** (sync, approval)
+**`primary.claim.settle-authorize`** (sync, approval)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
@@ -9604,11 +9604,11 @@ stateDiagram-v2
 | 5 | Confirm payment capacity | READ | Payment, Policy | Reserve and limit |
 | 6 | Approval | HUMAN_APPROVAL | `claim.settle.approve` | Senior authority |
 | 7 | Persist authorization | PERSIST | `claim.expert.settlement.authorize` | Settlement status `AUTHORIZED` |
-| 8 | Emit | EVENT | `direct.claim.settlement-authorized` | |
+| 8 | Emit | EVENT | `primary.claim.settlement-authorized` | |
 | 9 | Notify | NOTIFY | `claim.settlement-authorized` | Adjuster, finance |
 | 10 | Request payment | SUB_TRANSACTION | `payment.authorize` | Payment owns execution |
 
-**`direct.claim.close`** (sync)
+**`primary.claim.close`** (sync)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
@@ -9616,12 +9616,12 @@ stateDiagram-v2
 | 2 | Zero reserves | PERSIST | `claim.expert.reserve.close` | Reason `CLOSE` |
 | 3 | Persist closure | PERSIST | `claim.expert.claim.close` | Status, reason |
 | 4 | Release diary | PERSIST | `claim.expert.diary.cancel` | |
-| 5 | Emit | EVENT | `direct.claim.closed` | |
+| 5 | Emit | EVENT | `primary.claim.closed` | |
 | 6 | Notify | NOTIFY | `claim.closed` | Best effort |
 
 #### 11.4.9 Events
 
-**Published:** `direct.claim.registered`, `direct.claim.updated`, `direct.claim.coverage-assessed`, `direct.claim.injury-recorded`, `direct.claim.exposure-recorded`, `direct.claim.reserve-established`, `direct.claim.reserve-changed`, `direct.claim.litigation-updated`, `direct.claim.settlement-authorized`, `direct.claim.settlement-executed`, `direct.claim.payment-requested`, `direct.claim.paid`, `direct.claim.recovery-recorded`, `direct.claim.lien-recorded`, `direct.claim.lien-resolved`, `direct.claim.allocated`, `direct.claim.closed`, `direct.claim.reopened`, `direct.claim.transferred`, `direct.claim.aggregate-erosion-requested`.
+**Published:** `primary.claim.registered`, `primary.claim.updated`, `primary.claim.coverage-assessed`, `primary.claim.injury-recorded`, `primary.claim.exposure-recorded`, `primary.claim.reserve-established`, `primary.claim.reserve-changed`, `primary.claim.litigation-updated`, `primary.claim.settlement-authorized`, `primary.claim.settlement-executed`, `primary.claim.payment-requested`, `primary.claim.paid`, `primary.claim.recovery-recorded`, `primary.claim.lien-recorded`, `primary.claim.lien-resolved`, `primary.claim.allocated`, `primary.claim.closed`, `primary.claim.reopened`, `primary.claim.transferred`, `primary.claim.aggregate-erosion-requested`.
 
 **Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `policy.aggregate.eroded`, `payment.payment.paid`, `payment.payment.failed`, `payment.payment.reversed`, `party.party.merged`, `document.document.associated`, `contract.cession.recorded`.
 
@@ -9629,38 +9629,38 @@ stateDiagram-v2
 
 | Method | Path | Purpose |
 |---|---|---|
-| `GET` | `/api/v1/direct/claims` | Search claims (queue, tort, status, adjuster, policy, claimant) |
-| `POST` | `/api/v1/direct/claims` | Register FNOL (transaction) |
-| `GET` | `/api/v1/direct/claims/{claimId}` | Claim detail |
-| `PATCH` | `/api/v1/direct/claims/{claimId}` | Update non-financial fields |
-| `GET` | `/api/v1/direct/claims/{claimId}/injuries` | Injuries |
-| `POST` | `/api/v1/direct/claims/{claimId}/injuries` | Record injury |
-| `GET` | `/api/v1/direct/claims/{claimId}/exposures` | Exposures |
-| `POST` | `/api/v1/direct/claims/{claimId}/exposures` | Record exposure |
-| `POST` | `/api/v1/direct/claims/{claimId}/coverage` | Assess coverage |
-| `GET` | `/api/v1/direct/claims/{claimId}/coverage` | Coverage position |
-| `GET` | `/api/v1/direct/claims/{claimId}/allocations` | Policy-year allocations |
-| `POST` | `/api/v1/direct/claims/{claimId}/allocations` | Allocate |
-| `GET` | `/api/v1/direct/claims/{claimId}/reserves` | Reserve history |
-| `POST` | `/api/v1/direct/claims/{claimId}/reserves` | Change reserve |
-| `GET` | `/api/v1/direct/claims/{claimId}/litigation` | Litigation |
-| `POST` | `/api/v1/direct/claims/{claimId}/litigation` | Update litigation |
-| `GET` | `/api/v1/direct/claims/{claimId}/settlements` | Settlements |
-| `POST` | `/api/v1/direct/claims/{claimId}/settlements` | Authorize settlement |
-| `POST` | `/api/v1/direct/claims/{claimId}/settlements/{settlementId}/execute` | Execute settlement |
-| `GET` | `/api/v1/direct/claims/{claimId}/liens` | Liens |
-| `POST` | `/api/v1/direct/claims/{claimId}/liens` | Record lien |
-| `GET` | `/api/v1/direct/claims/{claimId}/recoveries` | Recoveries |
-| `POST` | `/api/v1/direct/claims/{claimId}/recoveries` | Record recovery |
-| `GET` | `/api/v1/direct/claims/{claimId}/negotiations` | Demands and offers |
-| `GET` | `/api/v1/direct/claims/{claimId}/diary` | Diary |
-| `POST` | `/api/v1/direct/claims/{claimId}/notes` | Add note |
-| `POST` | `/api/v1/direct/claims/{claimId}/close` | Close |
-| `POST` | `/api/v1/direct/claims/{claimId}/reopen` | Reopen |
-| `GET` | `/api/v1/direct/claims/{claimId}/financials` | Financial summary |
-| `GET` | `/api/v1/direct/claims/{claimId}/documents` | Documents |
-| `GET` | `/api/v1/direct/claims/{claimId}/lineage` | Lineage |
-| `GET` | `/api/v1/direct/queues/{queueCode}` | Work queue |
+| `GET` | `/api/v1/primary/claims` | Search claims (queue, tort, status, adjuster, policy, claimant) |
+| `POST` | `/api/v1/primary/claims` | Register FNOL (transaction) |
+| `GET` | `/api/v1/primary/claims/{claimId}` | Claim detail |
+| `PATCH` | `/api/v1/primary/claims/{claimId}` | Update non-financial fields |
+| `GET` | `/api/v1/primary/claims/{claimId}/injuries` | Injuries |
+| `POST` | `/api/v1/primary/claims/{claimId}/injuries` | Record injury |
+| `GET` | `/api/v1/primary/claims/{claimId}/exposures` | Exposures |
+| `POST` | `/api/v1/primary/claims/{claimId}/exposures` | Record exposure |
+| `POST` | `/api/v1/primary/claims/{claimId}/coverage` | Assess coverage |
+| `GET` | `/api/v1/primary/claims/{claimId}/coverage` | Coverage position |
+| `GET` | `/api/v1/primary/claims/{claimId}/allocations` | Policy-year allocations |
+| `POST` | `/api/v1/primary/claims/{claimId}/allocations` | Allocate |
+| `GET` | `/api/v1/primary/claims/{claimId}/reserves` | Reserve history |
+| `POST` | `/api/v1/primary/claims/{claimId}/reserves` | Change reserve |
+| `GET` | `/api/v1/primary/claims/{claimId}/litigation` | Litigation |
+| `POST` | `/api/v1/primary/claims/{claimId}/litigation` | Update litigation |
+| `GET` | `/api/v1/primary/claims/{claimId}/settlements` | Settlements |
+| `POST` | `/api/v1/primary/claims/{claimId}/settlements` | Authorize settlement |
+| `POST` | `/api/v1/primary/claims/{claimId}/settlements/{settlementId}/execute` | Execute settlement |
+| `GET` | `/api/v1/primary/claims/{claimId}/liens` | Liens |
+| `POST` | `/api/v1/primary/claims/{claimId}/liens` | Record lien |
+| `GET` | `/api/v1/primary/claims/{claimId}/recoveries` | Recoveries |
+| `POST` | `/api/v1/primary/claims/{claimId}/recoveries` | Record recovery |
+| `GET` | `/api/v1/primary/claims/{claimId}/negotiations` | Demands and offers |
+| `GET` | `/api/v1/primary/claims/{claimId}/diary` | Diary |
+| `POST` | `/api/v1/primary/claims/{claimId}/notes` | Add note |
+| `POST` | `/api/v1/primary/claims/{claimId}/close` | Close |
+| `POST` | `/api/v1/primary/claims/{claimId}/reopen` | Reopen |
+| `GET` | `/api/v1/primary/claims/{claimId}/financials` | Financial summary |
+| `GET` | `/api/v1/primary/claims/{claimId}/documents` | Documents |
+| `GET` | `/api/v1/primary/claims/{claimId}/lineage` | Lineage |
+| `GET` | `/api/v1/primary/queues/{queueCode}` | Work queue |
 
 **Internal:** `GET /internal/v1/claims/{id}/payment-capacity`, `POST /internal/v1/claims/{id}/payment-applied`, `POST /internal/v1/claims/{id}/recovery-applied`, `GET /internal/v1/claims/{id}/summary`, `GET /internal/v1/claims/{id}/allocation`, `GET /internal/v1/claims/{id}/cession-context` (Cession).
 
@@ -9674,17 +9674,17 @@ stateDiagram-v2
 
 **PFS and document-intensive intake.** A claim may be `PFS_REQUESTED` until the plaintiff fact sheet, authorizations, and medical records are received. Document association and completeness checks drive the status; notifications chase missing items.
 
-**Settlement matrices.** A matrix settlement defines values by disease and exposure band. Direct records the matrix value on the profile and the actual settlement on the settlement record; the difference is the negotiation outcome. Global and class settlements allocate to claimants through `claim_settlement_claimant`.
+**Settlement matrices.** A matrix settlement defines values by disease and exposure band. Primary records the matrix value on the profile and the actual settlement on the settlement record; the difference is the negotiation outcome. Global and class settlements allocate to claimants through `claim_settlement_claimant`.
 
 **Liens and Medicare.** Mass tort settlements frequently involve Medicare conditional payments, Medicaid, and hospital liens. The lien model records asserted, agreed, and paid amounts, status, and resolution documents. A claim cannot be paid without a lien resolution plan when a lien is identified.
 
-**Allocation and aggregates.** Direct proposes an allocation to policy years using the policy's trigger and allocation method, submits it to Policy for limit validation, then applies it. Policy returns the remaining limit; Direct records the allocation and publishes erosion. A claim may allocate across multiple years and layers; each allocation is a separate row.
+**Allocation and aggregates.** Primary proposes an allocation to policy years using the policy's trigger and allocation method, submits it to Policy for limit validation, then applies it. Policy returns the remaining limit; Primary records the allocation and publishes erosion. A claim may allocate across multiple years and layers; each allocation is a separate row.
 
 **Litigation.** The litigation model covers MDLs, class actions, bellwethers, trial groups, verdicts, judgments, appeals, and bonds. It supports the mass tort operating rhythm: PFS, discovery, expert discovery, mediation, bellwether trials, and global settlement.
 
-**Bankruptcy trusts.** Where the insured is in bankruptcy, the claim may move to a 524(g) trust. Direct records the trust claim number, bar date, and trustee; Party records the trust and trustee; Payment pays trust distributions; Document stores the trust claim and release.
+**Bankruptcy trusts.** Where the insured is in bankruptcy, the claim may move to a 524(g) trust. Primary records the trust claim number, bar date, and trustee; Party records the trust and trustee; Payment pays trust distributions; Document stores the trust claim and release.
 
-**Reserving.** Reserves are componentized. Mass tort claims typically carry indemnity, defense, and ALAE, with ULAE at portfolio level. Actuarial reserves (IBNR) are recorded at portfolio level by the actuary and allocated to claims or years; Direct records them with `reserve_basis=ACTUARIAL` and does not overwrite case reserves.
+**Reserving.** Reserves are componentized. Mass tort claims typically carry indemnity, defense, and ALAE, with ULAE at portfolio level. Actuarial reserves (IBNR) are recorded at portfolio level by the actuary and allocated to claims or years; Primary records them with `reserve_basis=ACTUARIAL` and does not overwrite case reserves.
 
 **Portfolio views.** The claim list supports filters for tort, disease, plaintiff firm, inventory, tier, trial group, MDL, lien status, and settlement program. Aggregations are computed through read models, not by scanning the claim table in the request path.
 
@@ -9900,20 +9900,20 @@ Coverage assessment is defined in §11.4.8. This section adds the disputes and l
 
 | Method | Path | Purpose |
 |---|---|---|
-| `GET` | `/api/v1/direct/claims/{claimId}/coverage-positions` | Coverage positions |
-| `POST` | `/api/v1/direct/claims/{claimId}/coverage-positions` | Record position |
-| `POST` | `/api/v1/direct/claims/{claimId}/coverage-letters` | Issue letter |
-| `GET` | `/api/v1/direct/claims/{claimId}/tenders` | Tenders |
-| `POST` | `/api/v1/direct/claims/{claimId}/tenders` | Record tender |
-| `GET` | `/api/v1/direct/claims/{claimId}/other-insurance` | Other insurance |
-| `GET` | `/api/v1/direct/claims/{claimId}/coverage-allocations` | Allocations |
-| `GET` | `/api/v1/direct/legal-matters` | Legal matters |
-| `POST` | `/api/v1/direct/legal-matters` | Open matter |
-| `GET` | `/api/v1/direct/legal-matters/{matterId}/invoices` | Invoices |
-| `POST` | `/api/v1/direct/legal-matters/{matterId}/invoices` | Submit invoice |
-| `POST` | `/api/v1/direct/legal-invoices/{invoiceId}/approve` | Approve invoice |
+| `GET` | `/api/v1/primary/claims/{claimId}/coverage-positions` | Coverage positions |
+| `POST` | `/api/v1/primary/claims/{claimId}/coverage-positions` | Record position |
+| `POST` | `/api/v1/primary/claims/{claimId}/coverage-letters` | Issue letter |
+| `GET` | `/api/v1/primary/claims/{claimId}/tenders` | Tenders |
+| `POST` | `/api/v1/primary/claims/{claimId}/tenders` | Record tender |
+| `GET` | `/api/v1/primary/claims/{claimId}/other-insurance` | Other insurance |
+| `GET` | `/api/v1/primary/claims/{claimId}/coverage-allocations` | Allocations |
+| `GET` | `/api/v1/primary/legal-matters` | Legal matters |
+| `POST` | `/api/v1/primary/legal-matters` | Open matter |
+| `GET` | `/api/v1/primary/legal-matters/{matterId}/invoices` | Invoices |
+| `POST` | `/api/v1/primary/legal-matters/{matterId}/invoices` | Submit invoice |
+| `POST` | `/api/v1/primary/legal-invoices/{invoiceId}/approve` | Approve invoice |
 
-**Events:** `direct.coverage.position-set`, `direct.coverage.letter-issued`, `direct.coverage.dispute-opened`, `direct.tender.received`, `direct.tender.responded`, `direct.legal-matter.opened`, `direct.legal-invoice.received`, `direct.legal-invoice.approved`, `direct.legal-accrual.updated`.
+**Events:** `primary.coverage.position-set`, `primary.coverage.letter-issued`, `primary.coverage.dispute-opened`, `primary.tender.received`, `primary.tender.responded`, `primary.legal-matter.opened`, `primary.legal-invoice.received`, `primary.legal-invoice.approved`, `primary.legal-accrual.updated`.
 
 ---
 
@@ -10101,9 +10101,9 @@ Coverage assessment is defined in §11.4.8. This section adds the disputes and l
 
 ##### APIs and events
 
-`/api/v1/direct/claims/{claimId}/medical-reviews`, `/medical-bills`, `/medicare`, `/msa`, `/liens`, `/guardianship`, `/court-approvals`, `/structured-settlements`, `/qsf`.
+`/api/v1/primary/claims/{claimId}/medical-reviews`, `/medical-bills`, `/medicare`, `/msa`, `/liens`, `/guardianship`, `/court-approvals`, `/structured-settlements`, `/qsf`.
 
-**Events:** `direct.medical-review.completed`, `direct.bill-review.completed`, `direct.medicare.checked`, `direct.lien.resolved`, `direct.msa.approved`, `direct.court-approval.received`, `direct.structured-settlement.approved`, `direct.qsf.funded`.
+**Events:** `primary.medical-review.completed`, `primary.bill-review.completed`, `primary.medicare.checked`, `primary.lien.resolved`, `primary.msa.approved`, `primary.court-approval.received`, `primary.structured-settlement.approved`, `primary.qsf.funded`.
 
 ---
 
@@ -10279,39 +10279,39 @@ Coverage assessment is defined in §11.4.8. This section adds the disputes and l
 
 ##### APIs and events
 
-`/api/v1/direct/settlements/{settlementId}/classes`, `/class-members`, `/class-notices`, `/opt-outs`, `/funds`, `/allocation-matrix`; `/api/v1/direct/trusts`, `/trusts/{trustId}/claims`, `/trusts/{trustId}/distributions`, `/trusts/{trustId}/tdp`.
+`/api/v1/primary/settlements/{settlementId}/classes`, `/class-members`, `/class-notices`, `/opt-outs`, `/funds`, `/allocation-matrix`; `/api/v1/primary/trusts`, `/trusts/{trustId}/claims`, `/trusts/{trustId}/distributions`, `/trusts/{trustId}/tdp`.
 
-**Events:** `direct.class.preliminary-approved`, `direct.class.notice-sent`, `direct.class.opt-out-received`, `direct.settlement.funded`, `direct.trust.created`, `direct.trust.bar-date-set`, `direct.trust.claim-filed`, `direct.trust.claim-approved`, `direct.trust.distribution-paid`.
+**Events:** `primary.class.preliminary-approved`, `primary.class.notice-sent`, `primary.class.opt-out-received`, `primary.settlement.funded`, `primary.trust.created`, `primary.trust.bar-date-set`, `primary.trust.claim-filed`, `primary.trust.claim-approved`, `primary.trust.distribution-paid`.
 
 ---
 
-### 11.5 Assumed (Claims for Contract)
+### 11.5 Reinsurance (Claims for Contract)
 
 #### 11.5.1 Purpose and boundary
 
-Assumed owns **claims arising under assumed reinsurance contracts**: loss advices, assumed reserves, cash calls, recoveries, disputes, audits, and commutations. It is the reinsurer's inward claims record.
+Reinsurance owns **claims arising under reinsurance contracts**: loss advices, reinsurance reserves, cash calls, recoveries, disputes, audits, and commutations. It is the reinsurer's inward claims record.
 
-| Assumed owns | Assumed does not own |
+| Reinsurance owns | Reinsurance does not own |
 |---|---|
-| Assumed claim identity and status | Contract terms, layers, and participations (Contract) |
+| Reinsurance claim identity and status | Contract terms, layers, and participations (Contract) |
 | Loss advices and advice history | Cedent's claim facts (external) |
-| Assumed reserves and reserve authority | Payment execution and SAP (Payment) |
+| Reinsurance reserves and reserve authority | Payment execution and SAP (Payment) |
 | Ceded loss allocation and recovery tracking | Source documents' metadata (Document) |
 | Disputes, audits, commutations | Party identity and roles (Party) |
-| Assumed-claim financial summary | Retrocession calculations and retro recoverables (Retrocession, SAP FS-RI) |
+| Reinsurance-claim financial summary | Retrocession calculations and retro recoverables (Retrocession, SAP FS-RI) |
 
-**Boundary with Contract:** Contract tells Assumed what the assumed treaty covers and how much capacity remains. Assumed tells Contract what has been advised, reserved, paid, and recovered. Contract computes assumed ceded premium and technical accounts; Assumed computes assumed ceded loss for claims. For retrocession, Contract and Assumed publish facts; **Retrocession** pulls them, hands off to SAP FS-RI, and projects the confirmation back.
+**Boundary with Contract:** Contract tells Reinsurance what the reinsurance treaty covers and how much capacity remains. Reinsurance tells Contract what has been advised, reserved, paid, and recovered. Contract computes reinsurance ceded premium and technical accounts; Reinsurance computes reinsurance ceded loss for claims. For retrocession, Contract and Reinsurance publish facts; **Retrocession** pulls them, hands off to SAP FS-RI, and projects the confirmation back.
 
-**Boundary with SAP FS-RI:** Assumed never calls FS-RI directly and never receives an FS-RI identifier as an authority. **Retrocession** sends the hand-off, receives the confirmation, and returns the retro recoverable projection. Assumed displays the projection and uses it for reporting, not for assumed reserve calculation.
+**Boundary with SAP FS-RI:** Reinsurance never calls FS-RI directly and never receives an FS-RI identifier as an authority. **Retrocession** sends the hand-off, receives the confirmation, and returns the retro recoverable projection. Reinsurance displays the projection and uses it for reporting, not for reinsurance reserve calculation.
 
-**Boundary with Direct:** **none.** Assumed has no relationship with Direct, Direct claims, or Policy. A cedent claim is external and is never linked to a Direct claim. Any apparent match is a data coincidence and MUST NOT create a cross-book link. The former `ASSUMED_CLAIM_CORRESPONDS_TO_CLAIM` cross-book link is prohibited.
+**Boundary with Primary:** **none.** Reinsurance has no relationship with Primary, Primary claims, or Policy. A cedent claim is external and is never linked to a Primary claim. Any apparent match is a data coincidence and MUST NOT create a cross-book link. The former `REINSURANCE_CLAIM_CORRESPONDS_TO_CLAIM` cross-book link is prohibited.
 
 #### 11.5.2 Ubiquitous language
 
 | Term | Meaning |
 |---|---|
 | **Loss advice** | A cedent's notice of a loss, reserve change, payment, or recovery |
-| **Assumed claim** | The reinsurer's claim record, aggregated from one or more advices |
+| **Reinsurance claim** | The reinsurer's claim record, aggregated from one or more advices |
 | **Ceded loss** | The portion of the cedent's loss that the reinsurer bears |
 | **Cash call** | A request for interim payment before the periodic account |
 | **Inuring reinsurance** | Reinsurance that reduces the loss before this contract responds |
@@ -10325,19 +10325,19 @@ Assumed owns **claims arising under assumed reinsurance contracts**: loss advice
 
 ```mermaid
 erDiagram
-    ASSUMED_CLAIM ||--o{ LOSS_ADVICE : advised_by
-    ASSUMED_CLAIM ||--o{ ASSUMED_RESERVE : reserved
-    ASSUMED_CLAIM ||--o{ ASSUMED_CLAIM_ALLOCATION : allocated
-    ASSUMED_CLAIM ||--o{ ASSUMED_RECOVERY : recovers
-    ASSUMED_CLAIM ||--o{ CLAIM_DISPUTE : disputed
-    ASSUMED_CLAIM ||--o{ CLAIMS_AUDIT : audited
-    ASSUMED_CLAIM ||--o| ASSUMED_CLAIM_COMMUTATION : commuted
-    ASSUMED_CLAIM ||--o| ASSUMED_CLAIM_MASS_TORT_PROFILE : profiled
-    ASSUMED_CLAIM ||--o{ CASH_CALL_REQUEST : calls
-    ASSUMED_CLAIM {
+    REINSURANCE_CLAIM ||--o{ LOSS_ADVICE : advised_by
+    REINSURANCE_CLAIM ||--o{ REINSURANCE_RESERVE : reserved
+    REINSURANCE_CLAIM ||--o{ REINSURANCE_CLAIM_ALLOCATION : allocated
+    REINSURANCE_CLAIM ||--o{ REINSURANCE_RECOVERY : recovers
+    REINSURANCE_CLAIM ||--o{ CLAIM_DISPUTE : disputed
+    REINSURANCE_CLAIM ||--o{ CLAIMS_AUDIT : audited
+    REINSURANCE_CLAIM ||--o| REINSURANCE_CLAIM_COMMUTATION : commuted
+    REINSURANCE_CLAIM ||--o| REINSURANCE_CLAIM_MASS_TORT_PROFILE : profiled
+    REINSURANCE_CLAIM ||--o{ CASH_CALL_REQUEST : calls
+    REINSURANCE_CLAIM {
       uuid id PK
       uuid tenant_id
-      varchar assumed_claim_number UK
+      varchar reinsurance_claim_number UK
       uuid contract_id
       varchar status
       date loss_date
@@ -10347,13 +10347,13 @@ erDiagram
 
 #### 11.5.4 Entity dictionary
 
-##### `assumed_claim`
+##### `reinsurance_claim`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | UUIDv7 |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_number` | varchar(32) | Y | `ASM-2026-0007731` |
+| `reinsurance_claim_number` | varchar(32) | Y | `RNS-2026-0007731` |
 | `contract_id` | uuid | Y | Contract service |
 | `contract_number` | varchar(32) | Y | Projection |
 | `treaty_year` | integer | Y | |
@@ -10371,7 +10371,7 @@ erDiagram
 | `last_advice_date` | date | N | |
 | `peril_code` | varchar(24) | N | |
 | `cause_code` | varchar(24) | N | |
-| `claim_type` | enum | Y | Reuses Direct `ClaimType` |
+| `claim_type` | enum | Y | Reuses Primary `ClaimType` |
 | `tort_code` | enum | N | Appendix E |
 | `status` | enum | Y | See §11.5.5 |
 | `currency` | char(3) | Y | |
@@ -10388,7 +10388,7 @@ erDiagram
 | `cash_call_amount` | numeric(19,4) | N | |
 | `reinstatement_applied_flag` | boolean | Y | |
 | `advice_count` | integer | Y | |
-| `matched_direct_claim_id` | uuid | N | When the cedent is managed |
+| `matched_primary_claim_id` | uuid | N | When the cedent is managed |
 | `match_basis` | enum | N | `CEDENT_REFERENCE`, `MANUAL`, `AFFILIATE`, `FRONTING` |
 | `source_bordereau_id` | uuid | N | |
 | `commutation_status` | enum | N | `NONE`, `PROPOSED`, `AGREED`, `EXECUTED` |
@@ -10405,7 +10405,7 @@ erDiagram
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `advice_number` | varchar(32) | Y | |
 | `advice_type` | enum | Y | `INITIAL_NOTICE`, `RESERVE_CHANGE`, `PAYMENT`, `RECOVERY`, `EXPENSE`, `SALVAGE`, `SUBROGATION`, `CLOSE`, `REOPEN`, `UPDATE`, `CASH_CALL` |
 | `advice_date` | date | Y | |
@@ -10428,15 +10428,15 @@ erDiagram
 | `posted_at` | timestamptz | N | |
 | `notes` | text | N | |
 
-**Unique:** `(tenant_id, assumed_claim_id, advice_number)`.
+**Unique:** `(tenant_id, reinsurance_claim_id, advice_number)`.
 
-##### `assumed_reserve`
+##### `reinsurance_reserve`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `component` | enum | Y | `CASE`, `IBNR`, `IBNER`, `OUTSTANDING`, `ALAE`, `ULAE`, `CASH_LOSS`, `SALVAGE`, `SUBROGATION` |
 | `sequence` | integer | Y | |
 | `prior_amount` | numeric(19,4) | N | |
@@ -10453,13 +10453,13 @@ erDiagram
 | `created_by` | uuid | Y | |
 | `created_at` | timestamptz | Y | |
 
-##### `assumed_claim_allocation`
+##### `reinsurance_claim_allocation`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `contract_id` | uuid | Y | |
 | `layer_id` | uuid | N | |
 | `treaty_year` | integer | Y | |
@@ -10470,13 +10470,13 @@ erDiagram
 | `basis` | enum | Y | `QUOTA_SHARE`, `EXCESS_OF_LOSS`, `AGGREGATE`, `FACULTATIVE` |
 | `status` | enum | Y | `PROPOSED`, `APPLIED`, `REVERSED` |
 
-##### `assumed_recovery`
+##### `reinsurance_recovery`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `recovery_type` | enum | Y | `RETROCESSION`, `INURING_REINSURANCE`, `FACULTATIVE`, `SALVAGE`, `SUBROGATION`, `OTHER` |
 | `source_contract_id` | uuid | N | |
 | `source_party_id` | uuid | N | |
@@ -10493,7 +10493,7 @@ erDiagram
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `dispute_type` | enum | Y | `COVERAGE`, `QUANTUM`, `LATE_NOTICE`, `ALLOCATION`, `CESSION`, `BORDEREAU`, `SECURITY`, `OTHER` |
 | `status` | enum | Y | `OPEN`, `UNDER_REVIEW`, `NEGOTIATING`, `RESOLVED`, `ESCALATED`, `ARBITRATION`, `CLOSED` |
 | `raised_by_party_id` | uuid | N | |
@@ -10512,7 +10512,7 @@ erDiagram
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | N | Can be contract-level |
+| `reinsurance_claim_id` | uuid | N | Can be contract-level |
 | `contract_id` | uuid | N | |
 | `audit_type` | enum | Y | `CLAIMS`, `UNDERWRITING`, `BORDEREAU`, `SECURITY`, `FINANCIAL` |
 | `audit_period_from`, `audit_period_to` | date | N | |
@@ -10525,13 +10525,13 @@ erDiagram
 | `currency` | char(3) | N | |
 | `report_document_id` | uuid | N | |
 
-##### `assumed_claim_commutation`
+##### `reinsurance_claim_commutation`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `commutation_number` | varchar(32) | Y | |
 | `commutation_type` | enum | Y | `FULL`, `PARTIAL`, `BUYOUT` |
 | `effective_date` | date | Y | |
@@ -10552,7 +10552,7 @@ erDiagram
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `contract_id` | uuid | Y | |
 | `request_number` | varchar(32) | Y | |
 | `amount` | numeric(19,4) | Y | |
@@ -10565,13 +10565,13 @@ erDiagram
 | `payment_id` | uuid | N | |
 | `approved_by` | uuid | N | |
 
-##### `assumed_claim_mass_tort_profile`
+##### `reinsurance_claim_mass_tort_profile`
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `tort_code` | enum | Y | |
 | `disease_category` | enum | N | |
 | `cedent_inventory_ref` | varchar(64) | N | |
@@ -10585,11 +10585,11 @@ erDiagram
 | `last_actuarial_review_at` | date | N | |
 | `notes` | text | N | |
 
-##### `assumed_claim_financial_summary` (read projection)
+##### `reinsurance_claim_financial_summary` (read projection)
 
 | Column | Type | Req | Notes |
 |---|---|---|---|
-| `assumed_claim_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
 | `ceded_paid_amount` | numeric(19,4) | Y | |
 | `ceded_reserve_amount` | numeric(19,4) | Y | |
@@ -10604,11 +10604,11 @@ erDiagram
 
 #### 11.5.5 Enumerations
 
-**`AssumedClaimStatus`:** `NOTIFIED`, `OPEN`, `RESERVED`, `IN_ADJUSTMENT`, `SETTLED`, `PAYMENT_PENDING`, `PAID`, `CLOSED`, `DENIED`, `COMMUTED`, `REOPENED`, `DISPUTED`, `WITHDRAWN`.
+**`ReinsuranceClaimStatus`:** `NOTIFIED`, `OPEN`, `RESERVED`, `IN_ADJUSTMENT`, `SETTLED`, `PAYMENT_PENDING`, `PAID`, `CLOSED`, `DENIED`, `COMMUTED`, `REOPENED`, `DISPUTED`, `WITHDRAWN`.
 
 **`AdviceType`:** as listed in §11.5.4.
 
-**`AssumedReserveComponent`:** `CASE`, `IBNR`, `IBNER`, `OUTSTANDING`, `ALAE`, `ULAE`, `CASH_LOSS`, `SALVAGE`, `SUBROGATION`.
+**`ReinsuranceReserveComponent`:** `CASE`, `IBNR`, `IBNER`, `OUTSTANDING`, `ALAE`, `ULAE`, `CASH_LOSS`, `SALVAGE`, `SUBROGATION`.
 
 **`DisputeType`:** `COVERAGE`, `QUANTUM`, `LATE_NOTICE`, `ALLOCATION`, `CESSION`, `BORDEREAU`, `SECURITY`, `OTHER`.
 
@@ -10644,75 +10644,75 @@ stateDiagram-v2
 
 | ID | Rule |
 |---|---|
-| `ASM-01` | An assumed claim MUST reference a bound or in-force contract; the treaty year MUST fall within the contract period. |
-| `ASM-02` | A loss advice MUST be idempotent by `(assumedClaimId, adviceNumber)`; duplicates are rejected. |
-| `ASM-03` | Ceded amounts MUST NOT exceed the remaining layer capacity; Contract is the capacity authority. |
-| `ASM-04` | Assumed reserve components MUST be non-negative; `CASE` and `IBNR` are tracked separately and cannot be netted. |
-| `ASM-05` | IBNR may only be set with `reserve_basis=ACTUARIAL` or `CEDENT_ADVISED` and requires actuarial or senior approval. |
-| `ASM-06` | A payment advice MUST reconcile to the cedent's paid amount and the cession percentage within 0.01. |
-| `ASM-07` | A written advice received after the sunset date requires approval and is flagged as late. |
-| `ASM-08` | A commutation requires a signed release, no open disputes, and closure of all open advices. |
-| `ASM-09` | A cash call MUST NOT exceed the cash-loss limit or the remaining layer capacity. |
-| `ASM-10` | A recovery MUST NOT exceed the ceded paid amount plus recoverable expense. |
-| `ASM-11` | A dispute blocks commutation and closure until resolved or reserved. |
-| `ASM-12` | An assumed claim MUST NOT be closed with an open reserve, an outstanding payment, or an unresolved advice. |
-| `ASM-13` | Linking an assumed claim to a Direct claim requires matching cedent reference, loss date, and amount within tolerance; manual links require a reason. |
-| `ASM-14` | The contract's claims-handling authority limit MUST be respected; settlements above it require reinsurer consent. |
+| `RNS-01` | A reinsurance claim MUST reference a bound or in-force contract; the treaty year MUST fall within the contract period. |
+| `RNS-02` | A loss advice MUST be idempotent by `(reinsuranceClaimId, adviceNumber)`; duplicates are rejected. |
+| `RNS-03` | Ceded amounts MUST NOT exceed the remaining layer capacity; Contract is the capacity authority. |
+| `RNS-04` | Reinsurance reserve components MUST be non-negative; `CASE` and `IBNR` are tracked separately and cannot be netted. |
+| `RNS-05` | IBNR may only be set with `reserve_basis=ACTUARIAL` or `CEDENT_ADVISED` and requires actuarial or senior approval. |
+| `RNS-06` | A payment advice MUST reconcile to the cedent's paid amount and the cession percentage within 0.01. |
+| `RNS-07` | A written advice received after the sunset date requires approval and is flagged as late. |
+| `RNS-08` | A commutation requires a signed release, no open disputes, and closure of all open advices. |
+| `RNS-09` | A cash call MUST NOT exceed the cash-loss limit or the remaining layer capacity. |
+| `RNS-10` | A recovery MUST NOT exceed the ceded paid amount plus recoverable expense. |
+| `RNS-11` | A dispute blocks commutation and closure until resolved or reserved. |
+| `RNS-12` | A reinsurance claim MUST NOT be closed with an open reserve, an outstanding payment, or an unresolved advice. |
+| `RNS-13` | Linking a reinsurance claim to a Primary claim requires matching cedent reference, loss date, and amount within tolerance; manual links require a reason. |
+| `RNS-14` | The contract's claims-handling authority limit MUST be respected; settlements above it require reinsurer consent. |
 
 #### 11.5.8 Commands and transactions
 
-**`assumed.claim.loss-advice`** (sync)
+**`reinsurance.claim.loss-advice`** (sync)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load contract and capacity | READ | Contract | |
-| 2 | Validate advice | RULE | `assumed.advice-valid` | Dates, currency, amounts, sunset |
-| 3 | Match or create assumed claim | READ / PERSIST | expert | By cedent claim number and contract |
-| 4 | Apply advice to reserves and paid | PERSIST | `assumed.expert.advice.post` | Append-only reserve movement |
-| 5 | Update allocation and capacity | PERSIST | `assumed.expert.allocation.update` | |
+| 2 | Validate advice | RULE | `reinsurance.advice-valid` | Dates, currency, amounts, sunset |
+| 3 | Match or create reinsurance claim | READ / PERSIST | expert | By cedent claim number and contract |
+| 4 | Apply advice to reserves and paid | PERSIST | `reinsurance.expert.advice.post` | Append-only reserve movement |
+| 5 | Update allocation and capacity | PERSIST | `reinsurance.expert.allocation.update` | |
 | 6 | Link to contract and documents | PERSIST | links | |
-| 7 | Emit | EVENT | `assumed.claim.loss-advice-posted` | |
-| 8 | Notify | NOTIFY | `assumed.large-loss` | If above threshold |
+| 7 | Emit | EVENT | `reinsurance.claim.loss-advice-posted` | |
+| 8 | Notify | NOTIFY | `reinsurance.large-loss` | If above threshold |
 
-**`assumed.claim.reserve`** (sync, conditional approval)
+**`reinsurance.claim.reserve`** (sync, conditional approval)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load claim and current reserves | READ | expert | |
-| 2 | Validate authority | RULE | `assumed.reserve-authority` | |
+| 2 | Validate authority | RULE | `reinsurance.reserve-authority` | |
 | 3 | Check capacity | READ | Contract | |
-| 4 | Approval | HUMAN_APPROVAL | `assumed.reserve.approve` | If above authority |
-| 5 | Persist reserve change | PERSIST | `assumed.expert.reserve.change` | |
-| 6 | Emit | EVENT | `assumed.claim.reserve-changed` | |
+| 4 | Approval | HUMAN_APPROVAL | `reinsurance.reserve.approve` | If above authority |
+| 5 | Persist reserve change | PERSIST | `reinsurance.expert.reserve.change` | |
+| 6 | Emit | EVENT | `reinsurance.claim.reserve-changed` | |
 
-**`assumed.claim.payment`** (sync, approval)
+**`reinsurance.claim.payment`** (sync, approval)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load claim, reserve, capacity | READ | expert, Contract | |
-| 2 | Validate settlement and authority | RULE | `assumed.payment-authority` | |
-| 3 | Approval | HUMAN_APPROVAL | `assumed.payment.approve` | |
-| 4 | Persist payment request | PERSIST | `assumed.expert.payment.request` | |
+| 2 | Validate settlement and authority | RULE | `reinsurance.payment-authority` | |
+| 3 | Approval | HUMAN_APPROVAL | `reinsurance.payment.approve` | |
+| 4 | Persist payment request | PERSIST | `reinsurance.expert.payment.request` | |
 | 5 | Request Payment | SUB_TRANSACTION | `payment.authorize` | Payment executes |
-| 6 | Emit | EVENT | `assumed.claim.payment-requested` | |
+| 6 | Emit | EVENT | `reinsurance.claim.payment-requested` | |
 
-**`assumed.claim.commute`** (async, approval)
+**`reinsurance.claim.commute`** (async, approval)
 
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load claim, reserves, disputes | READ | expert | |
-| 2 | Compute value | COMPUTE | `assumed.commutation-valuation` | |
-| 3 | Approval | HUMAN_APPROVAL | `assumed.commute.approve` | |
-| 4 | Persist commutation | PERSIST | `assumed.expert.commutation.create` | |
-| 5 | Close reserves | PERSIST | `assumed.expert.reserve.close` | |
+| 2 | Compute value | COMPUTE | `reinsurance.commutation-valuation` | |
+| 3 | Approval | HUMAN_APPROVAL | `reinsurance.commute.approve` | |
+| 4 | Persist commutation | PERSIST | `reinsurance.expert.commutation.create` | |
+| 5 | Close reserves | PERSIST | `reinsurance.expert.reserve.close` | |
 | 6 | Payment | SUB_TRANSACTION | `payment.authorize` | |
 | 7 | Release security | SUB_TRANSACTION | `contract.security.release` | |
 | 8 | Generate release | SUB_TRANSACTION | `document.generate` | |
-| 9 | Emit | EVENT | `assumed.claim.commuted` | |
+| 9 | Emit | EVENT | `reinsurance.claim.commuted` | |
 
 #### 11.5.9 Events
 
-**Published:** `assumed.claim.registered`, `assumed.claim.loss-advice-received`, `assumed.claim.loss-advice-posted`, `assumed.claim.reserve-established`, `assumed.claim.reserve-changed`, `assumed.claim.payment-requested`, `assumed.claim.paid`, `assumed.claim.recovery-recorded`, `assumed.claim.cash-call-requested`, `assumed.claim.commuted`, `assumed.claim.dispute-raised`, `assumed.claim.dispute-resolved`, `assumed.claim.closed`, `assumed.claim.reopened`, `assumed.claim.reinstatement-requested`.
+**Published:** `reinsurance.claim.registered`, `reinsurance.claim.loss-advice-received`, `reinsurance.claim.loss-advice-posted`, `reinsurance.claim.reserve-established`, `reinsurance.claim.reserve-changed`, `reinsurance.claim.payment-requested`, `reinsurance.claim.paid`, `reinsurance.claim.recovery-recorded`, `reinsurance.claim.cash-call-requested`, `reinsurance.claim.commuted`, `reinsurance.claim.dispute-raised`, `reinsurance.claim.dispute-resolved`, `reinsurance.claim.closed`, `reinsurance.claim.reopened`, `reinsurance.claim.reinstatement-requested`.
 
 **Consumed:** `contract.contract.bound`, `contract.contract.commuted`, `contract.cession.recorded`, `contract.security.recorded`, `payment.payment.paid`, `payment.payment.failed`, `document.document.associated`, `party.party.merged`.
 
@@ -10720,54 +10720,54 @@ stateDiagram-v2
 
 | Method | Path | Purpose |
 |---|---|---|
-| `GET` | `/api/v1/assumed/claims` | Search assumed claims |
-| `POST` | `/api/v1/assumed/claims` | Create from notice |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}` | Detail |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/advices` | Loss advices |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/advices` | Record advice |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/reserves` | Reserves |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/reserves` | Change reserve |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/allocations` | Allocations |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/recoveries` | Recoveries |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/recoveries` | Record recovery |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/disputes` | Disputes |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/disputes` | Raise dispute |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/audits` | Audits |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/cash-calls` | Request cash call |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/commute` | Commute |
-| `POST` | `/api/v1/assumed/claims/{assumedClaimId}/close` | Close |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/financials` | Financial summary |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/documents` | Documents |
-| `GET` | `/api/v1/assumed/claims/{assumedClaimId}/lineage` | Lineage |
-| `GET` | `/api/v1/assumed/queues/{queueCode}` | Work queue |
+| `GET` | `/api/v1/reinsurance/claims` | Search reinsurance claims |
+| `POST` | `/api/v1/reinsurance/claims` | Create from notice |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}` | Detail |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/advices` | Loss advices |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/advices` | Record advice |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/reserves` | Reserves |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/reserves` | Change reserve |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/allocations` | Allocations |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/recoveries` | Recoveries |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/recoveries` | Record recovery |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/disputes` | Disputes |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/disputes` | Raise dispute |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/audits` | Audits |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/cash-calls` | Request cash call |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/commute` | Commute |
+| `POST` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/close` | Close |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/financials` | Financial summary |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/documents` | Documents |
+| `GET` | `/api/v1/reinsurance/claims/{reinsuranceClaimId}/lineage` | Lineage |
+| `GET` | `/api/v1/reinsurance/queues/{queueCode}` | Work queue |
 
-**Internal:** `GET /internal/v1/assumed-claims/{id}/summary`, `POST /internal/v1/assumed-claims/import` (bordereau batch), `GET /internal/v1/assumed-claims/{id}/capacity`, `GET /internal/v1/assumed-claims/{id}/retro-context` (Retrocession).
+**Internal:** `GET /internal/v1/reinsurance-claims/{id}/summary`, `POST /internal/v1/reinsurance-claims/import` (bordereau batch), `GET /internal/v1/reinsurance-claims/{id}/capacity`, `GET /internal/v1/reinsurance-claims/{id}/retro-context` (Retrocession).
 
-#### 11.5.11 Mass tort and assumed-reinsurance specifics
+#### 11.5.11 Mass tort and reinsurance specifics
 
-**Loss portfolio transfer onboarding.** An LPT arrives with a portfolio schedule. Assumed validates the schedule against the contract, creates assumed claims in a batch, sets inception reserves, links the schedule document, and reconciles the total to the LPT consideration. Inception balances are immutable; subsequent development is recorded as new reserves.
+**Loss portfolio transfer onboarding.** An LPT arrives with a portfolio schedule. Reinsurance validates the schedule against the contract, creates reinsurance claims in a batch, sets inception reserves, links the schedule document, and reconciles the total to the LPT consideration. Inception balances are immutable; subsequent development is recorded as new reserves.
 
-**Adverse development.** For ADC contracts, Assumed compares incurred loss to the attachment and reports deterioration. Recoveries are recognized when the attachment is exceeded and the terms are met; the reserve authority for the recovery follows the contract.
+**Adverse development.** For ADC contracts, Reinsurance compares incurred loss to the attachment and reports deterioration. Recoveries are recognized when the attachment is exceeded and the terms are met; the reserve authority for the recovery follows the contract.
 
-**Cedent bordereaux.** Claims bordereaux are the primary input. The Contract vertical parses and stages; Assumed matches or creates claims, posts advices, and returns results. Exceptions are routed back to Contract and to the cedent.
+**Cedent bordereaux.** Claims bordereaux are the primary input. The Contract vertical parses and stages; Reinsurance matches or creates claims, posts advices, and returns results. Exceptions are routed back to Contract and to the cedent.
 
-**Cash calls.** When a claim exceeds the cash-loss limit or the cedent requests interim funding, Assumed creates a cash call, Contract validates it against terms, and Payment pays it. The cash call is later offset in the technical account.
+**Cash calls.** When a claim exceeds the cash-loss limit or the cedent requests interim funding, Reinsurance creates a cash call, Contract validates it against terms, and Payment pays it. The cash call is later offset in the technical account.
 
-**Loss development and IBNR.** Assumed records actuarial estimates by treaty year with a documented method and development pattern. IBNR is not case reserve; it is held separately, disclosed in the financial summary, and released as claims emerge.
+**Loss development and IBNR.** Reinsurance records actuarial estimates by treaty year with a documented method and development pattern. IBNR is not case reserve; it is held separately, disclosed in the financial summary, and released as claims emerge.
 
-**Commutation.** Reinsurance claims are frequently commuted in run-off. Assumed values the claim (case, IBNR, expenses, discount), obtains approval, closes the claim, and coordinates release and payment with Contract and Payment.
+**Commutation.** Reinsurance claims are frequently commuted in run-off. Reinsurance values the claim (case, IBNR, expenses, discount), obtains approval, closes the claim, and coordinates release and payment with Contract and Payment.
 
-**Claims audits.** Assumed schedules and records audits of the cedent's files. Findings can lead to reserve adjustments, recoveries, or disputes. Audit reports are Documents.
+**Claims audits.** Reinsurance schedules and records audits of the cedent's files. Findings can lead to reserve adjustments, recoveries, or disputes. Audit reports are Documents.
 
 **Disputes.** Coverage, quantum, late notice, allocation, and bordereau disputes are tracked with amounts, status, and resolution. A dispute blocks commutation and closure.
 
-**Reinstatements.** When a claim exhausts a layer, Assumed requests reinstatement from Contract, which applies the reinstatement provision and premium. Assumed records the restored capacity.
+**Reinstatements.** When a claim exhausts a layer, Reinsurance requests reinstatement from Contract, which applies the reinstatement provision and premium. Reinsurance records the restored capacity.
 
 #### 11.5.12 Projections, integrations, and metrics
 
 **Integrations:** cedent claims systems and bordereau feeds, actuarial loss development platform, contract accounting, SAP via Payment, sanctions screening for payees.
 
-**Metrics:** advice cycle time, bordereau exception rate, assumed reserve adequacy, IBNR as a percentage of incurred, cash-call turnaround, commutation cycle time, dispute ageing, audit findings and recoveries, late-notice rate.
+**Metrics:** advice cycle time, bordereau exception rate, reinsurance reserve adequacy, IBNR as a percentage of incurred, cash-call turnaround, commutation cycle time, dispute ageing, audit findings and recoveries, late-notice rate.
 
 ---
 ### 11.6 Document
@@ -10778,7 +10778,7 @@ Document owns **every document in the enterprise**: receipt, identity, content i
 
 | Document owns | Document does not own |
 |---|---|
-| Document identity, versions, renditions, hashes | The business facts a document evidences (Policy, Contract, Direct, Assumed, Payment) |
+| Document identity, versions, renditions, hashes | The business facts a document evidences (Policy, Contract, Primary, Reinsurance, Payment) |
 | Content in object storage and integrity verification | The parties named in a document (Party) |
 | Classification, confidentiality, privilege, retention | Whether a claim is covered or a payment is authorized |
 | Associations to subjects and roles | Notification delivery |
@@ -10797,7 +10797,7 @@ Document owns **every document in the enterprise**: receipt, identity, content i
 | **Rendition** | A derived representation (PDF/A, OCR text, thumbnail, redacted copy) |
 | **Association** | The link between a document and a subject, with a role |
 | **Retention class** | The rule set that determines how long a document is kept and what happens at the end |
-| **Legal hold** | A directive that suspends disposition |
+| **Legal hold** | A primaryive that suspends disposition |
 | **Privilege** | Legal professional privilege that restricts access |
 | **Package** | A set of documents assembled for a purpose (policy issue, bordereau, settlement, trust claim) |
 | **Chain of custody** | The auditable sequence of custody events for a record |
@@ -10854,7 +10854,7 @@ erDiagram
 | `document_date` | date | N | Date on the face of the document |
 | `received_at` | timestamptz | N | |
 | `sent_at` | timestamptz | N | |
-| `direction` | enum | N | `INBOUND`, `OUTBOUND`, `INTERNAL` |
+| `primaryion` | enum | N | `INBOUND`, `OUTBOUND`, `INTERNAL` |
 | `source` | enum | Y | `UPLOAD`, `EMAIL`, `API`, `SCAN`, `GENERATED`, `EDI`, `MIGRATION`, `FAX` |
 | `source_reference` | varchar(200) | N | Message ID, batch ID, external reference |
 | `origin_party_id` | uuid | N | Author or sender |
@@ -11285,7 +11285,7 @@ stateDiagram-v2
 
 **Published:** `document.document.registered`, `document.document.classified`, `document.document.associated`, `document.document.superseded`, `document.document.generated`, `document.document.signed`, `document.document.held`, `document.document.hold-released`, `document.document.archived`, `document.document.disposed`, `document.document.requested`, `document.document.request-fulfilled`, `document.package.built`, `document.processing.completed`, `document.processing.failed`.
 
-**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `contract.contract.bound`, `contract.bordereau.received`, `contract.account.issued`, `direct.claim.registered`, `direct.claim.settlement-executed`, `assumed.claim.registered`, `assumed.claim.commuted`, `payment.payment.paid`, `party.party.merged`.
+**Consumed:** `policy.policy.issued`, `policy.policy.endorsed`, `policy.policy.cancelled`, `contract.contract.bound`, `contract.bordereau.received`, `contract.account.issued`, `primary.claim.registered`, `primary.claim.settlement-executed`, `reinsurance.claim.registered`, `reinsurance.claim.commuted`, `payment.payment.paid`, `party.party.merged`.
 
 #### 11.6.10 API surface
 
@@ -11325,11 +11325,11 @@ stateDiagram-v2
 
 **Medical records.** Medical records are `PHI`, retained under a 30-year class, encrypted, and accessible only with claim need-to-know. OCR text is treated as PHI. Redaction produces a separate rendition; the original remains restricted.
 
-**B-reads and criteria evidence.** Asbestos B-reads are `B_READ` documents associated to the injury with role `MEDICAL_RECORD` and linked to the medical criteria determination. The structured criteria remain in Direct.
+**B-reads and criteria evidence.** Asbestos B-reads are `B_READ` documents associated to the injury with role `MEDICAL_RECORD` and linked to the medical criteria determination. The structured criteria remain in Primary.
 
 **Authorizations and releases.** HIPAA authorizations, releases, and settlement agreements are signature-controlled. A missing authorization blocks medical record use; a missing release blocks payment.
 
-**Liens and Medicare correspondence.** Conditional payment letters and lien waivers are classified `RESTRICTED`, associated to the claim, and drive lien status in Direct.
+**Liens and Medicare correspondence.** Conditional payment letters and lien waivers are classified `RESTRICTED`, associated to the claim, and drive lien status in Primary.
 
 **Trust claims.** Trust claim forms, trust distributions, and releases are packaged (`TRUST_CLAIM`) with a manifest and delivered to a trust or settlement administrator.
 
@@ -11371,13 +11371,13 @@ Payment owns **money movement and financial posting**: payment intent, authority
 
 | Payment owns | Payment does not own |
 |---|---|
-| Payment identity, status, amounts, allocations | Claim coverage and settlement authority (Direct) |
-| Authority and approval evidence | Reserve amounts (Direct, Assumed) |
+| Payment identity, status, amounts, allocations | Claim coverage and settlement authority (Primary) |
+| Authority and approval evidence | Reserve amounts (Primary, Reinsurance) |
 | Payment instructions and bank details | Policy limits and aggregates (Policy) |
-| SAP business partner, journal entry, payment advice, supplier invoice integration | Assumed contract terms (Contract) |
+| SAP business partner, journal entry, payment advice, supplier invoice integration | Reinsurance contract terms (Contract) |
 | Bank reconciliation and exceptions | Party identity (Party) |
 | Returns, reissues, reversals, escheatment | Document content (Document) |
-| Financial posting for premiums, commissions, cash calls, and balances | FS-RI processing (direct via Policy; assumed via Contract; per book) |
+| Financial posting for premiums, commissions, cash calls, and balances | FS-RI processing (primary via Policy; reinsurance via Contract; per book) |
 | — | The financial general ledger truth (SAP) |
 
 **Boundary rule:** Payment is the system of record for *what the platform intends to pay and what it has instructed*. SAP is the system of record for *the accounting entry and the cash payment*. FS-RI is the system of record for outward cessions, retrocessions, and recoverables. Payment reconciles the financial results of all three but does not process cessions or retrocessions.
@@ -11387,7 +11387,7 @@ Payment owns **money movement and financial posting**: payment intent, authority
 | Term | Meaning |
 |---|---|
 | **Payment** | A single instruction to move a specific amount to a payee |
-| **Payment request** | A request from Direct, Assumed, Contract, or Policy to pay |
+| **Payment request** | A request from Primary, Reinsurance, Contract, or Policy to pay |
 | **Authority** | The delegated limit within which a user may approve |
 | **Approval** | The recorded decision to proceed |
 | **Payment run** | A batch of payments submitted together to SAP or a bank |
@@ -11438,9 +11438,9 @@ erDiagram
 | `tenant_id` | uuid | Y | |
 | `payment_number` | varchar(32) | Y | `PAY-2026-0044721` |
 | `payment_type` | enum | Y | See §11.7.5 |
-| `direction` | enum | Y | `OUTBOUND`, `INBOUND` |
+| `primaryion` | enum | Y | `OUTBOUND`, `INBOUND` |
 | `status` | enum | Y | See §11.7.5 |
-| `claim_vertical` | enum | N | `direct`, `assumed` |
+| `claim_vertical` | enum | N | `primary`, `reinsurance` |
 | `claim_id` | uuid | N | |
 | `claim_number` | varchar(32) | N | Projection |
 | `settlement_id` | uuid | N | |
@@ -11522,7 +11522,7 @@ erDiagram
 | `policy_year` | integer | N | |
 | `contract_id` | uuid | N | |
 | `layer_id` | uuid | N | |
-| `reserve_component` | enum | N | Mirrors Direct reserve components |
+| `reserve_component` | enum | N | Mirrors Primary reserve components |
 | `gl_account` | varchar(16) | N | Mapped |
 | `company_code` | varchar(8) | N | SAP |
 | `cost_center` | varchar(16) | N | SAP |
@@ -11801,7 +11801,7 @@ erDiagram
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
 | `request_number` | varchar(32) | Y | |
-| `source_vertical` | enum | Y | `direct`, `assumed`, `contract`, `policy` |
+| `source_vertical` | enum | Y | `primary`, `reinsurance`, `contract`, `policy` |
 | `source_type` | varchar(48) | Y | |
 | `source_id` | uuid | Y | |
 | `claim_id` | uuid | N | |
@@ -11825,7 +11825,7 @@ erDiagram
 | `tenant_id` | uuid | Y | |
 | `integration` | varchar(48) | Y | `SAP_S4`, `BANK`, `SANCTIONS`, `TAX` |
 | `operation` | varchar(64) | Y | |
-| `direction` | enum | Y | `OUTBOUND`, `INBOUND` |
+| `primaryion` | enum | Y | `OUTBOUND`, `INBOUND` |
 | `correlation_id` | varchar(64) | N | |
 | `idempotency_key` | varchar(128) | N | |
 | `request_payload` | jsonb | N | Redacted |
@@ -11910,8 +11910,8 @@ stateDiagram-v2
 | # | Step | Type | Target | Notes |
 |---|---|---|---|---|
 | 1 | Load payment and request | READ | expert | |
-| 2 | Verify claim capacity | READ | Direct | Fail closed |
-| 3 | Verify contract capacity | READ | Contract | For assumed/contract payments |
+| 2 | Verify claim capacity | READ | Primary | Fail closed |
+| 3 | Verify contract capacity | READ | Contract | For reinsurance/contract payments |
 | 4 | Validate amount and allocation | RULE | `payment.amount-valid` | |
 | 5 | Screen payee | INTEGRATE | `sanctions.screen` | |
 | 6 | Duplicate check | READ | `payment.expert.payment.duplicates` | |
@@ -11941,7 +11941,7 @@ stateDiagram-v2
 | 1 | Poll or receive SAP status | INTEGRATE | `sap.payment.status` | |
 | 2 | Validate paid amount and value date | RULE | `payment.confirmed-valid` | |
 | 3 | Persist confirmation | PERSIST | `payment.expert.payment.confirm` | |
-| 4 | Apply to claim/reserve | SUB_TRANSACTION | `direct.claim.payment-applied` | |
+| 4 | Apply to claim/reserve | SUB_TRANSACTION | `primary.claim.payment-applied` | |
 | 5 | Apply to contract | SUB_TRANSACTION | `contract.payment-applied` | |
 | 6 | Emit | EVENT | `payment.payment.paid` | |
 | 7 | Notify | NOTIFY | `payment.paid` | |
@@ -11966,7 +11966,7 @@ stateDiagram-v2
 | 3 | Approval | HUMAN_APPROVAL | `payment.reverse.approve` | |
 | 4 | Create SAP reversal | INTEGRATE | `sap.journal-entry.reverse` | |
 | 5 | Persist reversal payment | PERSIST | `payment.expert.payment.reverse` | |
-| 6 | Notify claim/contract | SUB_TRANSACTION | `direct.claim.payment-reversed` | |
+| 6 | Notify claim/contract | SUB_TRANSACTION | `primary.claim.payment-reversed` | |
 | 7 | Emit | EVENT | `payment.payment.reversed` | |
 
 #### 11.7.9 SAP S/4HANA integration
@@ -11982,7 +11982,7 @@ stateDiagram-v2
 | Error mapping | SAP `error.code` and `error.message.value` mapped to internal error codes; permanent errors do not retry |
 | Observation | Every call in `integration_message` with correlation, duration, status, redacted payload |
 | Reconciliation | SAP document number and message ID stored on the payment; daily status poll; bank statement match |
-| No direct GL writes outside posted documents | Reversals are documents, never deletions |
+| No primary GL writes outside posted documents | Reversals are documents, never deletions |
 
 **Message mapping:**
 
@@ -12034,7 +12034,7 @@ stateDiagram-v2
 
 **Published:** `payment.payment.created`, `payment.payment.authorized`, `payment.payment.issued`, `payment.payment.accepted`, `payment.payment.confirmed`, `payment.payment.paid`, `payment.payment.failed`, `payment.payment.returned`, `payment.payment.reversed`, `payment.payment.reconciled`, `payment.reconciliation.exception`, `payment.payment.escheated`, `payment.batch.completed`, `payment.sap.posted`, `payment.sap.failed`, `payment.recovery.received`.
 
-**Consumed:** `direct.claim.settlement-authorized`, `direct.claim.reserve-changed`, `assumed.claim.payment-requested`, `assumed.claim.cash-call-requested`, `contract.account.issued`, `contract.cash-call.issued`, `contract.contract.commuted`, `policy.policy.cancelled`, `policy.premium.audited`, `party.party.merged`, `document.document.associated`.
+**Consumed:** `primary.claim.settlement-authorized`, `primary.claim.reserve-changed`, `reinsurance.claim.payment-requested`, `reinsurance.claim.cash-call-requested`, `contract.account.issued`, `contract.cash-call.issued`, `contract.contract.commuted`, `policy.policy.cancelled`, `policy.premium.audited`, `party.party.merged`, `document.document.associated`.
 
 #### 11.7.11 API surface
 
@@ -12076,7 +12076,7 @@ stateDiagram-v2
 
 **Liens.** Lien payments are separate payment lines with `lien_id`, reducing the claimant's net settlement. A payment cannot be issued while a required lien resolution is open.
 
-**Defense invoices.** Defense counsel invoices are supplier invoices in SAP, posted to defense/ALAE GL accounts and allocated to claims and policy years. Invoice approval is a Direct responsibility; Payment posts and pays.
+**Defense invoices.** Defense counsel invoices are supplier invoices in SAP, posted to defense/ALAE GL accounts and allocated to claims and policy years. Invoice approval is a Primary responsibility; Payment posts and pays.
 
 **Trust distributions.** Payments to a 524(g) trust or QSF are `TRUST_DEPOSIT` or `TRUST_DISTRIBUTION`, with the trust agreement and court order as supporting documents.
 
@@ -12098,7 +12098,7 @@ stateDiagram-v2
 
 #### 11.7.14 Financial expectations, SAP actuals, and reconciliation
 
-Payment is the **financial gateway and reconciliation owner** for both AR and AP. It receives business expectations from Policy, Direct, Assumed, and Contract; instructs SAP; ingests SAP actuals; reconciles; and produces proof of balance. The conceptual model is in §7.13; this section defines the Payment-owned tables and API.
+Payment is the **financial gateway and reconciliation owner** for both AR and AP. It receives business expectations from Policy, Primary, Reinsurance, and Contract; instructs SAP; ingests SAP actuals; reconciles; and produces proof of balance. The conceptual model is in §7.13; this section defines the Payment-owned tables and API.
 
 ##### `financial_expectation`
 
@@ -12110,7 +12110,7 @@ Payment is the **financial gateway and reconciliation owner** for both AR and AP
 | `company_code` | varchar(8) | Y | |
 | `accounting_event_id` | uuid | N | |
 | `expectation_type` | enum | Y | `AR_INVOICE`, `AR_CREDIT_NOTE`, `AP_PAYMENT`, `AR_RECEIPT`, `AP_CREDIT`, `JOURNAL`, `FX_REVALUATION` |
-| `source_vertical` | enum | Y | `policy`, `direct`, `assumed`, `contract`, `payment` |
+| `source_vertical` | enum | Y | `policy`, `primary`, `reinsurance`, `contract`, `payment` |
 | `source_type` | varchar(48) | Y | |
 | `source_id` | uuid | Y | |
 | `business_reference` | varchar(64) | Y | Policy, claim, contract, payment, or billing number |
@@ -12122,7 +12122,7 @@ Payment is the **financial gateway and reconciliation owner** for both AR and AP
 | `base_amount`, `base_currency`, `fx_rate` | numeric | N | |
 | `due_date` | date | N | |
 | `gl_account`, `cost_center`, `profit_center`, `tax_code` | varchar | N | |
-| `direction` | enum | Y | `AR`, `AP` |
+| `primaryion` | enum | Y | `AR`, `AP` |
 | `status` | enum | Y | `OPEN`, `INSTRUCTED`, `POSTED`, `MATCHED`, `PARTIALLY_MATCHED`, `BREAK`, `CANCELLED` |
 | `supersedes_id` | uuid | N | |
 | `correlation_id` | varchar(64) | N | |
@@ -12338,12 +12338,12 @@ Payment is the **financial gateway and reconciliation owner** for both AR and AP
 
 **Published:** `finance.expectation.created`, `finance.invoice.posted`, `finance.cash.applied`, `finance.cash.unapplied`, `finance.dunning.changed`, `finance.reconciliation.completed`, `finance.reconciliation.break-opened`, `finance.reconciliation.break-resolved`, `finance.proof.signed`, `finance.close.period-opened`, `finance.close.period-certified`.
 
-**Consumed:** `policy.billing.instruction-created`, `policy.policy.cancelled`, `direct.claim.settlement-authorized`, `direct.claim.paid`, `assumed.claim.payment-requested`, `contract.account.issued`, `contract.cash-call.issued`, `payment.payment.paid`.
+**Consumed:** `policy.billing.instruction-created`, `policy.policy.cancelled`, `primary.claim.settlement-authorized`, `primary.claim.paid`, `reinsurance.claim.payment-requested`, `contract.account.issued`, `contract.cash-call.issued`, `payment.payment.paid`.
 
 ##### Mass tort reconciliation specifics
 
 * **Multi-carrier premiums.** AR is reconciled per legal entity and capacity provider, not just per policy.
-* **Reinsurance recoverables.** Expected recoveries from Contract/Assumed are reconciled to SAP receivables and cash; ageing and disputes are visible.
+* **Reinsurance recoverables.** Expected recoveries from Contract/Reinsurance are reconciled to SAP receivables and cash; ageing and disputes are visible.
 * **FS-RI cessions and retrocessions.** Expected ceded/retro amounts and recoverables from Contract are reconciled to FS-RI confirmations and S/4 postings. FS-RI is authoritative for the reinsurance amounts (§7.17); Payment owns the financial reconciliation and proof of balance.
 * **Trust and QSF cash.** Fiduciary accounts are reconciled separately and are not netted against operating cash.
 * **Lien and settlement payments.** Payment lines reconcile to the claim settlement, the lien, and the SAP payment document.
@@ -12646,7 +12646,7 @@ erDiagram
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
 | `rule_code` | varchar(64) | Y | |
-| `event_type` | varchar(96) | Y | e.g., `direct.claim.registered` |
+| `event_type` | varchar(96) | Y | e.g., `primary.claim.registered` |
 | `event_version_min` | integer | N | |
 | `condition_expression` | jsonb | N | Restricted predicate on event fields |
 | `template_code` | varchar(64) | Y | |
@@ -12922,17 +12922,17 @@ stateDiagram-v2
 | `POST` | `/api/v1/notifications/admin/deliveries/{id}/retry` | Retry delivery |
 | `GET` | `/api/v1/notifications/admin/queues` | Operational queues |
 
-**Internal:** `POST /internal/v1/notifications/issue` (event or direct), `POST /internal/v1/notifications/recipients/resolve`, `POST /internal/v1/notifications/repoint`.
+**Internal:** `POST /internal/v1/notifications/issue` (event or primary), `POST /internal/v1/notifications/recipients/resolve`, `POST /internal/v1/notifications/repoint`.
 
 #### 11.8.11 Mass tort and operational specifics
 
 | Notification | Trigger | Recipients | Default channel | SLA |
 |---|---|---|---|---|
-| New claim notice | `direct.claim.registered` | Assigned adjuster, supervisor | In-app + email | 15 min |
+| New claim notice | `primary.claim.registered` | Assigned adjuster, supervisor | In-app + email | 15 min |
 | New document upload | `document.document.associated` | Adjuster, document clerk | In-app | 1 h |
 | Payment authority request | `payment.authorization-requested` | Approvers with limit | In-app + email + task | 4 h |
-| Reserve authority request | `direct.claim.reserve-change-requested` | Senior adjuster, manager | In-app + email | 8 h |
-| Settlement authority request | `direct.claim.settlement-authorization-requested` | Claims manager, finance | In-app + email | 24 h |
+| Reserve authority request | `primary.claim.reserve-change-requested` | Senior adjuster, manager | In-app + email | 8 h |
+| Settlement authority request | `primary.claim.settlement-authorization-requested` | Claims manager, finance | In-app + email | 24 h |
 | PFS missing | Claim age and document completeness | Adjuster, paralegal | Task | 5 days |
 | Lien deadline | Lien due date minus 30 days | Adjuster, lien specialist | In-app + email | 30 days |
 | Trust bar date | Trust claim bar date minus 60 days | Adjuster, counsel | In-app + email | 60 days |
@@ -12961,22 +12961,22 @@ stateDiagram-v2
 **Metrics:** notification volume by type, delivery success rate, time to read, time to acknowledge, escalation rate, SLA breach rate, suppression rate, dedupe rate, digest coverage, action completion rate, channel cost.
 
 ---
-### 11.9 Cession (Direct-Book Reinsurance Administration)
+### 11.9 Cession (Primary-Book Reinsurance Administration)
 
 #### 11.9.1 Purpose and boundary
 
-Cession is the **direct-book reinsurance administration vertical**. Users manage outward ceded reinsurance contracts, layers, participants, terms, security, and cession rules in Cession. Cession pulls policy and claim facts from Policy and Direct, builds cession cases, and hands off contract and cession events to SAP FS-RI.
+Cession is the **primary-book reinsurance administration vertical**. Users manage outward ceded reinsurance contracts, layers, participants, terms, security, and cession rules in Cession. Cession pulls policy and claim facts from Policy and Primary, builds cession cases, and hands off contract and cession events to SAP FS-RI.
 
 | Cession owns | Cession does not own |
 |---|---|
 | Outward ceded contract identity, terms, versions, endorsements | Policy terms, coverage, limits (Policy) |
-| Layers, attachment, limits, retentions, reinstatements | Claim facts, reserves, payments (Direct) |
+| Layers, attachment, limits, retentions, reinstatements | Claim facts, reserves, payments (Primary) |
 | Reinsurer participants, shares, security, collateral | Actual ceded amounts, recoverables, statements (SAP FS-RI) |
 | Cession rules and cession case construction | Payment execution and S/4 postings (Payment) |
-| Expected cession calculation for validation and display | Assumed contracts, retrocessions (Contract, Retrocession) |
+| Expected cession calculation for validation and display | Reinsurance contracts, retrocessions (Contract, Retrocession) |
 | FS-RI relationship, hand-offs, confirmations, projections, reconciliation | Financial GL truth (SAP S/4HANA) |
 
-**Book boundary:** Cession is `DIRECT` only. It never reads Contract or Assumed data, never calls Retrocession, and never processes a retrocession.
+**Book boundary:** Cession is `PRIMARY` only. It never reads Contract or Reinsurance data, never calls Retrocession, and never processes a retrocession.
 
 **System boundary:** Cession is the business system of record for the **contract terms and cession rules**. SAP FS-RI is the system of record for the **actual cession, ceded amounts, recoverables, and statements**. Cession may calculate an expected cession for validation and display, but it never treats that calculation as the posted truth.
 
@@ -13010,7 +13010,7 @@ Routes: `/v/cession/contracts`, `/v/cession/contracts/:contractId`, `/v/cession/
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `business_book` | enum | Y | `DIRECT` |
+| `business_book` | enum | Y | `PRIMARY` |
 | `contract_number` | varchar(32) | Y | |
 | `treaty_number` | varchar(32) | N | Market/cedent reference |
 | `contract_type` | enum | Y | `QUOTA_SHARE`, `SURPLUS`, `FACULTATIVE`, `EXCESS_OF_LOSS`, `AGGREGATE_EXCESS`, `STOP_LOSS`, `CATASTROPHE`, `CLASH` |
@@ -13098,7 +13098,7 @@ stateDiagram-v2
 
 | ID | Rule |
 |---|---|
-| `CES-01` | Cession is `DIRECT` only; it never reads Contract or Assumed data. |
+| `CES-01` | Cession is `PRIMARY` only; it never reads Contract or Reinsurance data. |
 | `CES-02` | Contract terms are owned by Cession; actual ceded amounts, recoverables, and statements are owned by FS-RI. |
 | `CES-03` | Participant shares for a layer MUST sum to 100% before bind. |
 | `CES-04` | Layers MUST form a coherent tower; intentional gaps require a note. |
@@ -13124,22 +13124,22 @@ Metrics: contracts in force, ceded premium, expected vs confirmed cession varian
 
 ---
 
-### 11.10 Retrocession (Assumed-Book Reinsurance Administration)
+### 11.10 Retrocession (Reinsurance-Book Reinsurance Administration)
 
 #### 11.10.1 Purpose and boundary
 
-Retrocession is the **assumed-book reinsurance administration vertical**. Users manage retrocessional contracts, layers, participants, terms, security, and retro rules in Retrocession. It pulls assumed contract and claim facts from Contract and Assumed, builds retro cases, and hands off to SAP FS-RI.
+Retrocession is the **reinsurance-book reinsurance administration vertical**. Users manage retrocessional contracts, layers, participants, terms, security, and retro rules in Retrocession. It pulls reinsurance contract and claim facts from Contract and Reinsurance, builds retro cases, and hands off to SAP FS-RI.
 
 | Retrocession owns | Retrocession does not own |
 |---|---|
-| Retrocessional contract identity, terms, versions, endorsements | Assumed contract terms, layers, participations (Contract) |
-| Retro layers, attachment, limits, retentions, reinstatements | Assumed claim facts, reserves, payments (Assumed) |
+| Retrocessional contract identity, terms, versions, endorsements | Reinsurance contract terms, layers, participations (Contract) |
+| Retro layers, attachment, limits, retentions, reinstatements | Reinsurance claim facts, reserves, payments (Reinsurance) |
 | Retrocessionaire participants, shares, security, collateral | Actual retro amounts, recoverables, statements (SAP FS-RI) |
 | Retro rules and retro case construction | Payment execution and S/4 postings (Payment) |
-| Expected retro calculation for validation and display | Direct policies, claims, cessions (Policy, Direct, Cession) |
+| Expected retro calculation for validation and display | Primary policies, claims, cessions (Policy, Primary, Cession) |
 | FS-RI relationship, hand-offs, confirmations, projections, reconciliation | Financial GL truth (SAP S/4HANA) |
 
-**Book boundary:** Retrocession is `ASSUMED` only. It never reads Policy or Direct data, never calls Cession, and never processes a direct cession.
+**Book boundary:** Retrocession is `REINSURANCE` only. It never reads Policy or Primary data, never calls Cession, and never processes a primary cession.
 
 **System boundary:** Retrocession is the business system of record for **retro contract terms and retro rules**. FS-RI is the system of record for actual retrocession, retro amounts, recoverables, and statements.
 
@@ -13170,7 +13170,7 @@ Routes: `/v/retrocession/contracts`, `/v/retrocession/contracts/:contractId`, `/
 |---|---|---|---|
 | `id` | uuid | Y | |
 | `tenant_id` | uuid | Y | |
-| `business_book` | enum | Y | `ASSUMED` |
+| `business_book` | enum | Y | `REINSURANCE` |
 | `contract_number` | varchar(32) | Y | |
 | `retro_type` | enum | Y | `QUOTA_SHARE`, `SURPLUS`, `FACULTATIVE`, `EXCESS_OF_LOSS`, `AGGREGATE_EXCESS`, `STOP_LOSS`, `CATASTROPHE`, `CLASH` |
 | `contract_basis` | enum | Y | `LOSSES_OCCURRING`, `CLAIMS_MADE`, `RISKS_ATTACHING` |
@@ -13214,8 +13214,8 @@ Routes: `/v/retrocession/contracts`, `/v/retrocession/contracts/:contractId`, `/
 | `id` | uuid | Y | |
 | `case_number` | varchar(32) | Y | |
 | `retrocession_contract_id` | uuid | Y | |
-| `assumed_contract_id` | uuid | Y | |
-| `assumed_claim_id` | uuid | N | |
+| `reinsurance_contract_id` | uuid | Y | |
+| `reinsurance_claim_id` | uuid | N | |
 | `source_type` | enum | Y | `CONTRACT`, `CLAIM`, `PAYMENT`, `RECOVERY` |
 | `source_version` | integer | Y | |
 | `case_type` | enum | Y | `NEW`, `ENDORSEMENT`, `CANCELLATION`, `CLAIM`, `RESERVE_CHANGE`, `PAYMENT`, `RECOVERY`, `CLOSE` |
@@ -13237,13 +13237,13 @@ The lifecycle is the same as Cession: `DRAFT → QUOTED → PLACED → BOUND →
 
 | ID | Rule |
 |---|---|
-| `RET-01` | Retrocession is `ASSUMED` only; it never reads Policy or Direct data. |
+| `RET-01` | Retrocession is `REINSURANCE` only; it never reads Policy or Primary data. |
 | `RET-02` | Contract terms are owned by Retrocession; actual retro amounts, recoverables, and statements are owned by FS-RI. |
 | `RET-03` | Participant shares for a layer MUST sum to 100% before bind. |
 | `RET-04` | Layers MUST form a coherent tower; intentional gaps require a note. |
 | `RET-05` | A retro rule MUST exist and be active before a retro case is handed off. |
 | `RET-06` | Expected retro is calculated for validation and display only; it never overrides FS-RI. |
-| `RET-07` | Every in-scope assumed contract/claim produces a retro case; missing cases are detected by daily completeness reconciliation. |
+| `RET-07` | Every in-scope reinsurance contract/claim produces a retro case; missing cases are detected by daily completeness reconciliation. |
 | `RET-08` | Hand-offs are idempotent and immutable; contract or source changes create a new case version and hand-off. |
 | `RET-09` | Contract endorsements, renewals, cancellations, and commutations produce new versions and hand-offs. |
 | `RET-10` | Security shortfalls block binding or trigger a breach exception. |
@@ -13293,8 +13293,8 @@ Metrics: retro contracts in force, retro premium, expected vs confirmed retro va
 ```json
 {
   "tenantId": "0192f3a4-0000-7000-8000-000000000001",
-  "book": "DIRECT",
-  "vertical": "direct",
+  "book": "PRIMARY",
+  "vertical": "primary",
   "type": "claim",
   "id": "0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21",
   "businessKey": "CLM-2026-0193382",
@@ -13302,14 +13302,14 @@ Metrics: retro contracts in force, retro premium, expected vs confirmed retro va
   "status": "OPEN",
   "version": 7,
   "classification": "CONFIDENTIAL",
-  "href": "/v/direct/claims/0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21"
+  "href": "/v/primary/claims/0192f3a4-2b7e-7d1f-a9c4-3e8b5f0c9d21"
 }
 ```
 
 | Field | Type | Req | Constraints |
 |---|---|---|---|
 | `tenantId` | uuid | Y | Must equal request tenant |
-| `book` | enum | Y | `DIRECT` or `ASSUMED`; must be covered by the caller's book role |
+| `book` | enum | Y | `PRIMARY` or `REINSURANCE`; must be covered by the caller's book role |
 | `vertical` | enum | Y | Ten vertical IDs |
 | `type` | string | Y | Allowlisted per vertical |
 | `id` | uuid | Y | UUIDv7 |
@@ -13382,11 +13382,11 @@ A decimal fraction with 6 fraction digits. Display formatting is a presentation 
 
 ```json
 {
-  "type": "https://errors.example.com/direct/claim-already-closed",
+  "type": "https://errors.example.com/primary/claim-already-closed",
   "title": "Claim is already closed",
   "status": 409,
   "detail": "Claim CLM-2026-0193382 was closed on 2026-09-30 and must be reopened before a reserve can be changed.",
-  "instance": "/api/v1/direct/claims/0192…/reserves",
+  "instance": "/api/v1/primary/claims/0192…/reserves",
   "code": "EIA-DIR-4007",
   "category": "CONFLICT",
   "retryable": false,
@@ -13594,12 +13594,12 @@ Content-Type: application/json
     "outstanding": { "amount": "0.00", "currency": "USD" }
   },
   "_links": {
-    "self": { "href": "/api/v1/direct/claims/0192f3a4-…" },
+    "self": { "href": "/api/v1/primary/claims/0192f3a4-…" },
     "policy": { "href": "/v/policy/policies/0192f3a4-…", "type": "policy", "vertical": "policy" },
     "claimant": { "href": "/v/party/parties/0192f3a4-…", "type": "party", "vertical": "party" },
-    "documents": { "href": "/api/v1/direct/claims/0192f3a4-…/documents" },
-    "payments": { "href": "/api/v1/direct/claims/0192f3a4-…/payments" },
-    "lineage": { "href": "/api/v1/lineage/record/direct/claim/0192f3a4-…" }
+    "documents": { "href": "/api/v1/primary/claims/0192f3a4-…/documents" },
+    "payments": { "href": "/api/v1/primary/claims/0192f3a4-…/payments" },
+    "lineage": { "href": "/api/v1/lineage/record/primary/claim/0192f3a4-…" }
   }
 }
 ```
@@ -13612,7 +13612,7 @@ Content-Type: application/json
   "paymentNumber": "PAY-2026-0044721",
   "paymentType": "INDEMNITY",
   "status": "AUTHORIZED",
-  "direction": "OUTBOUND",
+  "primaryion": "OUTBOUND",
   "claim": { "claimId": "0192f3a4-…", "claimNumber": "CLM-2026-0193382" },
   "payee": { "partyId": "0192f3a4-…", "displayName": "Doe, Jane", "type": "CLAIMANT" },
   "amount": { "amount": "1250000.00", "currency": "USD" },
@@ -13638,7 +13638,7 @@ Content-Type: application/json
   ],
   "_links": {
     "self": { "href": "/api/v1/payment/payments/0192f3a4-…" },
-    "claim": { "href": "/v/direct/claims/0192f3a4-…", "type": "claim", "vertical": "direct" },
+    "claim": { "href": "/v/primary/claims/0192f3a4-…", "type": "claim", "vertical": "primary" },
     "lineage": { "href": "/api/v1/lineage/record/payment/payment/0192f3a4-…" }
   }
 }
@@ -13664,14 +13664,14 @@ Content-Type: application/json
   "sha256": "9f2c…",
   "currentVersion": 2,
   "associations": [
-    { "subjectVertical": "direct", "subjectType": "claim", "subjectId": "0192f3a4-…", "role": "PROOF" }
+    { "subjectVertical": "primary", "subjectType": "claim", "subjectId": "0192f3a4-…", "role": "PROOF" }
   ],
   "tags": ["TALC", "OVARIAN_CANCER"],
   "ocrStatus": "COMPLETE",
   "_links": {
     "self": { "href": "/api/v1/document/documents/0192f3a4-…" },
     "content": { "href": "/api/v1/document/documents/0192f3a4-…/content" },
-    "claim": { "href": "/v/direct/claims/0192f3a4-…", "type": "claim", "vertical": "direct" }
+    "claim": { "href": "/v/primary/claims/0192f3a4-…", "type": "claim", "vertical": "primary" }
   }
 }
 ```
@@ -13704,7 +13704,7 @@ Content-Type: application/json
 
 ### 12.6 Validation and headers
 
-| Header | Direction | Required | Meaning |
+| Header | Primaryion | Required | Meaning |
 |---|---|---|---|
 | `Idempotency-Key` | Request | Yes on transaction POST | Idempotency scope |
 | `X-Correlation-Id` | Both | No (generated) | End-to-end correlation |
@@ -13739,7 +13739,7 @@ Content-Type: application/json
 | Change a field type or meaning | Breaking | New major version and migration plan |
 | Remove a field | Breaking | Deprecation window of two releases |
 | Change event payload | Breaking unless additive | New `eventVersion`, dual-publish |
-| Change a link type direction | Breaking | New link type and migration |
+| Change a link type primaryion | Breaking | New link type and migration |
 | Change a catalog step target | Compatible if contract-equivalent | New catalog version |
 
 ---
@@ -13753,9 +13753,9 @@ Content-Type: application/json
 | **ACORD P&C** | Current published forms and code lists | Policy, claim, party, document data exchange; form references | Data architecture |
 | **ACORD Global Reinsurance and Large Commercial (GRLC)** | Current | Reinsurance placement and accounting exchange | Contract |
 | **NAIC Annual Statement and Schedule F/P** | Current | Statutory lines, company/group codes, reinsurance schedules | Finance, Compliance |
-| **ISO P&C forms and coverage codes (Verisk/ISO)** | Current | Policy forms, coverage references, class codes | Policy, Direct |
+| **ISO P&C forms and coverage codes (Verisk/ISO)** | Current | Policy forms, coverage references, class codes | Policy, Primary |
 | **SAP S/4HANA master data** | Current | Company code, business area, profit center, cost center, GL account, vendor/customer | Finance, Payment |
-| **LORS** (London Market) | Current | Loss reporting and bordereau exchange with London market cedents | Contract, Assumed |
+| **LORS** (London Market) | Current | Loss reporting and bordereau exchange with London market cedents | Contract, Reinsurance |
 | **ISO 20022** | Current | Payment messages (`pain.001`, `pain.002`, `camt.053`, `pacs.008`) and bank reconciliation | Payment |
 | **ISO 4217** | Current | Currency codes | All |
 | **ISO 3166-1/2** | Current | Country and subdivision codes | All |
@@ -13769,10 +13769,10 @@ Content-Type: application/json
 | **NCCI class codes and experience rating** | Current | Workers' compensation class codes and experience modification | Policy |
 | **ISO class codes and loss costs** | Current | Commercial lines rating exposures | Policy |
 | **NAIC annual statement lines** | Current | Line-of-business reporting | Policy, Contract |
-| **ICD-10-CM / ICD-10-PCS** | Current | Disease and procedure codes | Direct |
-| **CPT / HCPCS / NDC** | Current | Medical billing and devices | Direct, Payment |
+| **ICD-10-CM / ICD-10-PCS** | Current | Disease and procedure codes | Primary |
+| **CPT / HCPCS / NDC** | Current | Medical billing and devices | Primary, Payment |
 | **HL7 FHIR R4** | Current | Medical record exchange | Document |
-| **X12 835 / 837** | Current | Medical claim payment and claim exchange, where required | Payment, Direct |
+| **X12 835 / 837** | Current | Medical claim payment and claim exchange, where required | Payment, Primary |
 | **OFAC SDN / Consolidated, UN, EU, UK HMT** | Current | Sanctions screening | Party, Payment |
 | **NACHA rules** | Current | ACH payments and returns | Payment |
 | **ISO 20022 camt.053 / BAI2** | Current | Bank statement ingestion | Payment |
@@ -13820,7 +13820,7 @@ Content-Type: application/json
 | `contract_layer.attachment_amount` | ACORD GRLC / LORS | |
 | `bordereau.bordereau_type` | ACORD GRLC / LORS | |
 | `technical_account.line_type` | ACORD GRLC / LMA technical account | |
-| `assumed_claim.cedent_claim_number` | Cedent system reference | External key |
+| `reinsurance_claim.cedent_claim_number` | Cedent system reference | External key |
 | `party_role_association.role_code` | ACORD party role / internal extension | Extended for mass tort roles |
 | `document.doc_type` | ACORD document type / internal extension | Extended for litigation and medical |
 | `claim_mass_tort_profile.tort_code` | Internal tort catalog (Appendix E) | No complete public standard |
@@ -13935,10 +13935,10 @@ The internal model is canonical. External standards are mapped through `external
 | Internal | External standard | Mapping |
 |---|---|---|
 | `legal_entity.entity_code` | Internal | Business key, immutable |
-| `legal_entity.naic_company_code` | NAIC company code | Direct |
-| `legal_entity.naic_group_code` | NAIC group code | Direct |
-| `legal_entity.lei` | ISO 17442 | Direct |
-| `legal_entity.sap_company_code` | SAP company code | Direct, unique per environment |
+| `legal_entity.naic_company_code` | NAIC company code | Primary |
+| `legal_entity.naic_group_code` | NAIC group code | Primary |
+| `legal_entity.lei` | ISO 17442 | Primary |
+| `legal_entity.sap_company_code` | SAP company code | Primary, unique per environment |
 | `organization_unit.code` | Internal; SAP business area/profit center where configured | `external_code_map` |
 | `organization_unit.country/region` | ISO 3166-1/2; NAIC state code where required | `external_code_map` |
 | `legal_entity_org_unit` | SAP company code + business area/profit center | Configuration mapping |
@@ -13976,7 +13976,7 @@ A single internal LOB may map to one ACORD code, one NAIC line, and one ISO line
 | `coverage.coverage_category` | ACORD coverage category / internal | `external_code_map` where available |
 | `coverage_type.response_basis` | ACORD occurrence/claims-made basis | `external_code_map`, code set `ACORD_BASIS` |
 | `coverage_type.limit_structure` | ACORD limit applies / ISO form basis | `external_code_map` |
-| `policy_coverage.form_number`, `form_edition` | ISO form number and edition | Direct, validated against the ISO form catalog |
+| `policy_coverage.form_number`, `form_edition` | ISO form number and edition | Primary, validated against the ISO form catalog |
 
 **ISO has two meanings in this specification:** ISO forms/coverage (Verisk/ISO, e.g. `CG 00 01`) and ISO 20022 payment messaging. They are separate mappings and must not share a code set.
 
@@ -13989,7 +13989,7 @@ A single internal LOB may map to one ACORD code, one NAIC line, and one ISO line
 | `policy_limit` | ACORD limit/applies; ISO form limit basis | `external_code_map` |
 | `claim` | ACORD claim/loss notice | Exchange mapping |
 | `claim.cause_code` | ACORD/ISO cause of loss | `external_code_map` |
-| `claim_injury.disease_code` | ICD-10-CM | Direct |
+| `claim_injury.disease_code` | ICD-10-CM | Primary |
 | `claim_litigation` | ACORD claim/litigation fields where present | Exchange mapping |
 
 #### 13.10.6 SAP
@@ -14040,8 +14040,8 @@ SAP does not have a native insurance LOB or coverage model. Do not invent SAP co
 | Vertical remotes | 99.9% monthly (CDN) | 200 ms TTFB per chunk | 0.1% |
 | Policy domain API | 99.9% monthly | 300 ms read / 800 ms command submit | 0.1% |
 | Contract domain API | 99.9% monthly | 350 ms read / 900 ms command submit | 0.1% |
-| Direct domain API | 99.9% monthly | 300 ms read / 800 ms command submit | 0.1% |
-| Assumed domain API | 99.9% monthly | 350 ms read / 900 ms command submit | 0.1% |
+| Primary domain API | 99.9% monthly | 300 ms read / 800 ms command submit | 0.1% |
+| Reinsurance domain API | 99.9% monthly | 350 ms read / 900 ms command submit | 0.1% |
 | Cession vertical API | 99.9% monthly | 300 ms read / 800 ms hand-off submit | 0.1% |
 | Retrocession vertical API | 99.9% monthly | 300 ms read / 800 ms hand-off submit | 0.1% |
 | Party domain API | 99.9% monthly | 250 ms read | 0.1% |
@@ -14093,7 +14093,7 @@ SAP does not have a native insurance LOB or coverage model. Do not invent SAP co
 | Tier | Services | RTO | RPO | Strategy |
 |---|---|---|---|---|
 | Tier 0 | Gateway, auth, Payment | 1 h | 5 min | Active-passive region; synchronous in-region replica; automated failover |
-| Tier 1 | Policy, Direct, Contract, Assumed, Party, Document | 4 h | 15 min | Warm standby; restore from backup plus WAL replay |
+| Tier 1 | Policy, Primary, Contract, Reinsurance, Party, Document | 4 h | 15 min | Warm standby; restore from backup plus WAL replay |
 | Tier 2 | Notifications, Lineage | 8 h | 1 h | Rebuildable from source events and primary data |
 | Tier 3 | Reporting, analytics extracts | 24 h | 24 h | Regenerate from source |
 
@@ -14333,24 +14333,24 @@ A critical or high vulnerability blocks release unless an approved exception exi
 | ID | Journey | Verticals |
 |---|---|---|
 | `E2E-01` | Quote → bind → issue a mass tort policy, generate documents, notify producer | Policy, Party, Document, Notifications, Payment (premium posting) |
-| `E2E-02` | FNOL → claimant resolution → coverage assessment → reserve → authority | Direct, Party, Policy, Notifications |
-| `E2E-03` | Settlement authorization → payment → SAP posting → bank reconciliation | Direct, Payment, SAP, Bank |
-| `E2E-04` | Document upload → classification → association → notification | Document, Direct, Notifications |
-| `E2E-05` | Bordereau → assumed claims → cessions → technical account | Contract, Assumed, Document, Payment |
+| `E2E-02` | FNOL → claimant resolution → coverage assessment → reserve → authority | Primary, Party, Policy, Notifications |
+| `E2E-03` | Settlement authorization → payment → SAP posting → bank reconciliation | Primary, Payment, SAP, Bank |
+| `E2E-04` | Document upload → classification → association → notification | Document, Primary, Notifications |
+| `E2E-05` | Bordereau → reinsurance claims → cessions → technical account | Contract, Reinsurance, Document, Payment |
 | `E2E-06` | Policy → party → claim → payment → document lineage traversal | Lineage, all |
 | `E2E-07` | Party merge → role migration → lineage rewrite → downstream projections | Party, Lineage, all |
-| `E2E-08` | Reserve change → aggregate erosion → limit exhausted → payment blocked | Direct, Policy, Payment |
+| `E2E-08` | Reserve change → aggregate erosion → limit exhausted → payment blocked | Primary, Policy, Payment |
 | `E2E-09` | Sanctions match → payment blocked → escalation → clearance | Party, Payment, Notifications |
 | `E2E-10` | Legal hold → disposition blocked → release → disposition certificate | Document, Notifications |
 | `E2E-11` | Premium billing → SAP AR invoice → cash application → reconciliation | Policy, Payment, SAP, Bank |
 | `E2E-12` | Period close → proof of balance → sign-off | Payment, SAP, all financial verticals |
-| `E2E-13` | Actuarial review → ultimate pick → IBNR → posting → reconciliation | Direct, Assumed, Payment |
-| `E2E-14` | Ceded contract → policy/claim → FS-RI hand-off → confirmation → recoverable → three-way reconciliation | Cession, Policy, Direct, Payment, FS-RI |
-| `E2E-15` | Coverage dispute → reservation of rights → legal invoice → payment | Direct, Payment |
-| `E2E-16` | Trust bar date → trust claim → distribution | Direct, Payment |
+| `E2E-13` | Actuarial review → ultimate pick → IBNR → posting → reconciliation | Primary, Reinsurance, Payment |
+| `E2E-14` | Ceded contract → policy/claim → FS-RI hand-off → confirmation → recoverable → three-way reconciliation | Cession, Policy, Primary, Payment, FS-RI |
+| `E2E-15` | Coverage dispute → reservation of rights → legal invoice → payment | Primary, Payment |
+| `E2E-16` | Trust bar date → trust claim → distribution | Primary, Payment |
 | `E2E-17` | Regulatory filing → review → submission → acceptance | Platform, all |
 | `E2E-18` | Migration wave → reconciliation → cutover rehearsal (secondary) | Platform, all |
-| `E2E-19` | Retro contract → assumed contract/claim → FS-RI hand-off → confirmation → retro recoverable | Retrocession, Contract, Assumed, Payment, FS-RI |
+| `E2E-19` | Retro contract → reinsurance contract/claim → FS-RI hand-off → confirmation → retro recoverable | Retrocession, Contract, Reinsurance, Payment, FS-RI |
 | `E2E-20` | Program/capacity → coinsurance/fronting → policy issue → allocation | Policy, Party, Document |
 | `E2E-21` | KYC/beneficial owner → sanctions/PEP → bind or block | Party, Policy, Payment |
 | `E2E-22` | Ceded contract → expected calculation → credit → collateral → Schedule F | Cession, Payment, Finance |
@@ -14370,7 +14370,7 @@ Playwright is the **mandatory** tool for all front-end and end-to-end testing. I
 | `PW-02` | Every enumerated business rule has at least one Playwright test that enters through the front-end and exercises the full transactional flow: UI → domain → expert → database → event/lineage. |
 | `PW-03` | Tests use the real domain and expert services and a real PostgreSQL database; only external systems (FS-RI, S/4, bank, email, OCR, sanctions) are simulated. |
 | `PW-04` | FS-RI and S/4 simulators implement the agreed test endpoints, deterministic responses, and fault modes (timeout, reject, partial, duplicate). |
-| `PW-05` | Every test runs under a book-scoped user: `DIRECT_ROLE`, `ASSUMED_ROLE`, or both. A test must prove the book wall by asserting that a cross-book request is denied. |
+| `PW-05` | Every test runs under a book-scoped user: `PRIMARY_ROLE`, `REINSURANCE_ROLE`, or both. A test must prove the book wall by asserting that a cross-book request is denied. |
 | `PW-06` | Tests are isolated by tenant and book; they do not depend on execution order and must be repeatable from a clean database. |
 | `PW-07` | A business-rule traceability matrix maps every rule ID (`POL-*`, `DIR-*`, `PAY-*`, `CES-*`, `RET-*`, etc.) to its Playwright test(s). A rule without a test fails the build. |
 | `PW-08` | Coverage is measured from the instrumented application, not from test assertions alone. Business logic must reach 100% line and branch coverage; presentation-only code is excluded by an explicit allowlist. |
@@ -14406,7 +14406,7 @@ Playwright is the **mandatory** tool for all front-end and end-to-end testing. I
 ### 15.4 Test data
 
 * Synthetic tenants per line of business: `dev-mass-tort`, `dev-reinsurance`, `dev-mixed`.
-* Every Playwright suite runs with `DIRECT_ROLE`, `ASSUMED_ROLE`, and both roles, so cross-book denial and combined finance visibility are both proven.
+* Every Playwright suite runs with `PRIMARY_ROLE`, `REINSURANCE_ROLE`, and both roles, so cross-book denial and combined finance visibility are both proven.
 * Deterministic seeds with realistic distributions: asbestos, talc, PFAS, opioid, and device claims; quota share and excess treaties; bordereaux with exceptions.
 * No production data in lower environments. If production-like data is required, it is de-identified and approved.
 * Test data generation is a batch job with a fixed seed for reproducibility.
@@ -14502,7 +14502,7 @@ The exercise is announced, scripted, and independently observed. A failed exerci
 
 | Item | Requirement |
 |---|---|
-| Participants | Named business users for Policy, Direct, Contract, Assumed, Cession, Retrocession, Payment, Compliance |
+| Participants | Named business users for Policy, Primary, Contract, Reinsurance, Cession, Retrocession, Payment, Compliance |
 | Scenarios | Critical journeys §15.2 plus book-wall negative tests |
 | Data | Production-shaped synthetic data; no live PII/PHI |
 | Entry | Gate 5 and Gate 6 evidence complete; no open Sev-1/Sev-2 |
@@ -14558,7 +14558,7 @@ A rule with no negative or boundary test fails the coverage gate.
 |---|---|
 | `TD-MIN` | Minimum viable tenant: one legal entity, one branch, one carrier, one program, one LOB, one coverage |
 | `TD-MULTI` | Two carriers, two branches, two programs, two LOBs |
-| `TD-BOOK` | Direct and assumed books, with both-role and single-role users |
+| `TD-BOOK` | Primary and reinsurance books, with both-role and single-role users |
 | `TD-MASS-TORT` | Asbestos, talc, PFAS, opioid, device claims |
 | `TD-REINSURANCE` | Quota share, surplus, XOL, aggregate, retro |
 | `TD-FINANCE` | Billing, payment, AR/AP/GL, close |
@@ -14611,8 +14611,8 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 * **Vertical slices, not layers.** Each increment delivers a working front-end, domain service, expert service, database, and lineage links for one business capability.
 * **Walking skeleton first.** Party and Document are built end-to-end with the shell, gateway, auth, transaction engine, outbox, and lineage before Policy or claims.
 * **Parallel vertical teams.** Ten vertical teams plus a platform team; shared contracts are agreed before parallel work begins.
-* **Mass tort depth early.** The first Policy and Direct slices use real mass tort data, not generic liability placeholders.
-* **Reinsurance after direct claims are stable.** Contract and Assumed reuse the transaction, event, and lineage patterns proven in Policy and Direct.
+* **Mass tort depth early.** The first Policy and Primary slices use real mass tort data, not generic liability placeholders.
+* **Reinsurance after primary claims are stable.** Contract and Reinsurance reuse the transaction, event, and lineage patterns proven in Policy and Primary.
 * **Playwright from day one.** Every vertical slice is accepted only when its business rules are covered by Playwright through the front-end and a full transactional flow, with 100% business-logic coverage.
 
 ### 16.2 Team topology
@@ -14623,11 +14623,11 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 | Party | Party domain, expert, web |
 | Document | Document domain, expert, web, storage, OCR |
 | Policy | Policy domain, expert, web, rating integration |
-| Direct | Direct domain, expert, web, medical/claims data |
+| Primary | Primary domain, expert, web, medical/claims data |
 | Payment | Payment domain, expert, web, SAP adapter, reconciliation |
 | Notifications | Notifications domain, expert, web, templates, delivery |
 | Contract | Contract domain, expert, web, bordereaux |
-| Assumed | Assumed domain, expert, web, commutation |
+| Reinsurance | Reinsurance domain, expert, web, commutation |
 | Cession | Cession domain, expert, web, contract administration, FS-RI hand-off, recoverables |
 | Retrocession | Retrocession domain, expert, web, retro contract administration, FS-RI hand-off, retro recoverables |
 | Data & migration | Reference data, legacy migration, reporting extracts |
@@ -14641,10 +14641,10 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 | **P0 — Foundation** | 8 weeks | Gateway, auth, config, shell, federation runtime, one remote, transaction engine, outbox/inbox, lineage skeleton, Party + Document walking skeleton, CI/CD, environments | A user can create a party, upload a document, see the link, and view a timeline in the federated shell |
 | **P1 — Party & Document** | 10 weeks | Party roles, merge, screening, consent; Document ingestion, classification, association, retention, holds, generation | Party and Document are production-ready for all verticals; merge and hold journeys pass |
 | **P2 — Policy** | 14 weeks | Quote, bind, issue, endorse, cancel, renew, reinstatement, coverage, limits, premium, mass tort profile, programs, aggregate state | A mass tort policy can be quoted, bound, issued, endorsed, and cancelled with documents and lineage |
-| **P3 — Direct core** | 16 weeks | FNOL, coverage, injury/exposure, reserves, diary, litigation, settlement, liens, recoveries, closure | A mass tort claim can be registered, reserved, litigated, settled, and closed with authority |
+| **P3 — Primary core** | 16 weeks | FNOL, coverage, injury/exposure, reserves, diary, litigation, settlement, liens, recoveries, closure | A mass tort claim can be registered, reserved, litigated, settled, and closed with authority |
 | **P4 — Payment & SAP** | 14 weeks | Payment authorization, approval, SAP business partner, journal entry, payment advice, confirmation, reconciliation, returns, reversals, escheatment | End-to-end settlement payment posts to SAP, confirms, and reconciles to a bank statement |
 | **P5 — Notifications & Lineage** | 8 weeks | Rules, templates, delivery, escalation, acknowledgement, actions, digest, inbox, lineage graph and timeline at scale | All critical events notify the right people; lineage traverses policy → party → claim → payment → document |
-| **P6 — Contract & Assumed** | 18 weeks | Treaty and facultative setup, layers, participations, cessions, bordereaux, technical accounts, cash calls, security, commutation, assumed claims, reserves, disputes, audits | A treaty can be bound, a bordereau processed, assumed claims reserved, and an account and commutation produced |
+| **P6 — Contract & Reinsurance** | 18 weeks | Treaty and facultative setup, layers, participations, cessions, bordereaux, technical accounts, cash calls, security, commutation, reinsurance claims, reserves, disputes, audits | A treaty can be bound, a bordereau processed, reinsurance claims reserved, and an account and commutation produced |
 | **P7 — Hardening & go-live** | 12 weeks | Migration rehearsal, performance tuning, UAT, DR exercise, security pen test, training, pilot, production cutover | UAT signed off; performance and DR objectives met; pilot successful |
 
 **Calendar view (indicative, 18 months):**
@@ -14671,7 +14671,7 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 | Bank statement feed (`camt.053`) | P4 | Blocks reconciliation |
 | Reference data: torts, diseases, coverage forms, clause library, GL mapping | P1–P6 | Blocks correct classification and posting |
 | Legacy data extracts and mapping | Secondary; only if a migration is in scope | Does not block v1; canonical model is independent |
-| Actuarial IBNR extract format | P6 | Blocks assumed and mass tort reserving depth |
+| Actuarial IBNR extract format | P6 | Blocks reinsurance and mass tort reserving depth |
 
 ### 16.5 Risks and mitigations
 
@@ -14716,15 +14716,15 @@ These capabilities do not each need a separate phase, but they are release-gatin
 |---|---|---|---|
 | Premium billing, AR, commissions | P2–P4 | Policy, Payment, Finance | Installment billing, SAP AR, cash application, reconciliation |
 | Product, rating, underwriting, producer licensing | P2 | Policy, Product, Compliance | Product/form library, rating, referral, authority, producer appointments |
-| Actuarial reserving | P3–P6 | Actuarial, Direct, Assumed | Triangles, ultimate picks, committee, IBNR, ceded IBNR |
+| Actuarial reserving | P3–P6 | Actuarial, Primary, Reinsurance | Triangles, ultimate picks, committee, IBNR, ceded IBNR |
 | Cession vertical | P4–P5 | Cession, Finance, SAP | Contract setup, layers, participants, terms, security, rules, calculations, credit, collateral, commutation, tax, hand-off, recoverables, reconciliation |
 | Retrocession vertical | P4–P6 | Retrocession, Finance, SAP | Retro contract setup, layers, participants, terms, security, rules, calculations, credit, collateral, commutation, tax, hand-off, recoverables, reconciliation |
 | Reinsurance credit, collateral, Schedule F | P4–P6 | Reinsurance, Finance, Tax | Eligibility, state rules, collateral register, Schedule F, provisions |
 | KYC, AML, beneficial ownership | P1–P3 | Party, Compliance, Legal | KYC profile, beneficial owners, sanctions/PEP, EDD, ongoing monitoring |
 | Print, mail, e-signature, notary | P3–P5 | Document, Operations, Legal | Print vendor, certified mail, envelopes, notary, proof of delivery |
-| Coverage litigation and legal spend | P3–P5 | Direct, Legal | Coverage positions, tenders, panel counsel, LEDES review |
-| Medical, liens, structured settlements | P3–P5 | Direct, Medical, Finance | Bill review, Medicare, liens, court approval, QSF |
-| Class, global settlement, trust administration | P5–P6 | Direct, Legal | Class notices, opt-outs, funds, TDP, trust claims |
+| Coverage litigation and legal spend | P3–P5 | Primary, Legal | Coverage positions, tenders, panel counsel, LEDES review |
+| Medical, liens, structured settlements | P3–P5 | Primary, Medical, Finance | Bill review, Medicare, liens, court approval, QSF |
+| Class, global settlement, trust administration | P5–P6 | Primary, Legal | Class notices, opt-outs, funds, TDP, trust claims |
 | Tax determination and remittance | P4–P5 | Policy, Payment, Tax | Tax rules, returns, withholding, 1099 |
 | Regulatory reporting and complaints | P5–P7 | Compliance, Platform | Filing calendar, statistical reports, complaints |
 | Management reporting and BI | P4–P7 | Data, Finance | Certified metrics, warehouse, report catalog |
@@ -14861,7 +14861,7 @@ Every individually deployable component has its own repository. A repository MUS
 |---|---|
 | Model | Trunk-based development; `main` is always releasable |
 | Branch | Short-lived feature branch; delete after merge |
-| PR | Required; no direct push to `main` |
+| PR | Required; no primary push to `main` |
 | Review | At least one approval; two for security-sensitive changes |
 | CODEOWNERS | Required approval from the owning team |
 | Checks | Lint, unit, contract, integration, security, build |
@@ -15142,7 +15142,7 @@ Software does not administer claims, policies, or reinsurance; people and contro
 | Programme director | Executive sponsor | Delivery, gates, dependencies |
 | Chief architect | Programme director | Architecture, contracts, standards |
 | Platform engineering | Chief architect | Shell, gateway, identity, lineage, observability |
-| Vertical product owners | Programme director | Policy, Direct, Contract, Assumed, Cession, Retrocession, Party, Document, Payment, Notifications |
+| Vertical product owners | Programme director | Policy, Primary, Contract, Reinsurance, Cession, Retrocession, Party, Document, Payment, Notifications |
 | Claims operations | COO | FNOL, coverage, reserves, payments, recovery, litigation |
 | Reinsurance operations | CFO | Ceded/retro contracts, hand-offs, recoverables, statements, collateral |
 | Finance operations | CFO | Billing, cash, reconciliation, close, tax |
@@ -15310,7 +15310,7 @@ The platform is not ready for production until the eight gates below are passed.
 | Item | Requirement |
 |---|---|
 | Purpose | Prove that only authorized users can act, and that no single user can complete a high-risk action alone |
-| Current state | `DIRECT_ROLE` and `ASSUMED_ROLE`, access profiles and permission matrix (§9.12), authority positions/limits, and SoD (§6.9); endpoint implementation pending |
+| Current state | `PRIMARY_ROLE` and `REINSURANCE_ROLE`, access profiles and permission matrix (§9.12), authority positions/limits, and SoD (§6.9); endpoint implementation pending |
 | Required evidence | Access-profile and permission matrix (§9.12); authority-position catalog; authority-limit matrix; SoD matrix; access-review report; negative cross-book tests; break-glass log; privileged-access review |
 | Owner | Security, Compliance, business control owners |
 | Timing | Before UAT; refreshed before go-live |
@@ -15595,7 +15595,7 @@ Monthly service review covers SLOs, incidents, problems, changes, capacity, cost
 | `OD-06` | Document AI/OCR provider | Build vs licensed service | Document, Procurement | P1 |
 | `OD-07` | Sanctions screening provider | Licensed feed vs internal list management | Compliance | P1 |
 | `OD-08` | Lloyd's market support | Required in v1 or later | Reinsurance, Product | P2 |
-| `OD-09` | Actuarial IBNR integration | File extract vs API; frequency; allocation level | Actuarial, Direct, Assumed | P4 |
+| `OD-09` | Actuarial IBNR integration | File extract vs API; frequency; allocation level | Actuarial, Primary, Reinsurance | P4 |
 | `OD-10` | Legacy migration scope | Which systems, entities, and history | Data, Product | P2 |
 | `OD-11` | State retention matrix | Per-state retention and disposition rules | Legal, Records | P2 |
 | `OD-12` | Payment rails | Which methods in v1 (ACH, wire, check, virtual card) | Treasury, Payment | P3 |
@@ -15604,7 +15604,7 @@ Monthly service review covers SLOs, incidents, problems, changes, capacity, cost
 | `OD-15` | Data residency regions | US only vs US + EU | Architecture, Legal | P0 |
 | `OD-16` | Authority matrix ownership | Central platform vs each business unit | Claims, Reinsurance, Finance | P2 |
 | `OD-17` | SAP AR/AP integration scope | Which SAP APIs and document types; invoice creation vs journal; cash application; GL extract; dunning; credit management; tax ownership | Finance, Payment, SAP | P0 |
-| `OD-18` | Actuarial workbench | Build in-platform vs licensed actuarial system; data extract format | Actuarial, Direct, Assumed | P3 |
+| `OD-18` | Actuarial workbench | Build in-platform vs licensed actuarial system; data extract format | Actuarial, Primary, Reinsurance | P3 |
 | `OD-19` | FS-RI production interface | Deferred to implementation; v1 ships test endpoints and simulator; contract master, API/IDoc/RFC, hand-off, recoverables, statements decided during build | Reinsurance, Finance, SAP | P0 (implementation-time) |
 | `OD-20` | Legal and medical bill review | Build vs vendor; LEDES and coding standards | Claims, Legal, Procurement | P3 |
 | `OD-21` | Class and trust administration | Platform administration vs external settlement administrator | Claims, Legal | P5 |
@@ -15612,7 +15612,7 @@ Monthly service review covers SLOs, incidents, problems, changes, capacity, cost
 | `OD-23` | Tax engine | SAP tax vs platform determination; premium tax, surplus lines, TRIA, 1099 | Tax, Payment | P4 |
 | `OD-24` | Vendor and TPA oversight model | Which functions are outsourced; scorecard and audit rights | Operations, Procurement | P1 |
 | `OD-25` | BI platform | Platform warehouse vs enterprise warehouse; semantic layer ownership | Data, Finance | P4 |
-| `OD-26` | Book role model | `DIRECT_ROLE` and `ASSUMED_ROLE` only; a user may hold either or both; detailed RBAC and role catalogs deferred | Security, Compliance, Finance | P0 (direction agreed) |
+| `OD-26` | Book role model | `PRIMARY_ROLE` and `REINSURANCE_ROLE` only; a user may hold either or both; detailed RBAC and role catalogs deferred | Security, Compliance, Finance | P0 (primaryion agreed) |
 | `OD-27` | S/4HANA production interface | Deferred to implementation; v1 ships test endpoints and simulator; AR/AP/GL, cash, close mapping decided during build | Finance, Payment, SAP | P0 (implementation-time) |
 
 #### 18.1 Standard-default decisions
@@ -15636,7 +15636,7 @@ Where an industry default is defensible and no commercial or legal choice is req
 | Regulatory (`OD-22`) | In-platform filing preparation; filing service adapter where required | Control and evidence |
 | Tax (`OD-23`) | Platform determines; SAP posts and remits | Business calculation vs ledger |
 | Vendor (`OD-24`) | Tiered vendor model with Tier 0/1/2 controls | Risk-based oversight |
-| Book access (`OD-26`) | `DIRECT_ROLE` and `ASSUMED_ROLE`; profiles in §9.12 | Least privilege within two book roles |
+| Book access (`OD-26`) | `PRIMARY_ROLE` and `REINSURANCE_ROLE`; profiles in §9.12 | Least privilege within two book roles |
 | S/4 (`OD-27`) | Test endpoints and simulator in v1; production interface during implementation | Implementation-time dependency |
 
 These defaults are **not** a substitute for the ADR record. They are the planning baseline until the named owner confirms or changes them.
@@ -15651,14 +15651,14 @@ These enumerations are used by more than one vertical and are therefore contract
 
 | Enumeration | Values | Owner | Used by |
 |---|---|---|---|
-| `VerticalId` | `party`, `policy`, `contract`, `direct`, `assumed`, `cession`, `retrocession`, `document`, `payment`, `notifications` | Platform | All |
+| `VerticalId` | `party`, `policy`, `contract`, `primary`, `reinsurance`, `cession`, `retrocession`, `document`, `payment`, `notifications` | Platform | All |
 | `LegalEntityType` | `HOLDING`, `INSURER`, `REINSURER`, `MGA`, `TPA`, `CAPTIVE`, `SYNDICATE`, `SERVICE_COMPANY` | Finance / Data governance | Policy, Payment, Contract, Compliance |
 | `OrganizationUnitType` | `GROUP`, `DIVISION`, `REGION`, `BRANCH`, `OFFICE`, `DEPARTMENT` | Data governance | All |
-| `ProgramType` | `CASUALTY`, `PROPERTY`, `COMMERCIAL`, `AUTO`, `SPECIALTY`, `OTHER` | Data governance / Product | Policy, Direct, Reporting |
-| `LineOfBusinessCategory` | `PROPERTY`, `CASUALTY`, `AUTO`, `WORKERS_COMP`, `PROFESSIONAL`, `MARINE`, `ENERGY`, `OTHER` | Data governance | Policy, Direct, Contract |
-| `CoverageCategory` | `BI`, `PD`, `MEDPAY`, `UM_UIM`, `DEFENSE`, `EXPENSE`, `PROPERTY_DAMAGE`, `OTHER` | Data governance | Policy, Direct |
-| `CoverageResponseBasis` | `OCCURRENCE`, `CLAIMS_MADE`, `CLAIMS_MADE_AND_REPORTED`, `PER_PROJECT`, `BLANKET` | Data governance | Policy, Direct |
-| `CoverageLimitStructure` | `PER_OCCURRENCE`, `AGGREGATE`, `PER_PROJECT`, `PER_RISK`, `BLANKET` | Data governance | Policy, Direct |
+| `ProgramType` | `CASUALTY`, `PROPERTY`, `COMMERCIAL`, `AUTO`, `SPECIALTY`, `OTHER` | Data governance / Product | Policy, Primary, Reporting |
+| `LineOfBusinessCategory` | `PROPERTY`, `CASUALTY`, `AUTO`, `WORKERS_COMP`, `PROFESSIONAL`, `MARINE`, `ENERGY`, `OTHER` | Data governance | Policy, Primary, Contract |
+| `CoverageCategory` | `BI`, `PD`, `MEDPAY`, `UM_UIM`, `DEFENSE`, `EXPENSE`, `PROPERTY_DAMAGE`, `OTHER` | Data governance | Policy, Primary |
+| `CoverageResponseBasis` | `OCCURRENCE`, `CLAIMS_MADE`, `CLAIMS_MADE_AND_REPORTED`, `PER_PROJECT`, `BLANKET` | Data governance | Policy, Primary |
+| `CoverageLimitStructure` | `PER_OCCURRENCE`, `AGGREGATE`, `PER_PROJECT`, `PER_RISK`, `BLANKET` | Data governance | Policy, Primary |
 | `ExternalStandard` | `ACORD`, `NAIC`, `ISO`, `SAP`, `OTHER` | Data governance | All integrations |
 | `ExternalEntityType` | `LEGAL_ENTITY`, `ORGANIZATION_UNIT`, `PROGRAM`, `LOB`, `SUBLINE`, `COVERAGE`, `COVERAGE_TYPE` | Data governance | All integrations |
 | `DataClassification` | `PUBLIC`, `INTERNAL`, `CONFIDENTIAL`, `RESTRICTED`, `PHI`, `PRIVILEGED` | Platform | All |
@@ -15671,9 +15671,9 @@ These enumerations are used by more than one vertical and are therefore contract
 | `ErrorCategory` | `VALIDATION`, `AUTHENTICATION`, `AUTHORIZATION`, `NOT_FOUND`, `CONFLICT`, `BUSINESS_RULE`, `APPROVAL_REQUIRED`, `RATE_LIMIT`, `DEPENDENCY`, `TIMEOUT`, `DEADLINE_EXCEEDED`, `INTERNAL` | Platform | All |
 | `PartyType` | `PERSON`, `ORGANIZATION`, `TRUST`, `ESTATE`, `GOVERNMENT_ENTITY`, `UNINCORPORATED_ASSOCIATION`, `GROUP`, `BANKRUPTCY_TRUST`, `SETTLEMENT_TRUST`, `QUALIFIED_SETTLEMENT_FUND` | Party | All |
 | `PartyRoleCode` | See §11.1.5 | Party | All |
-| `ClaimType` | See §11.4.5 | Direct | Direct, Assumed |
-| `TortCode` | See Appendix E | Direct / Policy / Contract | All |
-| `InjuryCategory` | See §11.4.5 | Direct | Direct, Assumed |
+| `ClaimType` | See §11.4.5 | Primary | Primary, Reinsurance |
+| `TortCode` | See Appendix E | Primary / Policy / Contract | All |
+| `InjuryCategory` | See §11.4.5 | Primary | Primary, Reinsurance |
 | `CurrencyCode` | ISO 4217 | External | All |
 | `CountryCode` | ISO 3166-1 alpha-3 | External | All |
 | `LanguageTag` | BCP 47 | External | All |
@@ -15682,8 +15682,8 @@ These enumerations are used by more than one vertical and are therefore contract
 | `NotificationChannel` | `IN_APP`, `EMAIL`, `SMS`, `PUSH`, `WEBHOOK`, `TASK`, `DIGEST` | Notifications | All |
 | `Severity` | `INFO`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL` | Notifications | All |
 | `LinkType` | See §8.3 | Platform | All |
-| `ContractType` | See §11.3.5 | Contract | Contract, Assumed |
-| `PolicyStatus` | See §11.2.5 | Policy | Policy, Direct |
+| `ContractType` | See §11.3.5 | Contract | Contract, Reinsurance |
+| `PolicyStatus` | See §11.2.5 | Policy | Policy, Primary |
 | `DocumentType` | See §11.6.5 | Document | All |
 
 **Registry rule:** a shared enumeration is published in `contracts/codes/enums/{enum}.json` with `version`, `values`, `descriptions`, `deprecated`, and `since`. A consumer pins a compatible range. Adding a value is a minor change only if all consumers tolerate unknown values; otherwise it is a major change.
@@ -15703,17 +15703,17 @@ These enumerations are used by more than one vertical and are therefore contract
 | NCCI class codes | NCCI | Annual | `ref.ncci_class` | Policy |
 | NAIC lines of business | NAIC | Annual | `ref.naic_lob` and `external_code_map` | Policy, Contract, Finance |
 | NAIC company and group codes | NAIC | Annual | `external_code_map` | Finance, Compliance |
-| ACORD lines of business | ACORD | Current release | `external_code_map` | Policy, Direct |
-| ACORD coverage codes | ACORD | Current release | `external_code_map` | Policy, Direct |
-| ISO forms and coverage codes | Verisk/ISO | Current release | `external_code_map`, `policy_coverage.form_number` | Policy, Direct |
+| ACORD lines of business | ACORD | Current release | `external_code_map` | Policy, Primary |
+| ACORD coverage codes | ACORD | Current release | `external_code_map` | Policy, Primary |
+| ISO forms and coverage codes | Verisk/ISO | Current release | `external_code_map`, `policy_coverage.form_number` | Policy, Primary |
 | SAP company codes, business areas, profit centers | SAP S/4HANA | On change | `sap_master`, `external_code_map` | Finance, Payment |
-| ICD-10-CM | CMS/CDC | Annual (Oct 1) | `ref.icd10cm` | Direct |
-| ICD-10-PCS | CMS | Annual | `ref.icd10pcs` | Direct |
-| CPT | AMA | Annual | `ref.cpt` | Direct, Payment |
-| HCPCS | CMS | Quarterly | `ref.hcpcs` | Direct, Payment |
-| NDC | FDA | Continuous | `ref.ndc` | Direct, Payment |
+| ICD-10-CM | CMS/CDC | Annual (Oct 1) | `ref.icd10cm` | Primary |
+| ICD-10-PCS | CMS | Annual | `ref.icd10pcs` | Primary |
+| CPT | AMA | Annual | `ref.cpt` | Primary, Payment |
+| HCPCS | CMS | Quarterly | `ref.hcpcs` | Primary, Payment |
+| NDC | FDA | Continuous | `ref.ndc` | Primary, Payment |
 | ACORD code lists | ACORD | Current release | `ref.acord_*` | All |
-| Cause of loss | ACORD / ISO | Current | `ref.cause_of_loss` | Direct |
+| Cause of loss | ACORD / ISO | Current | `ref.cause_of_loss` | Primary |
 | Sanctions lists | OFAC, UN, EU, UK HMT | Multiple daily | Screening provider | Party, Payment |
 | Bank validation | National routing/IBAN registries | On change | Payment vault | Payment |
 | GL accounts, cost centres | SAP S/4HANA | Daily sync | `ref.sap_master` | Payment |
@@ -15744,12 +15744,12 @@ These enumerations are used by more than one vertical and are therefore contract
 | `EIA-POL-31xx` | Policy | `EIA-POL-3101` | Limit insufficient |
 | `EIA-POL-32xx` | Policy | `EIA-POL-3201` | Mass tort profile incomplete |
 | `EIA-POL-33xx` | Policy | `EIA-POL-3301` | Premium does not reconcile |
-| `EIA-DIR-4xxx` | Direct | `EIA-DIR-4001` | Claim not found |
-| `EIA-DIR-40xx` | Direct | `EIA-DIR-4007` | Claim is closed |
-| `EIA-DIR-41xx` | Direct | `EIA-DIR-4101` | Reserve exceeds authority |
-| `EIA-DIR-42xx` | Direct | `EIA-DIR-4201` | Settlement exceeds authority |
-| `EIA-DIR-43xx` | Direct | `EIA-DIR-4301` | Required lien not resolved |
-| `EIA-DIR-44xx` | Direct | `EIA-DIR-4401` | Coverage not triggered |
+| `EIA-DIR-4xxx` | Primary | `EIA-DIR-4001` | Claim not found |
+| `EIA-DIR-40xx` | Primary | `EIA-DIR-4007` | Claim is closed |
+| `EIA-DIR-41xx` | Primary | `EIA-DIR-4101` | Reserve exceeds authority |
+| `EIA-DIR-42xx` | Primary | `EIA-DIR-4201` | Settlement exceeds authority |
+| `EIA-DIR-43xx` | Primary | `EIA-DIR-4301` | Required lien not resolved |
+| `EIA-DIR-44xx` | Primary | `EIA-DIR-4401` | Coverage not triggered |
 | `EIA-PAY-5xxx` | Payment | `EIA-PAY-5001` | Payment not found |
 | `EIA-PAY-50xx` | Payment | `EIA-PAY-5002` | Payment not in a valid state |
 | `EIA-PAY-51xx` | Payment | `EIA-PAY-5101` | Insufficient authority |
@@ -15762,10 +15762,10 @@ These enumerations are used by more than one vertical and are therefore contract
 | `EIA-CON-61xx` | Contract | `EIA-CON-6101` | Cession exceeds capacity |
 | `EIA-CON-62xx` | Contract | `EIA-CON-6201` | Bordereau does not reconcile |
 | `EIA-CON-63xx` | Contract | `EIA-CON-6301` | Security requirement breached |
-| `EIA-ASM-7xxx` | Assumed | `EIA-ASM-7001` | Assumed claim not found |
-| `EIA-ASM-70xx` | Assumed | `EIA-ASM-7002` | Advice is a duplicate |
-| `EIA-ASM-71xx` | Assumed | `EIA-ASM-7101` | Advice outside treaty period or sunset |
-| `EIA-ASM-72xx` | Assumed | `EIA-ASM-7201` | Commutation blocked by dispute |
+| `EIA-RNS-7xxx` | Reinsurance | `EIA-RNS-7001` | Reinsurance claim not found |
+| `EIA-RNS-70xx` | Reinsurance | `EIA-RNS-7002` | Advice is a duplicate |
+| `EIA-RNS-71xx` | Reinsurance | `EIA-RNS-7101` | Advice outside treaty period or sunset |
+| `EIA-RNS-72xx` | Reinsurance | `EIA-RNS-7201` | Commutation blocked by dispute |
 | `EIA-DOC-8xxx` | Document | `EIA-DOC-8001` | Document not found |
 | `EIA-DOC-80xx` | Document | `EIA-DOC-8002` | Content hash mismatch |
 | `EIA-DOC-81xx` | Document | `EIA-DOC-8101` | Document under legal hold |
@@ -15782,7 +15782,7 @@ These enumerations are used by more than one vertical and are therefore contract
 
 ### Appendix D — End-to-end mass tort scenario
 
-This scenario is the reference for integration tests, demos, and UAT. It exercises the **DIRECT book** and the shared services; the ASSUMED book has a separate scenario and is never linked.
+This scenario is the reference for integration tests, demos, and UAT. It exercises the **PRIMARY book** and the shared services; the REINSURANCE book has a separate scenario and is never linked.
 
 **Actors and records**
 
@@ -15808,18 +15808,18 @@ This scenario is the reference for integration tests, demos, and UAT. It exercis
 
 1. **Policy issued.** Policy binds `GL-2024-0041827` with a products liability coverage part and a mass tort profile for `TALC`. Limits: USD 2M each occurrence, USD 5M general aggregate. Documents are generated and associated; the producer is notified.
 2. **Claim registered.** Adjuster registers `CLM-2026-0193382` with loss date 2026-03-14, diagnosis 2026-01-22, exposure 1974–2003, and plaintiff firm. Party creates the claimant and the claim roles; Document associates the PFS; Notifications sends the new-claim notice.
-3. **Coverage assessed.** Direct evaluates the continuous trigger against policy years 1974–2003, identifies the 2024 policy as the responding year under the configured allocation method, and records the coverage position. Policy confirms availability.
-4. **Reserve established.** Direct sets indemnity 1,250,000 and defense 180,000. The reserve exceeds the adjuster's authority, so a reserve authority request is routed. The senior adjuster approves. Policy erodes the 2024 aggregate by 1,430,000 and publishes the new remaining amount.
-5. **Litigation.** The claim is consolidated into an MDL. Direct records the MDL number, bellwether status, and trial group. Documents include pleadings and expert reports; privileged counsel communications are restricted.
-6. **Settlement.** Direct negotiates 1,250,000 and identifies a Medicare lien of 45,000. The settlement is authorized by the claims manager within authority, a release is generated and signed, and the lien is resolved at 45,000. Payment is requested.
+3. **Coverage assessed.** Primary evaluates the continuous trigger against policy years 1974–2003, identifies the 2024 policy as the responding year under the configured allocation method, and records the coverage position. Policy confirms availability.
+4. **Reserve established.** Primary sets indemnity 1,250,000 and defense 180,000. The reserve exceeds the adjuster's authority, so a reserve authority request is routed. The senior adjuster approves. Policy erodes the 2024 aggregate by 1,430,000 and publishes the new remaining amount.
+5. **Litigation.** The claim is consolidated into an MDL. Primary records the MDL number, bellwether status, and trial group. Documents include pleadings and expert reports; privileged counsel communications are restricted.
+6. **Settlement.** Primary negotiates 1,250,000 and identifies a Medicare lien of 45,000. The settlement is authorized by the claims manager within authority, a release is generated and signed, and the lien is resolved at 45,000. Payment is requested.
 7. **Payment.** Payment validates the claim's remaining reserve and the policy's remaining aggregate, screens the payee, verifies the bank account, confirms the approver's authority, and approves. Payment splits 1,250,000 into 1,205,000 to the claimant and 45,000 to Medicare. SAP receives the business partner, journal entry, and payment advice; the SAP document numbers are stored. The payment is confirmed and reconciled against the bank statement.
-8. **Cession.** Policy maps the policy and claim facts to a direct cession request and sends it to SAP FS-RI. FS-RI confirms the cession and returns the ceded amounts and recoverable. Policy stores the projection; Direct displays it on the claim. Contract and Assumed are not involved.
-9. **Closure.** Direct closes the claim after confirming zero reserves, no outstanding payment, resolved lien, and no open diary. Policy's aggregate state reflects the final erosion. The claim appears in the policy's claim tab, the party's claim tab, the payment's claim link, and the policy's cession tab.
+8. **Cession.** Policy maps the policy and claim facts to a primary cession request and sends it to SAP FS-RI. FS-RI confirms the cession and returns the ceded amounts and recoverable. Policy stores the projection; Primary displays it on the claim. Contract and Reinsurance are not involved.
+9. **Closure.** Primary closes the claim after confirming zero reserves, no outstanding payment, resolved lien, and no open diary. Policy's aggregate state reflects the final erosion. The claim appears in the policy's claim tab, the party's claim tab, the payment's claim link, and the policy's cession tab.
 
 **Lineage path**
 
 ```
-DIRECT book
+PRIMARY book
 Policy GL-2024-0041827
   └── POLICY_HAS_INSURED → Party Acme Chemical
   └── POLICY_HAS_CLAIM → Claim CLM-2026-0193382
@@ -15840,16 +15840,16 @@ Policy GL-2024-0041827
         └── POLICY_HAS_CESSION → Cession case CES-2026-…
               └── FS-RI confirmation FSRI-DIR-… (external reference)
 
-ASSUMED book (separate; no link to the DIRECT book)
+REINSURANCE book (separate; no link to the PRIMARY book)
 Contract XOL-2024-00091
-  └── CONTRACT_HAS_ASSUMED_CLAIM → Assumed claim ASM-2026-0007731
-        ├── ASSUMED_CLAIM_UNDER_CONTRACT → Contract XOL-2024-00091
-        ├── ASSUMED_CLAIM_HAS_RESERVE → Assumed reserve
-        ├── ASSUMED_CLAIM_HAS_PAYMENT → Payment (assumed book)
+  └── CONTRACT_HAS_REINSURANCE_CLAIM → Reinsurance claim RNS-2026-0007731
+        ├── REINSURANCE_CLAIM_UNDER_CONTRACT → Contract XOL-2024-00091
+        ├── REINSURANCE_CLAIM_HAS_RESERVE → Reinsurance reserve
+        ├── REINSURANCE_CLAIM_HAS_PAYMENT → Payment (reinsurance book)
         └── CONTRACT_HAS_RETRO → Retrocession case RTS-2026-…
 ```
 
-**Book note:** the two trees above are deliberately disconnected. The Direct claim is not linked to the Assumed claim, and the Policy is not linked to the Contract. Shared Party, Document, and Payment nodes may appear in both, but a single-book user sees only their own book's associations.
+**Book note:** the two trees above are deliberately disconnected. The Primary claim is not linked to the Reinsurance claim, and the Policy is not linked to the Contract. Shared Party, Document, and Payment nodes may appear in both, but a single-book user sees only their own book's associations.
 
 **Timeline excerpt**
 
@@ -15857,18 +15857,18 @@ Contract XOL-2024-00091
 |---|---|---|---|
 | 2024-01-01 | Policy | `policy.policy.issued` | Underwriter |
 | 2024-01-01 | Policy | `policy.fsri.cession.confirmed` | System |
-| 2026-03-18 | Direct | `direct.claim.registered` | Adjuster |
+| 2026-03-18 | Primary | `primary.claim.registered` | Adjuster |
 | 2026-03-18 | Party | `party.role.added` (claimant) | Adjuster |
 | 2026-03-19 | Document | `document.document.associated` (PFS) | Document clerk |
-| 2026-03-25 | Direct | `direct.claim.coverage-assessed` | Adjuster |
-| 2026-04-02 | Direct | `direct.claim.reserve-established` | Adjuster |
+| 2026-03-25 | Primary | `primary.claim.coverage-assessed` | Adjuster |
+| 2026-04-02 | Primary | `primary.claim.reserve-established` | Adjuster |
 | 2026-04-02 | Policy | `policy.aggregate.eroded` | System |
-| 2026-09-12 | Direct | `direct.claim.settlement-authorized` | Claims manager |
+| 2026-09-12 | Primary | `primary.claim.settlement-authorized` | Claims manager |
 | 2026-09-15 | Payment | `payment.payment.authorized` | Payment approver |
 | 2026-09-15 | Payment | `payment.sap.posted` | System |
 | 2026-09-18 | Payment | `payment.payment.paid` | System |
 | 2026-09-20 | Payment | `payment.payment.reconciled` | System |
-| 2026-09-30 | Direct | `direct.claim.closed` | Adjuster |
+| 2026-09-30 | Primary | `primary.claim.closed` | Adjuster |
 
 ### Appendix E — Mass tort reference catalog
 
@@ -16123,12 +16123,12 @@ The clause library supports consistent treaty construction and review. The autho
 | **Components** Ten verticals (8 business + Cession + Retrocession), each FE/BE/DB | Application inventory, per-vertical chapters | §4.3, §11 | One deployable set and database per vertical |
 | **Lineage** Follow links and sequence | EntityRef, link taxonomy, graph, timeline, record 360 | §8 | E2E-06, E2E-07; graph and timeline latency SLOs |
 | **Mass tort policies** | Policy mass tort profile, coverage blocks, occurrences, allocation | §11.2.11, Appendix E | Mass tort policy scenario; allocation and erosion tests |
-| **Assumed reinsurance** | Contract types, layers, cessions, bordereaux, technical accounts, commutation | §11.3.11, §11.5.11 | Treaty bind, bordereau, account, commutation E2E |
-| **Claims** | Direct and Assumed complete models | §11.4, §11.5 | E2E-02, E2E-03, E2E-08 |
+| **Reinsurance** | Contract types, layers, cessions, bordereaux, technical accounts, commutation | §11.3.11, §11.5.11 | Treaty bind, bordereau, account, commutation E2E |
+| **Claims** | Primary and Reinsurance complete models | §11.4, §11.5 | E2E-02, E2E-03, E2E-08 |
 | **Premium billing and AR** | Billing account, installments, instructions, receivables, commissions, SAP AR and reconciliation | §11.2.13, §7.13, §11.7.14 | E2E-11; AR and commission reconciliation |
 | **Product and underwriting** | Product, forms, rating, clearance, referral, authority, producer licensing | §11.2.14 | Quote-to-bind with referral and authority |
 | **Actuarial reserving** | Triangles, factors, ultimate picks, ranges, committee, IBNR | §7.14 | Reserve review, committee approval, IBNR posting |
-| **Direct reinsurance administration** | Cession vertical manages ceded contracts, layers, participants, terms, rules; pulls Policy/Direct facts; hands off to FS-RI | §7.18, §11.9 | Create/bind contract → cession rule → hand-off → confirmation → recoverable → reconciliation |
+| **Primary-book reinsurance administration** | Cession vertical manages ceded contracts, layers, participants, terms, rules; pulls Policy/Primary facts; hands off to FS-RI | §7.18, §11.9 | Create/bind contract → cession rule → hand-off → confirmation → recoverable → reconciliation |
 | **Reinsurance calculations** | Quota share, surplus, XOL, aggregate, stop loss, reinstatement, sliding scale, profit commission, inuring order, retro, commutation, test vectors | §7.19 | Unit vectors and Playwright E2E for every formula |
 | **Credit, collateral, Schedule F** | Eligible reinsurer, state credit rules, collateral, recoverable provision, Schedule F | §7.20 | Credit calculation, collateral deficiency, Schedule F reconciliation |
 | **Commutation, documents, cash** | Commutation, contract documents, authority limits, recoverable cash application | §7.21 | Commutation approval and release; cash application |
@@ -16138,7 +16138,7 @@ The clause library supports consistent treaty construction and review. The autho
 | **Legal entity, program, capacity** | Program, capacity providers, coinsurance, fronting, captive, pool | §11.2.16 | Capacity allocation and fronting E2E |
 | **Production readiness gates** | Eight gates with evidence and AI-generation protocol | §17.10 | Gate evidence pack and sign-off |
 | **Playwright testing** | Playwright-first, 100% business logic, rule-to-test matrix | §15.3 | Playwright report, coverage, matrix |
-| **Assumed retrocession administration** | Retrocession vertical manages retro contracts, layers, participants, terms, rules; pulls Contract/Assumed facts; hands off to FS-RI | §7.18, §11.10 | Create/bind retro contract → retro rule → hand-off → confirmation → retro recoverable → reconciliation |
+| **Reinsurance retrocession administration** | Retrocession vertical manages retro contracts, layers, participants, terms, rules; pulls Contract/Reinsurance facts; hands off to FS-RI | §7.18, §11.10 | Create/bind retro contract → retro rule → hand-off → confirmation → retro recoverable → reconciliation |
 | **Coverage litigation and legal spend** | Coverage positions, letters, tenders, disputes, legal invoices | §11.4.13 | ROR, tender, LEDES invoice approval |
 | **Medical, liens, structured settlements** | Medical review, bills, Medicare, MSA, liens, court approval, QSF | §11.4.14 | Settlement with lien and MSA |
 | **Class and trust administration** | Classes, notices, opt-outs, funds, trusts, TDP, distributions | §11.4.15 | Class settlement and trust claim |
@@ -16311,7 +16311,7 @@ CREATE TABLE ent.payment (
   tenant_id              uuid NOT NULL,
   payment_number         varchar(32) NOT NULL,
   payment_type           varchar(32) NOT NULL,
-  direction              varchar(16) NOT NULL,
+  primaryion              varchar(16) NOT NULL,
   status                 varchar(24) NOT NULL,
   claim_vertical         varchar(16),
   claim_id               uuid,
@@ -16397,7 +16397,7 @@ CREATE TABLE ent.document (
   document_date          date,
   received_at            timestamptz,
   sent_at                timestamptz,
-  direction              varchar(16),
+  primaryion              varchar(16),
   source                 varchar(16) NOT NULL,
   source_reference       varchar(200),
   origin_party_id        uuid,
@@ -16478,9 +16478,9 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 2. Record a cession against a policy and see the ceded premium and loss.
 3. Process a claims bordereau with two exceptions; post valid lines, produce an exception report.
 4. Produce a technical account with commission, paid loss, outstanding, and IBNR; the balance reconciles.
-5. Commute the contract with approval; open assumed claims are closed, security released, release document stored.
+5. Commute the contract with approval; open reinsurance claims are closed, security released, release document stored.
 
-#### J.4 Direct
+#### J.4 Primary
 
 1. Register a mass tort claim with injury and exposure; coverage is assessed; initial reserve is set.
 2. A reserve above authority requires approval; the approval is evidenced; Policy erosion follows.
@@ -16488,13 +16488,13 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 4. Close the claim only when reserves, payments, liens, and diary items are clear.
 5. The claim 360 shows the claimant, policy, documents, payments, and timeline.
 
-#### J.5 Assumed
+#### J.5 Reinsurance
 
-1. Record a loss advice against a treaty; the assumed claim and reserve are created.
+1. Record a loss advice against a treaty; the reinsurance claim and reserve are created.
 2. A payment advice updates ceded paid and outstanding; the financial summary is correct.
 3. Request a cash call within the cash-loss limit; Contract and Payment process it.
-4. Commute an assumed claim with a release; reserves close and the payment is issued.
-5. The assumed claim 360 shows the contract, cedent, advices, payments, documents, and lineage.
+4. Commute a reinsurance claim with a release; reserves close and the payment is issued.
+5. The reinsurance claim 360 shows the contract, cedent, advices, payments, documents, and lineage.
 
 #### J.6 Document
 
@@ -16531,18 +16531,18 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 #### J.10 Actuarial reserving
 
 1. A reserve review is created for a tort portfolio with a valuation date and actuary.
-2. Loss triangles and development factors are built from Direct and Assumed data.
+2. Loss triangles and development factors are built from Primary and Reinsurance data.
 3. An ultimate loss pick, range, and IBNR allocation are approved by the reserve committee.
-4. IBNR is posted to Direct/Assumed with `reserve_basis=ACTUARIAL` and reconciled to SAP.
+4. IBNR is posted to Primary/Reinsurance with `reserve_basis=ACTUARIAL` and reconciled to SAP.
 5. A subsequent review supersedes the prior review without altering it.
 
 #### J.11 Reinsurance and retrocession administration with FS-RI output
 
 1. A ceded contract is created, layered, populated with participants, terms, and security, and bound in Cession.
-2. A cession rule maps direct policies/claims to the contract and layer.
-3. A direct policy/claim event is pulled by Cession; a cession case and hand-off are produced.
+2. A cession rule maps primary policies/claims to the contract and layer.
+3. A primary policy/claim event is pulled by Cession; a cession case and hand-off are produced.
 4. FS-RI returns a confirmation; the confirmed cession and recoverable projection appear on the contract and claim.
-5. A retro contract is created and bound in Retrocession; an assumed contract/claim event produces a retro case and hand-off.
+5. A retro contract is created and bound in Retrocession; a reinsurance contract/claim event produces a retro case and hand-off.
 6. A rejected hand-off creates an exception and flags the source record; per-book reconciliation passes and a cross-book request is blocked.
 
 #### J.12 Coverage litigation and legal spend
@@ -16661,7 +16661,7 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 
 #### K.2 Review checklist
 
-1. **Business:** does the model support commercial mass tort and assumed reinsurance as practiced, including allocation, triggers, treaties, bordereaux, and commutation?
+1. **Business:** does the model support commercial mass tort and reinsurance as practiced, including allocation, triggers, treaties, bordereaux, and commutation?
 2. **Architecture:** are the vertical boundaries, domain/expert split, and dependency policy coherent and enforceable?
 3. **Data:** are entities, keys, relationships, enumerations, and standards complete and consistent across chapters?
 4. **Security:** are classification, authority, segregation of duties, sanctions, and audit adequate?

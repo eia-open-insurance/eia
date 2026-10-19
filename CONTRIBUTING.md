@@ -65,4 +65,4 @@ Maintainers review for correctness, security, operability, and fit with the spec
 
 ## Community
 
-Be direct, be kind, and assume good intent. Disagreement about design is welcome; personal attacks are not.
+Be primary, be kind, and assume good intent. Disagreement about design is welcome; personal attacks are not.

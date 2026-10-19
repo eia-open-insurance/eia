@@ -9,7 +9,7 @@ EIA Open Insurance is in its bootstrap phase. The founding maintainer is `@rmbur
 | Role | Responsibility |
 |---|---|
 | Maintainer | Reviews and merges changes; owns a repository or domain |
-| Technical Steering Committee member | Sets technical direction, resolves disputes, approves RFCs |
+| Technical Steering Committee member | Sets technical primaryion, resolves disputes, approves RFCs |
 | Contributor | Submits issues, code, documentation, tests, or designs |
 | Adopter | Uses the software and reports defects or requirements |
 
