@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 44 JUnit suites, **348 tests, 0 failures/errors**.
+- 67 JUnit suites, **509 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -114,3 +114,11 @@ This is a working local first vertical slice, not production-complete insurance 
 - Cession with `X-EIA-Book: ASSUMED` returns 404, hiding the DIRECT-book resource.
 - Party unknown id returns canonical 404 instead of a Spring 500.
 - OIDC authorization request with `scope=openid` redirects to `/login`; after login the browser returns an authorization code to the shell callback.
+
+## Round 2 additions
+
+- Policy is the hardened reference: canonical RFC 9457 errors, page envelopes, ETag/If-Match, and idempotent creates.
+- Transactional outbox library plus Party expert integration; events are written in the same transaction as the Party row.
+- Cession and Retrocession hand off to the FS-RI simulator and persist the confirmation fields atomically.
+- PostgreSQL `max_connections` raised to 300; each expert pool is capped at 3 connections.
+- Live checks: policy replay returns 200 + `Idempotent-Replayed: true`; stale version returns 409 `CONCURRENT_MODIFICATION`; Cession moves `OPEN → RULE_APPLIED → HANDED_OFF` with `FSRI-CES-DIRECT-000001` and `POSTED`.
