@@ -107,3 +107,10 @@ The container and Kubernetes paths are **not yet executed** on this machine. Doc
 
 This is a working local first vertical slice, not production-complete insurance administration. Each vertical has its primary aggregate, core invariants, create/list/get APIs, PostgreSQL persistence, a federated workbench, and tests. Coverage, endorsements, claims depth, billing, outbox/events, RLS, full RBAC, FS-RI/S4 live adapters, and production gates remain.
 
+
+## Conformance spot checks
+
+- Direct Claims `reserveAmount` is a JSON string (`"7500.5000"`), not a number.
+- Cession with `X-EIA-Book: ASSUMED` returns 404, hiding the DIRECT-book resource.
+- Party unknown id returns canonical 404 instead of a Spring 500.
+- OIDC authorization request with `scope=openid` redirects to `/login`; after login the browser returns an authorization code to the shell callback.
