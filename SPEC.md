@@ -3509,8 +3509,8 @@ The production S/4 interface is implementation-time. These principles define the
 | Claim paid | AP payment | Paid loss | Bank / cash |
 | Claim reserve | GL journal | Incurred loss | Loss reserve |
 | Ceded premium | AP/GL | Ceded premium | Reinsurer payable |
-| Recoverable recognized | GL journal | Assumed Claims recoverable | Ceded loss recovery |
-| Recoverable collected | Cash application | Bank / cash | Assumed Claims recoverable |
+| Recoverable recognized | GL journal | Reinsurance recoverable | Ceded loss recovery |
+| Recoverable collected | Cash application | Bank / cash | Reinsurance recoverable |
 | Tax determined | GL journal | Tax expense / premium receivable | Tax payable |
 | Reversal | Reversal document | Reverses original | Reverses original |
 
@@ -4569,8 +4569,8 @@ Schedule F is produced per legal entity, per year, per reinsurer, and per state 
 
 | Schedule F category | Source |
 |---|---|
-| Assumed Claims recoverable on paid losses | `fsri_recoverable` paid |
-| Assumed Claims recoverable on unpaid losses | `fsri_recoverable` unpaid + IBNR |
+| Reinsurance recoverable on paid losses | `fsri_recoverable` paid |
+| Reinsurance recoverable on unpaid losses | `fsri_recoverable` unpaid + IBNR |
 | Ceded premium payable | `fsri_statement` |
 | Funds held by ceding company | `collateral` funds withheld |
 | Collateral | `collateral` |
@@ -12345,7 +12345,7 @@ Payment is the **financial gateway and reconciliation owner** for both AR and AP
 ##### Mass tort reconciliation specifics
 
 * **Multi-carrier premiums.** AR is reconciled per legal entity and capacity provider, not just per policy.
-* **Assumed Claims recoverables.** Expected recoveries from Contract/Assumed Claims are reconciled to SAP receivables and cash; ageing and disputes are visible.
+* **Reinsurance recoverables.** Expected recoveries from Contract/Assumed Claims are reconciled to SAP receivables and cash; ageing and disputes are visible.
 * **FS-RI cessions and retrocessions.** Expected ceded/retro amounts and recoverables from Contract are reconciled to FS-RI confirmations and S/4 postings. FS-RI is authoritative for the reinsurance amounts (§7.17); Payment owns the financial reconciliation and proof of balance.
 * **Trust and QSF cash.** Fiduciary accounts are reconciled separately and are not netted against operating cash.
 * **Lien and settlement payments.** Payment lines reconcile to the claim settlement, the lien, and the SAP payment document.
@@ -14721,7 +14721,7 @@ These capabilities do not each need a separate phase, but they are release-gatin
 | Actuarial reserving | P3–P6 | Actuarial, Direct Claims, Assumed Claims | Triangles, ultimate picks, committee, IBNR, ceded IBNR |
 | Cession vertical | P4–P5 | Cession, Finance, SAP | Contract setup, layers, participants, terms, security, rules, calculations, credit, collateral, commutation, tax, hand-off, recoverables, reconciliation |
 | Retrocession vertical | P4–P6 | Retrocession, Finance, SAP | Retro contract setup, layers, participants, terms, security, rules, calculations, credit, collateral, commutation, tax, hand-off, recoverables, reconciliation |
-| Assumed Claims credit, collateral, Schedule F | P4–P6 | Assumed Claims, Finance, Tax | Eligibility, state rules, collateral register, Schedule F, provisions |
+| Reinsurance credit, collateral, Schedule F | P4–P6 | Assumed Claims, Finance, Tax | Eligibility, state rules, collateral register, Schedule F, provisions |
 | KYC, AML, beneficial ownership | P1–P3 | Party, Compliance, Legal | KYC profile, beneficial owners, sanctions/PEP, EDD, ongoing monitoring |
 | Print, mail, e-signature, notary | P3–P5 | Document, Operations, Legal | Print vendor, certified mail, envelopes, notary, proof of delivery |
 | Coverage litigation and legal spend | P3–P5 | Direct Claims, Legal | Coverage positions, tenders, panel counsel, LEDES review |
