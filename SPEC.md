@@ -148,7 +148,7 @@ An enterprise insurance administration platform for two lines of business that s
 The platform is a **policy, claims, and reinsurance administration system of record and transactional system**. It is not an ERP, general ledger, HR, legal, procurement, or vendor-management system. It integrates with those functions and provides the data, workflow, controls, and evidence they need; it does not replace the business that operates them.
 
 1. **Directly underwritten commercial insurance**, focused on **commercial mass tort** exposures (asbestos, silica, talc, PFAS, opioids, product liability, environmental, and similar long-tail liability), including the associated claims administration.
-2. **Assumed Claims**, including proportional and non-proportional treaties, facultative placements, loss portfolio transfers, adverse development covers, and run-off, including the associated reinsurance claims administration.
+2. **Assumed reinsurance**, including proportional and non-proportional treaties, facultative placements, loss portfolio transfers, adverse development covers, and run-off, including the associated reinsurance claims administration.
 
 The platform is composed of **ten verticals: eight business verticals plus two FS-RI integration verticals**. Each vertical owns its business or integration truth, its front-end, its business logic, its transactional persistence, and its database:
 
@@ -562,7 +562,7 @@ The platform supports **two distinct books** with separate value chains. They sh
 | `WALL-03` | **Retrocession** manages the reinsurance-book retro contracts and retro rules, pulls contract facts from Contract and claim facts from Assumed Claims, and hands off to FS-RI. Assumed Claims and Contract never call FS-RI or Policy. |
 | `WALL-04` | No `Policy`↔`Contract`, `Direct Claims`↔`Assumed Claims`, `Direct Claims`↔`Contract`, `Policy`↔`Assumed Claims`, or `Cession`↔`Retrocession` business links or calls are permitted. |
 | `WALL-05` | Shared services (`party`, `document`, `payment`, `notifications`, `lineage`) are book-aware and MUST enforce the caller's book scope. |
-| `WALL-06` | A user with `DIRECT` scope MUST NOT see, infer, or reference `ASSUMED` records, and vice versa. |
+| `WALL-06` | A user with `DIRECT_ROLE` MUST NOT see, infer, or reference `ASSUMED` records, and vice versa. |
 | `WALL-07` | Cross-book access requires both book roles and an audit record. |
 | `WALL-08` | No cross-book queues, authority matrices, templates, or report definitions. Group reporting is separate and aggregated. |
 
