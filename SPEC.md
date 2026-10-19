@@ -463,7 +463,7 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 | Modal, toast, drawer | `packages/ui-kit/Overlay.js` | `dialog` element, portals, focus trap |
 | Virtualized tree | `packages/ui-kit/Tree.js` | Windowed rendering |
 
-**Enforcement gates (CI must fail on violation):**
+**Enforcement gates (local verification must fail on violation):**
 
 1. `package.json` runtime dependency diff must equal the two entries above.
 2. Production bundle scan: every emitted module must resolve to `react`, `react-dom`, `react/jsx-runtime`, or first-party source.
@@ -796,7 +796,7 @@ flowchart TB
 | PostgreSQL 16+ | Database | Per-vertical truth; platform truth | 11 databases | HA cluster, read replicas | Internal |
 | Object storage | S3-compatible | Document content and renditions | Buckets per tenant/region | Managed | Internal |
 | `eia-sap-adapter` | Module inside `payment-expert` | SAP S/4HANA OData communication | `eia_payment` | With expert | Internal |
-| `eia-simulators` (test only) | Spring Boot and Node | FS-RI, S/4, bank, email, OCR, sanctions simulators | Ephemeral | Local/CI | No |
+| `eia-simulators` (test only) | Spring Boot and Node | FS-RI, S/4, bank, email, OCR, sanctions simulators | Ephemeral | Local | No |
 
 **Port and path conventions:**
 
@@ -1686,9 +1686,9 @@ flowchart LR
 | Contract | JSON Schema validator (in-house) | Module descriptor, manifest, API payload fixtures |
 | Integration | Dev host + stubbed fetch | Route registration, tab composition, transaction monitor state machine |
 | Federation | Shell test harness with local remotes | Load, incompatibility, integrity failure, timeout, quarantine, dispose |
-| End-to-end | Platform browser automation (CI tooling, not shipped) | Critical journeys: FNOL, reserve approval, payment, bordereau upload, lineage traversal |
-| Accessibility | Manual matrix + automated CI checks | Record pages, dialogs, grids, monitor, approvals |
-| Performance | Lighthouse CI (CI tooling) | Budgets in §5.16 |
+| End-to-end | Platform browser automation (local tooling, not shipped) | Critical journeys: FNOL, reserve approval, payment, bordereau upload, lineage traversal |
+| Accessibility | Manual matrix + local automated checks | Record pages, dialogs, grids, monitor, approvals |
+| Performance | Lighthouse (local) (local tooling) | Budgets in §5.16 |
 
 ### 5.16 Performance budgets
 
@@ -1698,9 +1698,9 @@ flowchart LR
 | Shell initial CSS (gzip) | ≤ 25 KB | Build fails |
 | A single vertical remote entry (gzip) | ≤ 300 KB | Build fails; larger modules must split and declare chunks |
 | Total JS for a record page (all loaded remotes, gzip) | ≤ 900 KB | Release gate |
-| LCP on a warm CDN, mid-tier laptop, 4G | ≤ 2.5 s | Lighthouse CI |
+| LCP on a warm CDN, mid-tier laptop, 4G | ≤ 2.5 s | Lighthouse (local) |
 | INP on record page interactions | ≤ 200 ms | RUM |
-| CLS | ≤ 0.1 | Lighthouse CI |
+| CLS | ≤ 0.1 | Lighthouse (local) |
 | Route transition (cached remote) | ≤ 300 ms | RUM |
 | DataGrid first render, 1,000 rows | ≤ 150 ms | Benchmark |
 | DataGrid scroll, 100,000 rows | ≥ 50 fps | Benchmark |
@@ -5443,9 +5443,9 @@ These are **business approval controls**, not access roles. The transaction engi
 |---|---|
 | Threat modeling | Per vertical at design; STRIDE; reviewed each major release |
 | Code review | Two reviewers for security-sensitive paths (auth, payment, document access) |
-| Static analysis | SAST in CI; no high-severity findings at release |
+| Static analysis | SAST in local verification; no high-severity findings at release |
 | Dependency scanning | SCA on every build; blocked on known critical vulnerabilities with a fix available |
-| Secret scanning | Pre-commit and CI |
+| Secret scanning | pre-commit and pre-push |
 | Container scanning | Image scan; distroless or minimal base; non-root |
 | SBOM | CycloneDX per artifact, retained per release |
 | Signed artifacts | Images and front-end bundles signed; provenance attestation |
@@ -13283,7 +13283,7 @@ Metrics: retro contracts in force, retro premium, expected vs confirmed retro va
 1. An endpoint or event that is not documented fails the build.
 2. A documented field that is not returned fails the contract test unless marked optional.
 3. A breaking change requires a new version and a migration note.
-4. Contract tests run in CI against a started service with a seeded database.
+4. Contract tests run locally before merge against a started service with a seeded database.
 5. The front-end's use of a field is declared in the vertical's `api-usage.json`, so unused fields can be retired safely.
 
 ### 12.2 Common data types
@@ -14291,7 +14291,7 @@ A critical or high vulnerability blocks release unless an approved exception exi
 | SCA | Every build |
 | DAST | Nightly and pre-release |
 | Penetration test | Annual and before major release |
-| Secret scanning | Pre-commit and CI |
+| Secret scanning | pre-commit and pre-push |
 | Security champions | One per vertical |
 
 #### 14.12.9 Incident response
@@ -14322,8 +14322,8 @@ A critical or high vulnerability blocks release unless an approved exception exi
 | Front-end component | Remote mounting, routing, slots, forms, tables, transactions | **Playwright** | Every build |
 | End-to-end | Critical journeys and every enumerated business rule through the front-end and full transactional flow | **Playwright** | Every build / nightly |
 | Coverage | Business logic coverage and rule traceability | JaCoCo, Playwright V8 coverage, rule-to-test matrix | Every build |
-| Performance | Volumes in §10.9 and §14.2 | Load generator (CI tooling) | Pre-release and quarterly |
-| Security | SAST, SCA, DAST, penetration test | CI tooling and external firm | Every build / annual |
+| Performance | Volumes in §10.9 and §14.2 | Load generator (local tooling) | Pre-release and quarterly |
+| Security | SAST, SCA, DAST, penetration test | local tooling and external firm | Every build / annual |
 | Accessibility | WCAG checks on core journeys | Playwright plus manual matrix | Pre-release |
 | Migration | Legacy extract, transform, load, reconciliation | Rehearsal environment | Secondary; before each migration wave |
 | UAT | Business scenarios with claims, policy, and reinsurance users | Staging | Before go-live |
@@ -14374,7 +14374,7 @@ Playwright is the **mandatory** tool for all front-end and end-to-end testing. I
 | `PW-06` | Tests are isolated by tenant and book; they do not depend on execution order and must be repeatable from a clean database. |
 | `PW-07` | A business-rule traceability matrix maps every rule ID (`POL-*`, `DIR-*`, `PAY-*`, `CES-*`, `RET-*`, etc.) to its Playwright test(s). A rule without a test fails the build. |
 | `PW-08` | Coverage is measured from the instrumented application, not from test assertions alone. Business logic must reach 100% line and branch coverage; presentation-only code is excluded by an explicit allowlist. |
-| `PW-09` | Playwright runs in CI on every build, sharded by vertical/book; traces and videos are retained on failure; flaky tests are quarantined and fixed, not ignored. |
+| `PW-09` | Playwright runs locally before merge and before release, sharded by vertical/book; traces and videos are retained on failure; flaky tests are quarantined and fixed, not ignored. |
 | `PW-10` | The release evidence pack includes the Playwright HTML report, traces, coverage report, and the rule-to-test matrix. |
 
 **Coverage scope:**
@@ -14417,7 +14417,7 @@ Playwright is the **mandatory** tool for all front-end and end-to-end testing. I
 | Environment | Purpose | Data | Access |
 |---|---|---|---|
 | Local | Development | Synthetic, in-memory or local PostgreSQL | Developer |
-| CI | Automated tests | Ephemeral PostgreSQL | Pipeline |
+| Local | Automated tests | Ephemeral PostgreSQL | Developer workstation |
 | Dev | Integration | Synthetic | Team |
 | Test | System and contract testing | Synthetic | QA, team |
 | Staging | UAT, performance, migration rehearsal | Synthetic, production-shaped | Business, QA |
@@ -14619,7 +14619,7 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 
 | Team | Owns |
 |---|---|
-| Platform | Shell, gateway, auth, config, lineage, observability, CI/CD, environments |
+| Platform | Shell, gateway, auth, config, lineage, observability, release automation, environments |
 | Party | Party domain, expert, web |
 | Document | Document domain, expert, web, storage, OCR |
 | Policy | Policy domain, expert, web, rating integration |
@@ -14638,7 +14638,7 @@ Data is synthetic, seeded, deterministic, and reset between suites.
 
 | Phase | Duration | Scope | Exit criteria |
 |---|---|---|---|
-| **P0 — Foundation** | 8 weeks | Gateway, auth, config, shell, federation runtime, one remote, transaction engine, outbox/inbox, lineage skeleton, Party + Document walking skeleton, CI/CD, environments | A user can create a party, upload a document, see the link, and view a timeline in the federated shell |
+| **P0 — Foundation** | 8 weeks | Gateway, auth, config, shell, federation runtime, one remote, transaction engine, outbox/inbox, lineage skeleton, Party + Document walking skeleton, release automation, environments | A user can create a party, upload a document, see the link, and view a timeline in the federated shell |
 | **P1 — Party & Document** | 10 weeks | Party roles, merge, screening, consent; Document ingestion, classification, association, retention, holds, generation | Party and Document are production-ready for all verticals; merge and hold journeys pass |
 | **P2 — Policy** | 14 weeks | Quote, bind, issue, endorse, cancel, renew, reinstatement, coverage, limits, premium, mass tort profile, programs, aggregate state | A mass tort policy can be quoted, bound, issued, endorsed, and cancelled with documents and lineage |
 | **P3 — Primary core** | 16 weeks | FNOL, coverage, injury/exposure, reserves, diary, litigation, settlement, liens, recoveries, closure | A mass tort claim can be registered, reserved, litigated, settled, and closed with authority |
@@ -14789,7 +14789,7 @@ The RAID log is reviewed weekly; high risks are escalated monthly.
 | Environment | Purpose | Data | Refresh |
 |---|---|---|---|
 | Local | Development | Synthetic | On demand |
-| CI | Automated tests | Ephemeral | Per build |
+| Local | Automated tests | Ephemeral | Per run |
 | Dev | Integration | Synthetic | Daily |
 | Test | System and contract | Synthetic | Weekly |
 | Staging | UAT, performance, DR | Production-shaped | Weekly |
@@ -14828,7 +14828,7 @@ Every individually deployable component has its own repository. A repository MUS
 
 | Type | Examples | Deployable |
 |---|---|---|
-| Org profile and reusable workflows | `.github` | No |
+| Org profile and community health files | `.github` | No |
 | Documentation | `eia-docs`, `eia-architecture` | No |
 | Contracts | `eia-contracts` | No |
 | Shared libraries | `eia-open-insurance-libs`, `eia-frontend-platform` | No |
@@ -14861,10 +14861,10 @@ Every individually deployable component has its own repository. A repository MUS
 |---|---|
 | Model | Trunk-based development; `main` is always releasable |
 | Branch | Short-lived feature branch; delete after merge |
-| PR | Required; no primary push to `main` |
+| PR | Required; no direct push to `main` |
 | Review | At least one approval; two for security-sensitive changes |
 | CODEOWNERS | Required approval from the owning team |
-| Checks | Lint, unit, contract, integration, security, build |
+| Verification | Lint, unit, contract, integration, security, build, Playwright, run locally before merge |
 | Commits | Signed; conventional commit messages |
 | Merge | Squash merge; linear history |
 | Release | Tag `vMAJOR.MINOR.PATCH` from `main` |
@@ -14881,11 +14881,13 @@ Every individually deployable component has its own repository. A repository MUS
 | Shared library | SemVer; consumers pin a range |
 | Contract | SemVer; breaking change requires major |
 
-#### 16.9.6 CI pipeline
+#### 16.9.6 Local verification
+
+No hosted pipeline is used. A developer or release engineer runs the verification locally or in a controlled release environment and attaches the evidence to the release record.
 
 | Stage | Required |
 |---|---|
-| Checkout | Clean workspace |
+| Workspace | Clean checkout |
 | Lint | Language and format |
 | Unit | 100% business-logic coverage |
 | Component | Real database where applicable |
@@ -14896,15 +14898,15 @@ Every individually deployable component has its own repository. A repository MUS
 | SBOM | CycloneDX |
 | Package | Container, JAR, npm package, or static bundle |
 | Sign | Cosign or equivalent |
-| Publish | GitHub Packages or OCI registry |
+| Release | Manual artifact publication |
 | Evidence | Test reports, coverage, SBOM, provenance |
 
-#### 16.9.7 CD and environments
+#### 16.9.7 Release and environments
 
 | Environment | Promotion | Approval |
 |---|---|---|
-| Dev | Automatic on `main` | None |
-| Test | Automatic after CI | None |
+| Dev | Manual after local verification | None |
+| Test | Manual after local verification | None |
 | Staging | Release candidate | QA lead |
 | Production | Release candidate | Change advisory board |
 
@@ -15398,7 +15400,7 @@ The platform is not ready for production until the eight gates below are passed.
 | Required evidence | Penetration test; SAST/SCA/DAST reports; performance test; DR test; UAT sign-off; Playwright evidence pack; pilot report; hypercare plan |
 | Owner | Security, SRE, QA, business owners |
 | Timing | Before go-live |
-| AI-generation outline | Generate test plans from §15.8–§15.12 and the critical journeys; generate the UAT script from critical journeys; generate the pilot and hypercare checklists; assemble evidence packs from CI artifacts; **never fabricate test results** |
+| AI-generation outline | Generate test plans from §15.8–§15.12 and the critical journeys; generate the UAT script from critical journeys; generate the pilot and hypercare checklists; assemble evidence packs from local test artifacts; **never fabricate test results** |
 | Acceptance | No critical/high vulnerability; SLOs met; DR meets RTO/RPO; UAT signed; pilot successful; hypercare staffed |
 
 #### 17.10.10 Evidence pack standard
@@ -15440,7 +15442,7 @@ For each gate, an AI tool may generate the **draft** documents below. It MUST ci
 | `gate-{n}-risk-register.md` | Open risks, exceptions, remediation, owners | Gate board accepts |
 | `gate-{n}-signoff.md` | Decision, conditions, date, signatures | Gate board signs |
 
-**Generation rule:** AI drafts from the specification, the repository, CI artifacts, and test reports. A document without a linked artifact is marked `DRAFT — EVIDENCE MISSING` and cannot be used for a gate decision.
+**Generation rule:** AI drafts from the specification, the repository, local test artifacts, and test reports. A document without a linked artifact is marked `DRAFT — EVIDENCE MISSING` and cannot be used for a gate decision.
 
 #### 17.10.13 System readiness versus business readiness
 
@@ -16116,7 +16118,7 @@ The clause library supports consistent treaty construction and review. The autho
 | Requirement | Design element | Sections | Acceptance evidence |
 |---|---|---|---|
 | **R1** Federated-injected front-end | Runtime Module Federation, shell, manifest, contract, slots, record tabs | §5, ADR-0002 | Federation test pack: load, incompatibility, integrity failure, fallback, dispose |
-| **R2** React + JS, no external libraries | Dependency allowlist, in-house runtime and UI kit, build tooling boundary | §3.3.1, §5.1, ADR-0003 | CI dependency gate, bundle allowlist, size budget |
+| **R2** React + JS, no external libraries | Dependency allowlist, in-house runtime and UI kit, build tooling boundary | §3.3.1, §5.1, ADR-0003 | local dependency gate, bundle allowlist, size budget |
 | **R3** Spring Boot/Batch/Cloud + Quartz only | Service anatomy, Spring Batch jobs, Quartz catalog, dependency allowlist | §7, §3.3.2, ADR-0004, ADR-0010 | Enforcer rule, SBOM, scheduler isolation test |
 | **R4** Business logic in domain service | Three-tier vertical, rules location, expert contract, no JPA in domain | §4.3, §6.1, §6.6, ADR-0001 | Architecture tests, code review checklist |
 | **R5** Front-end constructs and monitors transactions | Catalog, draft, business transaction, steps, SSE, polling fallback | §6.2–§6.7, ADR-0009 | Transaction monitor E2E; resume after disconnect |

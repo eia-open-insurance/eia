@@ -1,7 +1,7 @@
 | Repository | Type | Deployable | Owner | Purpose | Depends on |
 |---|---|---|---|---|---|
 | `eia` | Umbrella repository | No | Platform | Project front door: specification, roadmap, governance, contribution, security, and repository catalog. | None |
-| `.github` | Organization profile | No | Platform | Organization profile, issue and pull-request templates, reusable GitHub Actions workflows, and organization-level policy. | None |
+| `.github` | Organization profile | No | Platform | Organization profile, issue and pull-request templates, issue and pull-request templates, and organization-level policy. | None |
 | `eia-docs` | Documentation | No | Platform | User, administrator, operations, and integration documentation. | eia-architecture |
 | `eia-architecture` | Architecture | No | Architecture | Architecture decision records, diagrams, specification snapshots, and standards. | None |
 | `eia-contracts` | Contracts | No | Architecture | Canonical OpenAPI, AsyncAPI, JSON Schema, and external mapping contracts. | None |

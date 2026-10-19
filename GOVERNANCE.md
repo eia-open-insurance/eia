@@ -34,7 +34,7 @@ Maintainers are listed in `MAINTAINERS.md` and in repository `CODEOWNERS`. A new
 
 Releases follow Semantic Versioning. A release requires:
 
-- passing required checks;
+- passing local verification and review;
 - updated changelog;
 - security review for security-sensitive changes;
 - signed artifacts;

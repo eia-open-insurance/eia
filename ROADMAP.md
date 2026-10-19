@@ -8,7 +8,7 @@ The roadmap is a sequence, not a date commitment.
 - [x] Transaction, lineage, security, and book wall
 - [x] Reinsurance calculations, credit, collateral, Schedule F
 - [x] Master data and ACORD/NAIC/ISO/SAP alignment
-- [x] Repository topology and baseline CI
+- [x] Repository topology and baseline local verification
 
 ## Phase 1 - Walking skeleton
 

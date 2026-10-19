@@ -35,7 +35,7 @@ All participants must follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 6. Sign off your commits.
 7. Open a pull request with a clear description and evidence.
 8. Address review comments.
-9. Squash merge after approval and required checks.
+9. Squash merge after approval and local verification and review.
 
 ## Standards
 

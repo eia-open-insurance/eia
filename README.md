@@ -77,7 +77,7 @@ This is a **specification and scaffolding release**, not a working application.
 - [x] Transaction model, lineage, security, and access boundaries
 - [x] Reinsurance calculations, credit, collateral, and FS-RI boundary
 - [x] Master data, ACORD/NAIC/ISO/SAP alignment
-- [x] Repository topology and baseline CI
+- [x] Repository topology and baseline local verification
 - [ ] Working vertical applications
 - [ ] FS-RI and S/4HANA integrations
 - [ ] Production test evidence
