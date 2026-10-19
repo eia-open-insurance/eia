@@ -4,7 +4,7 @@
 |---|---|
 | Document ID | `EIA-SPEC-001` |
 | Title | Enterprise Insurance Administration System Specification |
-| Version | 1.8.0 |
+| Version | 1.9.0 |
 | Status | Proposed — for architecture and business review |
 | Date | 2026-10-19 |
 | Classification | Internal |
@@ -26,6 +26,7 @@
 | 1.6.0 | 2026-10-19 | Enterprise Architecture | Added the system boundary and business-responsibility matrix, separated system readiness from business readiness, and clarified that legal, staffing, vendor, migration, and commercial decisions are business-owned |
 | 1.7.0 | 2026-10-19 | Enterprise Architecture | Added the repository, build, and release standard; defined the GitHub organization and 48-repository topology; created the `repos/` catalog and per-repository README scaffolding |
 | 1.8.0 | 2026-10-19 | Enterprise Architecture | Published as the EIA Open Insurance open-source project under Apache 2.0; added the `eia` umbrella repository, governance, code of conduct, security policy, trademark policy, roadmap, and 49-repository catalog |
+| 1.9.0 | 2026-10-19 | Enterprise Architecture | Renamed the book labels and verticals to Primary and Reinsurance; renamed the six vertical repositories; normalized the support contact to support@rmburgess.com; removed hosted CI in favor of local verification |
 
 **Contents**
 
