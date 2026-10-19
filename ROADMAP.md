@@ -6,7 +6,7 @@ The roadmap is a sequence, not a date commitment.
 
 - [x] Architecture, domain models, data dictionaries
 - [x] Transaction, lineage, security, and book wall
-- [x] Reinsurance calculations, credit, collateral, Schedule F
+- [x] Assumed Claims calculations, credit, collateral, Schedule F
 - [x] Master data and ACORD/NAIC/ISO/SAP alignment
 - [x] Repository topology and baseline local verification
 
@@ -18,17 +18,17 @@ The roadmap is a sequence, not a date commitment.
 - Playwright harness and simulators
 - PostgreSQL migrations and seed data
 
-## Phase 2 - Primary book
+## Phase 2 - Direct book
 
 - Policy
-- Primary claims
+- Direct claims
 - Payment
 - Billing and SAP S/4HANA simulator integration
 
-## Phase 3 - Reinsurance book
+## Phase 3 - Assumed book
 
 - Contract
-- Reinsurance claims
+- Assumed claims
 - Cession and Retrocession
 - FS-RI simulator integration
 

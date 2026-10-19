@@ -11,10 +11,10 @@
 
 EIA Open Insurance is a specification-first insurance administration platform for two separate books:
 
-| Book | Policy administration | Claims administration | Reinsurance |
+| Book | Policy administration | Claims administration | Assumed Claims |
 |---|---|---|---|
-| `PRIMARY` | Policy | Primary | Cession |
-| `REINSURANCE` | Contract | Reinsurance | Retrocession |
+| `DIRECT` | Policy | Direct Claims | Cession |
+| `ASSUMED` | Contract | Assumed Claims | Retrocession |
 
 The books are separated by a hard access wall. They share Party, Document, Payment, Notifications, and Lineage, but no operational policy, claim, cession, or retrocession data crosses between them.
 
@@ -41,7 +41,7 @@ Shell
   -> 10 vertical front-ends
 
 10 verticals, each with front-end, domain, expert, database:
-  Party, Policy, Contract, Primary, Reinsurance,
+  Party, Policy, Contract, Direct Claims, Assumed Claims,
   Cession, Retrocession, Document, Payment, Notifications
 
 Platform services:
@@ -75,7 +75,7 @@ This is a **specification and scaffolding release**, not a working application.
 
 - [x] Architecture, domain models, and data dictionaries
 - [x] Transaction model, lineage, security, and access boundaries
-- [x] Reinsurance calculations, credit, collateral, and FS-RI boundary
+- [x] Assumed Claims calculations, credit, collateral, and FS-RI boundary
 - [x] Master data, ACORD/NAIC/ISO/SAP alignment
 - [x] Repository topology and baseline local verification
 - [ ] Working vertical applications
