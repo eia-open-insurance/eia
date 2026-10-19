@@ -718,7 +718,7 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph Browser["Browser"]
-        SHELL["eia-shell<br/>React host · router · session · transaction monitor"]
+        SHELL["eia-frontend/shell<br/>React host · router · session · transaction monitor"]
         R1["eia-policy-web"]
         R2["eia-contract-web"]
         R3["eia-direct-claims-web"]
@@ -738,9 +738,9 @@ flowchart TB
     end
 
     subgraph Edge["Edge tier"]
-        GW["eia-gateway<br/>Spring Cloud Gateway<br/>session · routing · rate limits · CSRF"]
-        AUTH["eia-auth<br/>Spring Authorization Server"]
-        CFG["eia-config<br/>Spring Cloud Config"]
+        GW["eia-platform/gateway<br/>Spring Cloud Gateway<br/>session · routing · rate limits · CSRF"]
+        AUTH["eia-platform/auth<br/>Spring Authorization Server"]
+        CFG["eia-platform/config<br/>Spring Cloud Config"]
     end
 
     subgraph Verticals["Ten verticals (each: domain + expert + DB)"]
@@ -758,7 +758,7 @@ flowchart TB
     end
 
     subgraph Platform["Platform services"]
-        LIN["eia-lineage<br/>read-only graph projection"]
+        LIN["eia-platform/lineage<br/>read-only graph projection"]
         PDB2[("eia_platform")]
     end
 
@@ -787,19 +787,19 @@ flowchart TB
 
 | Application | Type | Owns | Data store | Scaling unit | Public? |
 |---|---|---|---|---|---|
-| `eia-shell` | Static React host | Session presentation, routing, federation runtime, transaction monitor, notification center, lineage explorer | Browser storage (drafts, preferences only) | CDN | Yes, via gateway |
+| `eia-frontend/shell` | Static React host | Session presentation, routing, federation runtime, transaction monitor, notification center, lineage explorer | Browser storage (drafts, preferences only) | CDN | Yes, via gateway |
 | `eia-policy-web` … `eia-notifications-web`, plus `eia-cession-web` and `eia-retrocession-web` (10) | Static federated remotes | Vertical screens and widgets | None | CDN | Yes, via gateway |
-| `eia-gateway` | Spring Cloud Gateway | Session, routing, rate limiting, CSRF, request correlation | Redis-free: Spring Session JDBC in `eia_platform` | Horizontal | Yes |
-| `eia-auth` | Spring Authorization Server | OIDC/OAuth2 authorization, client registry, token issuance | `eia_platform` | Horizontal | Via gateway |
-| `eia-config` | Spring Cloud Config Server | Configuration and feature flags | Git or native file system | Horizontal | Internal |
+| `eia-platform/gateway` | Spring Cloud Gateway | Session, routing, rate limiting, CSRF, request correlation | Redis-free: Spring Session JDBC in `eia_platform` | Horizontal | Yes |
+| `eia-platform/auth` | Spring Authorization Server | OIDC/OAuth2 authorization, client registry, token issuance | `eia_platform` | Horizontal | Via gateway |
+| `eia-platform/config` | Spring Cloud Config Server | Configuration and feature flags | Git or native file system | Horizontal | Internal |
 | `eia-<v>-domain` (10) | Spring Boot | Business rules, transaction catalog, transaction journal, orchestration, approvals, vertical APIs | `tx` schema of its vertical DB | Horizontal | Via gateway, per tenant |
 | `eia-<v>-expert` (10) | Spring Boot + Spring Batch + Quartz | Persistence, invariants, read models, batch jobs, outbox/inbox, scheduled jobs | `ent`, `ref`, `audit` schemas of its vertical DB | Horizontal + singleton batch workers | Internal only |
 | `eia-cession-*`, `eia-retrocession-*` | Spring Boot + React remotes | Contract administration, layers, participants, terms, security, rules, cession/retro cases, hand-off queues, recoverables, statements, reconciliation | `eia_cession`, `eia_retrocession` | Horizontal | Internal or via gateway |
-| `eia-lineage` | Spring Boot | Link graph projection, traversal, timeline merge, 360 assembly | `eia_platform` graph tables | Horizontal | Via gateway |
+| `eia-platform/lineage` | Spring Boot | Link graph projection, traversal, timeline merge, 360 assembly | `eia_platform` graph tables | Horizontal | Via gateway |
 | PostgreSQL 16+ | Database | Per-vertical truth; platform truth | 11 databases | HA cluster, read replicas | Internal |
 | Object storage | S3-compatible | Document content and renditions | Buckets per tenant/region | Managed | Internal |
 | `eia-sap-adapter` | Module inside `payment-expert` | SAP S/4HANA OData communication | `eia_payment` | With expert | Internal |
-| `eia-simulators` (test only) | Spring Boot and Node | FS-RI, S/4, bank, email, OCR, sanctions simulators | Ephemeral | Local | No |
+| `eia-quality/simulators` (test only) | Spring Boot and Node | FS-RI, S/4, bank, email, OCR, sanctions simulators | Ephemeral | Local | No |
 
 **Port and path conventions:**
 
@@ -820,8 +820,8 @@ flowchart TB
 flowchart TB
     subgraph RegionA["Primary region"]
         subgraph DMZ["Edge namespace"]
-            WAF[WAF / CDN] --> GW2[eia-gateway x N]
-            GW2 --> AUTH2[eia-auth x N]
+            WAF[WAF / CDN] --> GW2[eia-platform/gateway x N]
+            GW2 --> AUTH2[eia-platform/auth x N]
             AUTH2 --> PDB3[("eia_platform direct")]
         end
         subgraph VerticalNS["Per-vertical namespaces (8)"]
@@ -837,7 +837,7 @@ flowchart TB
         end
         subgraph DataNS["Data namespace"]
             OBJ2[Object storage]
-            LIN2[eia-lineage x N]
+            LIN2[eia-platform/lineage x N]
         end
     end
     subgraph RegionB["DR region"]
@@ -1083,7 +1083,7 @@ The front-end is **one shell application plus ten independently deployable verti
 ```mermaid
 flowchart LR
     subgraph Build["Independent build pipelines"]
-        SB[eia-shell build] --> SA[shell assets + runtime]
+        SB[eia-frontend/shell build] --> SA[shell assets + runtime]
         P1[eia-policy-web] --> PA1[remoteEntry.js + manifest.fragment.json]
         P2[eia-contract-web] --> PA2[...]
         PN[eia-notifications-web] --> PAN[...]
@@ -3006,7 +3006,7 @@ These conventions apply to every public domain API and every internal API unless
 | Contract loss aggregate (`contract_loss_aggregate`) | Contract expert | < 5 min | From reinsurance claims and cessions |
 | Party reference projection (`party_ref`) | Each vertical | < 1 min | From `party.*` events; nightly reconcile |
 | Document reference projection (`document_ref`) | Each vertical | < 1 min | From `document.*` events; nightly reconcile |
-| Lineage graph | `eia-lineage` | < 2 s | Full rebuild from outbox replay and link snapshots |
+| Lineage graph | `eia-platform/lineage` | < 2 s | Full rebuild from outbox replay and link snapshots |
 | Search index | Each vertical | < 30 s | Rebuild from source tables |
 
 **Projection rules:** projections are read-only; they carry `source_version` and `projected_at`; they are never used to make a financial decision without a synchronous authoritative check; a stale projection must be visible to the user as a "last updated" timestamp when it affects a decision.
@@ -5058,7 +5058,7 @@ CREATE INDEX ix_entity_link_to ON ent.entity_link (tenant_id, to_vertical, to_ty
 
 ### 8.5 The lineage projection
 
-`eia-lineage` is a **read-only platform service** (ADR-0007). It owns no insurance truth. It consumes link events and maintains a query-optimized graph.
+`eia-platform/lineage` is a **read-only platform service** (ADR-0007). It owns no insurance truth. It consumes link events and maintains a query-optimized graph.
 
 ```sql
 CREATE TABLE lineage.lineage_node (
@@ -5303,7 +5303,7 @@ Response: `{ nodes: [...], edges: [...], truncated: true, omitted: {nodes: n, ed
 |---|---|
 | Human identity | Corporate IdP via OIDC (authorization code + PKCE). SAML federation is supported through the IdP, not in the application. |
 | MFA | Required for all users; phishing-resistant authenticators (FIDO2/WebAuthn) required for payment approval, reserve authority, contract binding, and administration. |
-| Session | `eia-gateway` holds tokens server-side in Spring Session JDBC; the browser has only an `HttpOnly`, `Secure`, `SameSite=Lax` session cookie. Idle timeout 30 min; absolute 12 h; re-authentication for step-up actions. |
+| Session | `eia-platform/gateway` holds tokens server-side in Spring Session JDBC; the browser has only an `HttpOnly`, `Secure`, `SameSite=Lax` session cookie. Idle timeout 30 min; absolute 12 h; re-authentication for step-up actions. |
 | Logout | RP-initiated logout invalidates the session, revokes tokens at the IdP where supported, and closes SSE streams. |
 | Service identity | Each service has a workload identity (SPIFFE/Kubernetes service account) and an mTLS certificate. Internal calls require mTLS plus a short-lived signed service token with the target audience. |
 | User context propagation | The gateway forwards a signed context header (`X-EIA-User-Context`) containing user, tenant, roles, permission hash, auth strength, and session ID. Services verify the signature and expiry; they never trust a browser-supplied user header. |
@@ -14037,9 +14037,9 @@ SAP does not have a native insurance LOB or coverage model. Do not invent SAP co
 
 | Service | Availability SLO | Latency SLO (p95) | Error budget |
 |---|---|---|---|
-| `eia-gateway` | 99.95% monthly | 80 ms added latency | 0.05% |
-| `eia-auth` | 99.95% monthly | 250 ms token issuance | 0.05% |
-| `eia-shell` assets | 99.99% monthly (CDN) | 200 ms TTFB | 0.01% |
+| `eia-platform/gateway` | 99.95% monthly | 80 ms added latency | 0.05% |
+| `eia-platform/auth` | 99.95% monthly | 250 ms token issuance | 0.05% |
+| `eia-frontend/shell` assets | 99.99% monthly (CDN) | 200 ms TTFB | 0.01% |
 | Vertical remotes | 99.9% monthly (CDN) | 200 ms TTFB per chunk | 0.1% |
 | Policy domain API | 99.9% monthly | 300 ms read / 800 ms command submit | 0.1% |
 | Contract domain API | 99.9% monthly | 350 ms read / 900 ms command submit | 0.1% |
@@ -14402,7 +14402,7 @@ Playwright is the **mandatory** tool for all front-end and end-to-end testing. I
 | OCR simulator | Document processing | Complete, fail, low confidence |
 | Sanctions simulator | Screening | Clear, potential, confirmed, error |
 
-**Simulator endpoints:** `http://eia-simulators:8080/sim/fsri/v1` and `http://eia-simulators:8080/sim/s4/v1`; each publishes OpenAPI at `/sim/{system}/openapi.yaml`. The FS-RI simulator implements contract, cession, retrocession, confirmation, recoverable, statement, and rejection endpoints. The S/4 simulator implements AR invoice, AP invoice, GL posting, cash application, reversal, and closed-period endpoints. Playwright tests use these endpoints; production adapter code is selected by configuration and is not exercised in v1 E2E.
+**Simulator endpoints:** `http://eia-quality/simulators:8080/sim/fsri/v1` and `http://eia-quality/simulators:8080/sim/s4/v1`; each publishes OpenAPI at `/sim/{system}/openapi.yaml`. The FS-RI simulator implements contract, cession, retrocession, confirmation, recoverable, statement, and rejection endpoints. The S/4 simulator implements AR invoice, AP invoice, GL posting, cash application, reversal, and closed-period endpoints. Playwright tests use these endpoints; production adapter code is selected by configuration and is not exercised in v1 E2E.
 
 **Data model and migration:** the data model in this specification is the canonical target model. External teams adopt it; legacy migration is a secondary adapter concern and does not drive model changes.
 
@@ -14815,30 +14815,32 @@ A capability is done when the §16.6 criteria and the §15.6 quality gates pass,
 | Item | Standard |
 |---|---|
 | Organization | `eia-open-insurance` |
-| Deployable repository | `eia-<component>` |
 | Vertical repository | `eia-<vertical>-web`, `eia-<vertical>-domain`, `eia-<vertical>-expert` |
-| Shared library repository | `eia-open-insurance-libs`, `eia-frontend-platform` |
+| Platform runtime repository | `eia-platform` (gateway, auth, config, lineage, shared Java libraries) |
+| Front-end platform repository | `eia-frontend` (shell, runtime, UI kit, federation) |
 | Contract repository | `eia-contracts` |
-| Infrastructure repository | `eia-infra`, `eia-environments`, `eia-observability`, `eia-release` |
-| Test repository | `eia-simulators`, `eia-e2e`, `eia-security` |
-| Documentation repository | `eia-docs`, `eia-architecture` |
+| Quality repository | `eia-quality` (simulators, Playwright end-to-end suites) |
+| Operations repository | `eia-ops` (infrastructure, environments, observability, release, security) |
 | Umbrella repository | `eia` |
 | Org repository | `.github` |
 
-Every individually deployable component has its own repository. A repository MUST NOT contain two independently deployable services.
+Every business vertical has one repository per deployable tier. Platform repositories group related deployables by product area; each deployable has its own directory, version, artifact, and release tag. A platform repository MUST NOT be treated as a single deployable.
+
+The current catalog is **37 repositories**: 30 vertical repositories and 7 platform repositories.
 
 #### 16.9.2 Repository types
 
 | Type | Examples | Deployable |
 |---|---|---|
 | Org profile and community health files | `.github` | No |
-| Documentation | `eia-docs`, `eia-architecture` | No |
+| Umbrella, documentation, architecture | `eia` | No |
 | Contracts | `eia-contracts` | No |
-| Shared libraries | `eia-open-insurance-libs`, `eia-frontend-platform` | No |
-| Static front-end | `eia-shell`, `eia-<v>-web` | Yes |
-| Service | `eia-gateway`, `eia-auth`, `eia-config`, `eia-lineage`, `eia-<v>-domain`, `eia-<v>-expert` | Yes |
-| Test infrastructure | `eia-simulators`, `eia-e2e`, `eia-security` | No |
-| Infrastructure | `eia-infra`, `eia-environments`, `eia-observability`, `eia-release` | No |
+| Platform runtime | `eia-platform` (gateway, auth, config, lineage, libs) | Contains deployables |
+| Front-end platform | `eia-frontend` (shell, runtime, UI kit, federation) | Contains deployables |
+| Vertical static front-end | `eia-<v>-web` | Yes |
+| Vertical service | `eia-<v>-domain`, `eia-<v>-expert` | Yes |
+| Quality | `eia-quality` (simulators, E2E) | No |
+| Operations | `eia-ops` (infra, environments, observability, release, security) | No |
 
 #### 16.9.3 Required repository files
 
@@ -14930,8 +14932,8 @@ Deployment is blue/green or canary for Tier 0. Rollback is tested for every rele
 
 | Rule | Requirement |
 |---|---|
-| `eia-open-insurance-libs` | Error envelope, observability, security context, test fixtures |
-| `eia-frontend-platform` | Runtime, UI kit, federation helpers, formatting |
+| `eia-platform/libs` | Error envelope, observability, security context, test fixtures |
+| `eia-frontend/packages` | Runtime, UI kit, federation helpers, formatting |
 | No business logic | Shared libraries never contain vertical business rules |
 | Compatibility | SemVer; deprecation window of at least one minor release |
 | Ownership | Platform team owns; verticals consume |
@@ -16704,6 +16706,7 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 ---
 
 *End of specification.*
+
 
 
 

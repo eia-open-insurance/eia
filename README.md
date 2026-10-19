@@ -59,15 +59,14 @@ The repository topology is one repository per individually deployable component.
 | Group | Count | Examples |
 |---|---:|---|
 | Vertical applications | 30 | `eia-policy-web`, `eia-policy-domain`, `eia-policy-expert` |
-| Platform services | 5 | `eia-shell`, `eia-gateway`, `eia-auth`, `eia-config`, `eia-lineage` |
-| Shared libraries | 2 | `eia-open-insurance-libs`, `eia-frontend-platform` |
-| Contracts and architecture | 3 | `eia-contracts`, `eia-architecture`, `eia-docs` |
-| Test infrastructure | 2 | `eia-simulators`, `eia-e2e` |
-| Infrastructure and release | 4 | `eia-infra`, `eia-environments`, `eia-observability`, `eia-release` |
-| Security | 1 | `eia-security` |
+| Platform runtime | 1 | `eia-platform` (gateway, auth, config, lineage, shared libs) |
+| Front-end platform | 1 | `eia-frontend` (shell, runtime, UI kit, federation) |
+| Contracts | 1 | `eia-contracts` |
+| Quality | 1 | `eia-quality` (simulators, E2E) |
+| Operations | 1 | `eia-ops` (infra, environments, observability, release, security) |
 | Organization profile | 1 | `.github` |
 | Umbrella repository | 1 | `eia` |
-| **Total** | **49** | |
+| **Total** | **37** | |
 
 ## Status
 
@@ -121,4 +120,5 @@ Insurance is a regulated activity. This software and specification are provided 
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
 

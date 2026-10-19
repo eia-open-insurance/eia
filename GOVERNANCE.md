@@ -24,7 +24,7 @@ The project uses lazy consensus:
 
 ## RFCs
 
-A change to architecture, data model, security model, licensing, or a `MUST` requires an RFC in `eia-architecture`. An RFC includes context, options, decision, consequences, and migration impact.
+A change to architecture, data model, security model, licensing, or a `MUST` requires an RFC in `eia/architecture`. An RFC includes context, options, decision, consequences, and migration impact.
 
 ## Maintainers
 
