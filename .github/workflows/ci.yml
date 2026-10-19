@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify project baseline
+        run: |
+          test -f README.md
+          test -f SPEC.md
+          test -f REPOSITORIES.md
+          test -f LICENSE
+          test -f NOTICE
+          test -f CONTRIBUTING.md
+          test -f CODE_OF_CONDUCT.md
+          test -f SECURITY.md
+          test -f GOVERNANCE.md
+          test -f ROADMAP.md
+          test -f DCO
