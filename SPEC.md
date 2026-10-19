@@ -4,7 +4,7 @@
 |---|---|
 | Document ID | `EIA-SPEC-001` |
 | Title | Enterprise Insurance Administration System Specification |
-| Version | 2.0.0 |
+| Version | 2.0.1 |
 | Status | Proposed — for architecture and business review |
 | Date | 2026-10-19 |
 | Classification | Internal |
@@ -28,6 +28,7 @@
 | 1.8.0 | 2026-10-19 | Enterprise Architecture | Published as the EIA Open Insurance open-source project under Apache 2.0; added the `eia` umbrella repository, governance, code of conduct, security policy, trademark policy, roadmap, and 49-repository catalog |
 | 1.9.0 | 2026-10-19 | Enterprise Architecture | Renamed the book labels to Direct and Assumed and the verticals to Direct Claims and Assumed Claims; renamed the six vertical repositories; normalized the support contact to support@rmburgess.com; removed hosted CI in favor of local verification |
 | 2.0.0 | 2026-10-19 | Enterprise Architecture | Finalized the Direct and Assumed book identifiers; renamed the claims verticals to Direct Claims and Assumed Claims throughout the specification, repositories, routes, and events |
+| 2.0.1 | 2026-10-19 | Enterprise Architecture | Corrected residual reinsurance business terminology and aligned all repository descriptions and local verification documentation |
 
 **Contents**
 
@@ -16703,6 +16704,7 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 ---
 
 *End of specification.*
+
 
 
 
