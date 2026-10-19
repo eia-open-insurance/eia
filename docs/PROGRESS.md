@@ -18,7 +18,7 @@
 - Gateway smoke test passes for all ten vertical APIs.
 - Shell end-to-end navigation passes for all ten verticals.
 - OIDC authorization-code flow verified.
-- Full repository build/test: 44 JUnit suites, 348 tests, 0 failures; 11 Playwright suites.
+- Full repository build/test: 67 JUnit suites, 509 tests, 0 failures; 12 Playwright suites including the opt-in live all-vertical suite.\n- Policy hardened with RFC 9457 errors, pagination, ETag/If-Match, and idempotent creates.\n- Transactional outbox library and Party event emission.\n- Cession/Retrocession FS-RI simulator hand-off with atomic confirmation persistence.\n- PostgreSQL connection pools capped; max_connections raised for the 35-process local stack.
 
 ## Open gaps
 
@@ -32,3 +32,4 @@
 - Contract field-name and base-path deviations remain documented in `eia-contracts/MISMATCHES.md`.
 - Kubernetes was not executed because Docker Desktop/WSL2 requires a Windows reboot.
 - Production gates 1, 5, 6, 7, and 8 are not evidenced.
+
