@@ -11,7 +11,7 @@
 
 EIA Open Insurance is a specification-first insurance administration platform for two separate books:
 
-| Book | Policy administration | Claims administration | Assumed Claims |
+| Book | Policy administration | Claims administration | Reinsurance |
 |---|---|---|---|
 | `DIRECT` | Policy | Direct Claims | Cession |
 | `ASSUMED` | Contract | Assumed Claims | Retrocession |
@@ -75,7 +75,7 @@ This is a **specification and scaffolding release**, not a working application.
 
 - [x] Architecture, domain models, and data dictionaries
 - [x] Transaction model, lineage, security, and access boundaries
-- [x] Assumed Claims calculations, credit, collateral, and FS-RI boundary
+- [x] Reinsurance calculations, credit, collateral, and FS-RI boundary
 - [x] Master data, ACORD/NAIC/ISO/SAP alignment
 - [x] Repository topology and baseline local verification
 - [ ] Working vertical applications
@@ -121,3 +121,4 @@ Insurance is a regulated activity. This software and specification are provided 
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
