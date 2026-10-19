@@ -33,3 +33,13 @@
 - Kubernetes was not executed because Docker Desktop/WSL2 requires a Windows reboot.
 - Production gates 1, 5, 6, 7, and 8 are not evidenced.
 
+
+## Round 4: Kubernetes execution
+
+- Docker Desktop Linux engine and minikube are operational after reboot.
+- 37/37 pods Ready in namespace `eia-local`: 4 platform services, 10 experts, 10 domains, 10 web remotes, shell, FS-RI simulator, PostgreSQL.
+- 10/10 vertical APIs pass through the cluster gateway.
+- 10/10 federated vertical UIs load through the Kubernetes-hosted shell.
+- FS-RI hand-off verified in-cluster: cession `CES-000000001` is `HANDED_OFF` with `fsriStatus=POSTED`.
+- Two Ingresses (`eia`, `eia-remotes`) and 45 deployment-asset checks pass.
+- Remaining: signed runtime federation manifest/SRI, production FS-RI adapter, TLS/mTLS, HA PostgreSQL.
