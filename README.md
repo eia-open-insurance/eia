@@ -54,6 +54,14 @@ External systems:
 
 The repository topology is one repository per individually deployable component. See [REPOSITORIES.md](REPOSITORIES.md).
 
+
+## Current implementation
+
+The local first vertical slice runs end to end: PostgreSQL, all ten experts and domains, gateway, auth, lineage, the federated vertical remotes, and the shell.
+
+![EIA shell running the Policy vertical](repos/eia/docs/images/platform-shell.png)
+
+Evidence: [docs/EVIDENCE.md](repos/eia/docs/EVIDENCE.md). Local run: [docs/LOCAL_RUN.md](repos/eia/docs/LOCAL_RUN.md).
 ## Repository map
 
 | Group | Count | Examples |
@@ -120,5 +128,6 @@ Insurance is a regulated activity. This software and specification are provided 
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
 
 
