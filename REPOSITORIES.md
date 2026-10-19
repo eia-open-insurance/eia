@@ -1,7 +1,7 @@
 | Repository | Type | Deployable | Owner | Purpose | Depends on |
 |---|---|---|---|---|---|
 | `eia` | Umbrella repository | No | Platform | Project front door: specification, roadmap, governance, contribution, security, and repository catalog. | None |
-| `.github` | Organization profile | No | Platform | Organization profile, issue and pull-request templates, issue and pull-request templates, and organization-level policy. | None |
+| `.github` | Organization profile | No | Platform | Organization profile, issue and pull-request templates, and organization-level policy. | None |
 | `eia-docs` | Documentation | No | Platform | User, administrator, operations, and integration documentation. | eia-architecture |
 | `eia-architecture` | Architecture | No | Architecture | Architecture decision records, diagrams, specification snapshots, and standards. | None |
 | `eia-contracts` | Contracts | No | Architecture | Canonical OpenAPI, AsyncAPI, JSON Schema, and external mapping contracts. | None |
@@ -49,3 +49,4 @@
 | `eia-notifications-web` | Federated front-end | Yes | Notifications | Notifications federated remote: screens, widgets, record tabs, and transaction composition. Notification rules, templates, routing, delivery, escalation, and acknowledgement. | eia-frontend-platform, eia-contracts, eia-gateway |
 | `eia-notifications-domain` | Spring Boot service | Yes | Notifications | Notifications business rules, transaction catalog, orchestration, approvals, and APIs. Notification rules, templates, routing, delivery, escalation, and acknowledgement. | eia-notifications-expert, eia-contracts, eia-open-insurance-libs |
 | `eia-notifications-expert` | Spring Boot service | Yes | Notifications | Notifications persistence, invariants, read models, batch jobs, Quartz schedules, and outbox/inbox. Notification rules, templates, routing, delivery, escalation, and acknowledgement. | eia-contracts, eia-open-insurance-libs |
+
