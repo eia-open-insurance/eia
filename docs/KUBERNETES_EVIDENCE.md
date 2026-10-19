@@ -82,3 +82,7 @@ pwsh ./repos/eia-ops/scripts/validate.ps1
 ```
 
 The local stack is test-double based: FS-RI is the deterministic eia-quality simulator, PostgreSQL is a single replica, and no TLS/mTLS is configured.
+
+
+![Kubernetes-hosted Policy workbench](images/kubernetes-shell.png)
+
