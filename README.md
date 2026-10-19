@@ -5,7 +5,7 @@
 - Organization: [github.com/eia-open-insurance](https://github.com/eia-open-insurance)
 - Specification: [SPEC.md](SPEC.md)
 - License: Apache License 2.0
-- Status: specification complete; implementation scaffolding in progress. **Not production-ready.**
+- Status: specification complete; local first vertical slice implemented and running. **Not production-ready.**
 
 ## What this is
 
@@ -78,14 +78,14 @@ Evidence: [docs/EVIDENCE.md](repos/eia/docs/EVIDENCE.md). Local run: [docs/LOCAL
 
 ## Status
 
-This is a **specification and scaffolding release**, not a working application.
+This is a **working local first vertical slice**, not a production system.
 
 - [x] Architecture, domain models, and data dictionaries
 - [x] Transaction model, lineage, security, and access boundaries
 - [x] Reinsurance calculations, credit, collateral, and FS-RI boundary
 - [x] Master data, ACORD/NAIC/ISO/SAP alignment
 - [x] Repository topology and baseline local verification
-- [ ] Working vertical applications
+- [x] Working vertical applications (first slice)
 - [ ] FS-RI and S/4HANA integrations
 - [ ] Production test evidence
 
@@ -99,7 +99,7 @@ See [ROADMAP.md](ROADMAP.md) for the implementation sequence.
 4. Open an issue or discussion before starting significant work.
 5. Follow [CONTRIBUTING.md](CONTRIBUTING.md).
 
-There is no runnable application yet.
+Run the local stack with [docs/LOCAL_RUN.md](repos/eia/docs/LOCAL_RUN.md).
 
 ## Contributing
 
@@ -128,6 +128,7 @@ Insurance is a regulated activity. This software and specification are provided 
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
 
 
 
