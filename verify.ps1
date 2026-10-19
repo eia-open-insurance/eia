@@ -28,7 +28,7 @@ Get-ChildItem -Directory -Force $root | Where-Object { Test-Path (Join-Path $_.F
         Write-Host "BUILD $repo (Node)"
         Push-Location $dir
         try {
-            if (Test-Path "package-lock.json") { & npm ci } else { & npm install }
+            if (-not (Test-Path "node_modules")) { if (Test-Path "package-lock.json") { & npm ci } else { & npm install } }
             & npm run build --if-present
             & npm test --if-present
             if ($LASTEXITCODE -ne 0) { $errors += "$repo Node verification failed" }
@@ -42,5 +42,6 @@ if ($errors.Count -gt 0) {
 }
 
 Write-Host "Repository baseline verified. No hosted pipeline used."
+
 
 
