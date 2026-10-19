@@ -4,7 +4,7 @@
 |---|---|
 | Document ID | `EIA-SPEC-001` |
 | Title | Enterprise Insurance Administration System Specification |
-| Version | 2.1.0 |
+| Version | 2.2.0 |
 | Status | Proposed — for architecture and business review |
 | Date | 2026-10-19 |
 | Classification | Internal |
@@ -30,6 +30,7 @@
 | 2.0.0 | 2026-10-19 | Enterprise Architecture | Finalized the Direct and Assumed book identifiers; renamed the claims verticals to Direct Claims and Assumed Claims throughout the specification, repositories, routes, and events |
 | 2.0.1 | 2026-10-19 | Enterprise Architecture | Corrected residual reinsurance business terminology and aligned all repository descriptions and local verification documentation |
 | 2.1.0 | 2026-10-19 | Enterprise Architecture | Consolidated the platform layer from 19 repositories to 7; total active repositories reduced from 49 to 37 while retaining 30 vertical repositories |
+| 2.2.0 | 2026-10-19 | Enterprise Architecture | Replaced Maven with Gradle 8.14.x Kotlin DSL and the Gradle wrapper for all Java repositories |
 
 **Contents**
 
@@ -345,7 +346,7 @@ Capabilities are expressed as `CAP-<domain>-<n>` and traced to the vertical and 
 |---|---|---|
 | R1 — all front-end components federated-injected | Runtime module federation; shell injects remotes from a signed manifest; no compile-time cross-vertical imports | §5, ADR-0002 |
 | R2 — React + JavaScript, no external libraries beyond minimum | Runtime dependency set is exactly `react` and `react-dom`; browser APIs and in-house modules only; build tooling excluded by ADR-0003 | §5.1, §5.13, ADR-0003 |
-| R3 — Spring Boot/Batch/Cloud back-end, Quartz scheduling, no other third-party dependencies | Primary dependency allowlist; Spring Boot BOM transitives only through adapters; Quartz is the only scheduler; custom schema migration runner replaces Flyway/Liquibase | §7, §3.3, ADR-0004, ADR-0010 |
+| R3 — Spring Boot/Batch/Cloud back-end, Gradle build, Quartz scheduling, no other third-party dependencies | Primary dependency allowlist; Spring Boot BOM transitives only through adapters; Quartz is the only scheduler; custom schema migration runner replaces Flyway/Liquibase | §7, §3.3, ADR-0004, ADR-0010 |
 | R4 — business logic in a domain service between front-end and database-writing expert service | Three-tier vertical; domain service owns rules and orchestration; expert service owns persistence and batch | §4, §6, §7, ADR-0001 |
 | R5 — front-end constructs transactions and monitors them through back-end services | Transaction catalog, transaction draft, business transaction envelope, SSE monitoring | §6.2–§6.7, ADR-0009 |
 | Components: 10 verticals (8 business + 2 FS-RI integration), each with front-end, back-end, database | 10 × (`-web`, `-domain`, `-expert`, database) | §4.3, §11 |
@@ -494,6 +495,8 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 | JSON | Jackson via Spring Boot | Transitive, adapter use only |
 | Validation | Jakarta Bean Validation via Spring Boot | Transitive |
 
+**Build toolchain:** back-end repositories use **Gradle 8.14.x with the Kotlin DSL** (`build.gradle.kts`, `settings.gradle.kts`, and the Gradle wrapper). Maven POMs are not used. Gradle and the Spring Boot Gradle plugin are build tooling, not runtime dependencies. Every Java repository MUST commit `gradlew`, `gradlew.bat`, and `gradle/wrapper/` so local builds are reproducible without a global Gradle install.
+
 **Prohibited primary dependencies (non-exhaustive):** Lombok, MapStruct, Guava, Apache Commons (`commons-lang3`, `commons-io`, `commons-collections`), Resilience4j, Hystrix, Kafka clients, RabbitMQ client, Redis/Lettuce/Jedis, Caffeine, Ehcache, Flyway, Liquibase, Hibernate Envers, Hibernate Validator as a primary dependency (transitive via Boot is permitted), Apache HttpClient, OkHttp, Retrofit, Feign core, OpenTelemetry SDK, Micrometer Prometheus registry beyond Spring Boot's managed version, Bouncy Castle, JJWT, Nimbus JOSE (Nimbus is transitive via Spring Security and used only through Spring Security APIs), PDFBox, Apache POI, iText, Tika, Quartz plugins, and any SDK for SAP, Salesforce, DocuSign, Twilio, SendGrid, or similar.
 
 **Permitted test-scope dependencies:** JUnit 5, Spring Boot Test, Spring Batch Test, Spring Security Test, AssertJ, Mockito, H2 (only for non-PostgreSQL-specific tests), and XMLUnit. These are test-only and must not appear on the runtime classpath.
@@ -509,8 +512,8 @@ The dependency policy is the practical interpretation of R2 and R3. It distingui
 
 **Enforcement gates:**
 
-1. Maven Enforcer `bannedDependencies` with the prohibited group/artifact list.
-2. `maven-dependency-plugin:analyze` fails on undeclared or unused primary dependencies.
+1. A Gradle `verifyDependencies` task checks `runtimeClasspath` against the prohibited group/artifact list.
+2. A Gradle `verifyDeclaredDependencies` task fails on undeclared or unused direct dependencies.
 3. A custom build check asserts every direct runtime dependency's group ID is in `{org.springframework.*, org.quartz-scheduler, org.postgresql}`.
 4. JDK module check: application code imports only `java.*`, `javax.*`, `jakarta.*`, `org.springframework.*`, `org.quartz.*`, and first-party packages.
 5. CycloneDX SBOM published per build.
@@ -16707,6 +16710,9 @@ CREATE INDEX ix_document_fts    ON ent.document_text USING gin (content_tsv);
 ---
 
 *End of specification.*
+
+
+
 
 
 

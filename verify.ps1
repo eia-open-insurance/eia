@@ -16,10 +16,12 @@ Get-ChildItem -Directory -Force $root | ForEach-Object {
         if (-not (Test-Path $path)) { $errors += "$repo missing $file" }
     }
 
-    if ($Build -and (Test-Path (Join-Path $dir "pom.xml"))) {
-        Write-Host "BUILD $repo (Maven)"
-        & mvn -B -ntp -f (Join-Path $dir "pom.xml") verify
-        if ($LASTEXITCODE -ne 0) { $errors += "$repo Maven verification failed" }
+    if ($Build -and ((Test-Path (Join-Path $dir "build.gradle.kts")) -or (Test-Path (Join-Path $dir "build.gradle")))) {
+        Write-Host "BUILD $repo (Gradle)"
+        $gradle = "gradle"
+        if (Test-Path (Join-Path $dir "gradlew.bat")) { $gradle = Join-Path $dir "gradlew.bat" }
+        & $gradle -p $dir build
+        if ($LASTEXITCODE -ne 0) { $errors += "$repo Gradle verification failed" }
     }
 
     if ($Build -and (Test-Path (Join-Path $dir "package.json"))) {
@@ -40,3 +42,4 @@ if ($errors.Count -gt 0) {
 }
 
 Write-Host "Repository baseline verified. No hosted pipeline used."
+
