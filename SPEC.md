@@ -4,7 +4,7 @@
 |---|---|
 | Document ID | `EIA-SPEC-001` |
 | Title | Enterprise Insurance Administration System Specification |
-| Version | 1.7.0 |
+| Version | 1.8.0 |
 | Status | Proposed — for architecture and business review |
 | Date | 2026-10-19 |
 | Classification | Internal |
@@ -25,6 +25,7 @@
 | 1.5.0 | 2026-10-19 | Enterprise Architecture | Added least-privilege access profiles and permission matrix, integration contract standard, master-data seed catalog and governance, enterprise security/privacy/resilience standards, test case catalog and evidence templates, operations service catalog, delivery governance, and standard-default decisions |
 | 1.6.0 | 2026-10-19 | Enterprise Architecture | Added the system boundary and business-responsibility matrix, separated system readiness from business readiness, and clarified that legal, staffing, vendor, migration, and commercial decisions are business-owned |
 | 1.7.0 | 2026-10-19 | Enterprise Architecture | Added the repository, build, and release standard; defined the GitHub organization and 48-repository topology; created the `repos/` catalog and per-repository README scaffolding |
+| 1.8.0 | 2026-10-19 | Enterprise Architecture | Published as the EIA Open Insurance open-source project under Apache 2.0; added the `eia` umbrella repository, governance, code of conduct, security policy, trademark policy, roadmap, and 49-repository catalog |
 
 **Contents**
 
@@ -181,6 +182,22 @@ The platform is composed of **ten verticals: eight business verticals plus two F
 * Every write is **idempotent and attributable**: who, what, when, from which front-end build, under which transaction, and with which approval.
 * The platform is **audit-ready by construction**: every state change produces an immutable audit record and a domain event, and every event carries correlation and causation identifiers.
 
+### 1.4 Open-source project
+
+EIA Open Insurance is published as an open-source project under the Apache License 2.0.
+
+| Item | Standard |
+|---|---|
+| Organization | `eia-open-insurance` |
+| Umbrella repository | `eia` |
+| License | Apache License 2.0 |
+| Contribution | Developer Certificate of Origin, no CLA |
+| Governance | Maintainers and Technical Steering Committee |
+| Code of conduct | Contributor Covenant 2.1 |
+| Security | Private vulnerability reporting and coordinated disclosure |
+| Trademarks | Project name and logo are not granted by the license |
+
+The project is independent. It is not affiliated with or endorsed by SAP, ACORD, NAIC, ISO, Verisk, or any carrier, broker, or regulator.
 ---
 
 ## 2. Scope, Actors, and Capabilities
@@ -14794,7 +14811,7 @@ A capability is done when the §16.6 criteria and the §15.6 quality gates pass,
 
 | Item | Standard |
 |---|---|
-| Organization | `eia-open-insurance` (assumed; replace with the actual GitHub organization) |
+| Organization | `eia-open-insurance` |
 | Deployable repository | `eia-<component>` |
 | Vertical repository | `eia-<vertical>-web`, `eia-<vertical>-domain`, `eia-<vertical>-expert` |
 | Shared library repository | `eia-open-insurance-libs`, `eia-frontend-platform` |
@@ -14802,6 +14819,7 @@ A capability is done when the §16.6 criteria and the §15.6 quality gates pass,
 | Infrastructure repository | `eia-infra`, `eia-environments`, `eia-observability`, `eia-release` |
 | Test repository | `eia-simulators`, `eia-e2e`, `eia-security` |
 | Documentation repository | `eia-docs`, `eia-architecture` |
+| Umbrella repository | `eia` |
 | Org repository | `.github` |
 
 Every individually deployable component has its own repository. A repository MUST NOT contain two independently deployable services.
