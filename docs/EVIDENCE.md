@@ -122,3 +122,21 @@ This is a working local first vertical slice, not production-complete insurance 
 - Cession and Retrocession hand off to the FS-RI simulator and persist the confirmation fields atomically.
 - PostgreSQL `max_connections` raised to 300; each expert pool is capped at 3 connections.
 - Live checks: policy replay returns 200 + `Idempotent-Replayed: true`; stale version returns 409 `CONCURRENT_MODIFICATION`; Cession moves `OPEN → RULE_APPLIED → HANDED_OFF` with `FSRI-CES-DIRECT-000001` and `POSTED`.
+
+## Final verification — 2026-10-19
+
+```text
+pwsh ./repos/verify.ps1 -Build
+Repository baseline verified. No hosted pipeline used.
+exit code: 0
+```
+
+- 37 repositories checked.
+- 67 JUnit suites, **509 tests, 0 failures**.
+- 12 Playwright suites, including the opt-in live all-vertical suite.
+- Kubernetes namespace `eia-local`: **37/37 pods Ready**.
+- Gateway smoke: **10/10 vertical APIs**.
+- Kubernetes-hosted shell: **10/10 federated verticals**.
+- FS-RI in-cluster hand-off: `CES-000000001` → `HANDED_OFF`, `fsriStatus=POSTED`.
+- Contract validation: **4,043 checks, 0 failures**.
+- Deployment asset validation: **45 checks**.
