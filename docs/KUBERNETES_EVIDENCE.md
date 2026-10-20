@@ -540,3 +540,17 @@ DUE/OVERDUE installments can link an existing policy-source payment:
 - billing totals refresh
 
 Live: PAY-2026-0000003 linked to POL-2026-0000004 installment 2; paid $500, outstanding $500.
+
+## Contract cash calls
+
+![Contract cash calls](images/contract-cash-calls.png)
+
+Contract cash calls request interim funding:
+
+- period, amount/currency, due date, notes
+- REQUESTED → ISSUED / CANCELLED
+- ISSUED → SETTLED
+- summary cards for requested/issued/settled and overdue due dates
+- explicit boundary: a cash call is not a Payment; Payment and FS-RI own execution
+
+Live: CC-2026-00001, USD 50,000, issued, due 2026-11-30.

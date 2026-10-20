@@ -211,3 +211,8 @@
 
 - Link existing policy payments to installments.
 - Contracts 11,054 checks; 231 suites, 2,117 tests; live 17/17.
+
+## Round 32: cash calls
+
+- Contract cash calls with lifecycle and events.
+- Contracts 11,292 checks; 192 events; 235 suites, 2,187 tests; live 17/17.
