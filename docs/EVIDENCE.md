@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 167 JUnit suites, **1,324 tests, 0 failures/errors**.
+- 168 JUnit suites, **1,333 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 167 JUnit suites, **1,324 tests, 0 failures**.
+- 168 JUnit suites, **1,333 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -173,3 +173,12 @@ exit code: 0
 - Process context panels explain why the record matters and where it sits in the workflow.
 - Contracts: ten search paths, 8,874 checks, 0 failures.
 - Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
+
+## Round 9: search workspace and process transparency
+
+- Added a dedicated `/search` workspace with type/status facets, result counts, saved searches, create actions, and direct navigation.
+- Global search now links to the full workspace and retains its Ctrl+K quick search.
+- Added policy-by-insured-party filtering to the policy read model and a “Policies for this party” card on Party.
+- Added a Guidewire-style claim progress stepper to Direct and Assumed Claims with current, completed, denied, and next-step states.
+- Live browser suite: 14/14, including the search workspace.
+- Full matrix: 168 suites, 1,333 tests, 0 failures.

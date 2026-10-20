@@ -163,3 +163,19 @@ The shell now carries a persistent Ctrl+K search across all ten verticals. It gr
 - `?new=1` opens creation from search.
 - Cross-links navigate between related records in the SPA.
 - Live suite after deployment: **13/13 passed**, including search-open-record and search-create-claim.
+
+## Search workspace and process steps
+
+![Search workspace](images/search-workspace.png)
+
+The dedicated search page adds type and status facets, result counts, saved searches, and create actions. Global Ctrl+K search remains available on every page and links to this workspace.
+
+![Claim progress stepper](images/claim-stepper.png)
+
+Direct and Assumed Claims now show a process stepper with completed, current, denied, and upcoming steps plus a “What happens next” explanation.
+
+![Party policies](images/party-policies.png)
+
+Party records cross-link to their direct policies through the new `insuredPartyId` policy filter.
+
+Live browser suite after rollout: **14/14 passed**.

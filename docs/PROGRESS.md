@@ -71,3 +71,10 @@
 - Cross-links and process-context panels between policy, claim, party, contract, cession, retrocession, payment, and notification records.
 - Search contracts and validation: 8,874 checks.
 - Full matrix: 167 suites, 1,324 tests, 0 failures.
+
+## Round 9: search workspace and claim progress
+
+- Dedicated search page with facets, saved searches, create actions, and global search hand-off.
+- Party-to-policy cross-links using the insured-party policy filter.
+- Claim progress steppers for Direct and Assumed Claims with next-step guidance.
+- Full matrix: 168 suites, 1,333 tests, 0 failures.
