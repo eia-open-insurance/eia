@@ -479,3 +479,20 @@ Direct claims can distribute loss across policy years and layers:
 The total percentage cannot exceed 100%. Policy owns the limit ledger; Direct Claims records the claim-side split.
 
 Live: `CLM-2026-0000001`, 2026 / PRIMARY / 50% / $3,000, total 50% / $3,000.
+
+## Premium receivables
+
+![Premium receivables](images/premium-receivables.png)
+
+Cross-policy premium collection workspace:
+
+- overdue and due totals
+- policies in queue
+- All / Overdue / Due tabs
+- policy number, installment, due date, amount, status, days past due
+- filter by policy, insurer, amount
+- Open policy link to the billing tab
+
+Backend: `GET /api/v1/billing/installments?limit=200` with tenant + DIRECT.
+
+Live: POL-2026-0000004 had 3 DUE installments totaling USD 750.

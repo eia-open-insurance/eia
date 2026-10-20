@@ -191,3 +191,8 @@
 
 - Policy-year/layer claim allocations with 100% guard.
 - Contracts 10,738 checks; 189 events; 220 suites, 2,015 tests; live 17/17.
+
+## Round 28: receivables
+
+- Cross-policy premium receivables queue and dashboard card.
+- Contracts 10,847 checks; 225 suites, 2,052 tests; live 17/17.
