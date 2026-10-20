@@ -221,3 +221,8 @@
 
 - Payment allocation ledger and predictive target picker.
 - Contracts 11,477 checks; 193 events; 238 suites, 2,223 tests; live 17/17.
+
+## Round 34: allocation erosion
+
+- Allocation-to-policy limit erosion with status/retry.
+- Contracts 11,527 checks; 239 suites, 2,271 tests; live 17/17.

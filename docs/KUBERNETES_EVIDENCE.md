@@ -570,3 +570,16 @@ The Payment Allocations tab splits one payment across targets:
 The sum cannot exceed the payment amount, and allocation never changes the payment amount.
 
 Live: PAY-2026-0000003, USD 250, POLICY allocation USD 100, unallocated USD 150.
+
+## Allocation-to-policy erosion
+
+![Allocation erosion](images/claim-allocation-erosion.png)
+
+Claim allocations can consume a selected policy limit:
+
+- optional policy-limit picker with remaining amount
+- POST allocation → Policy erosion fact → POSTED / FAILED
+- failure leaves the allocation intact and retryable
+- policy remaining amount decreases
+
+Live: claim allocation 2027 EXCESS_1 25% USD 1,000 posted to limit 93e3960f; policy limit state moved from USD 100,000 to USD 99,000.
