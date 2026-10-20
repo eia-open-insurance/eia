@@ -186,3 +186,8 @@
 
 - Contract period bordereaux with processing to technical accounts.
 - Contracts 10,593 checks; 188 events; 217 suites, 1,964 tests; live 17/17.
+
+## Round 27: claim allocations
+
+- Policy-year/layer claim allocations with 100% guard.
+- Contracts 10,738 checks; 189 events; 220 suites, 2,015 tests; live 17/17.

@@ -462,3 +462,20 @@ The Bordereaux tab now works:
 - summary cards and linked account column
 
 Live: `BRD-2026-00001` processed for 2026-04-01–2026-06-30 and linked `TA-2026-00002`.
+
+## Claim allocations
+
+![Claim allocations](images/claim-allocations.png)
+
+Direct claims can distribute loss across policy years and layers:
+
+- allocation percentage (0–100%)
+- allocated amount
+- policy year and layer
+- policy link
+- total allocation percentage and amount
+- unallocated amount against current reserve
+
+The total percentage cannot exceed 100%. Policy owns the limit ledger; Direct Claims records the claim-side split.
+
+Live: `CLM-2026-0000001`, 2026 / PRIMARY / 50% / $3,000, total 50% / $3,000.
