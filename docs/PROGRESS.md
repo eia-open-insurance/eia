@@ -165,3 +165,8 @@
 - Gateway people/team directory and directory-backed assignment.
 - Adjuster workload.
 - Contracts 10,105 checks; 183 events; 204 suites, 1,784 tests; live 17/17.
+
+## Round 23: renewal
+
+- Policy renewal with lineage and copied terms.
+- Contracts 10,171 checks; 208 suites, 1,817 tests; live 17/17.

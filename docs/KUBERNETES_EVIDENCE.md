@@ -405,3 +405,17 @@ Policy records now expose a Billing tab:
 - billing events in the outbox
 
 Live: `POL-2026-0000004` plan `BP-0001`, 4 quarterly installments of $250; installment 1 marked PAID, outstanding $750.
+
+## Policy renewal
+
+![Policy renewal](images/policy-renewal.png)
+
+Renewal creates a successor policy without mutating the expiring record:
+
+- new policy number and DRAFT status
+- `renewedFromPolicyId` lineage
+- copied coverages, limits, insureds, locations
+- fresh version and limit state
+- `policy.policy.renewed` outbox event
+
+Live: `POL-2026-0000004` renewed as `POL-2026-0000005`, effective 2027-01-02 to 2028-01-02, premium and limit carried forward.
