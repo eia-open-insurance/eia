@@ -225,3 +225,23 @@ Live evidence on `RNS-2026-0000002`:
 3. Event inbox received `assumed.claim.task-created` and `assumed.claim.task-completed`.
 
 Live suite after rollout: **16/16 passed**, including both claim diary tabs.
+
+## Settlement-to-payment hand-off
+
+![Settlement payment hand-off](images/payment-handoff.png)
+
+Direct Claims hands an authorized settlement to Payment with amount, currency, payee, and source claim prefilled.
+
+![Payment source record](images/payment-source.png)
+
+Payment preserves `sourceType=DIRECT_CLAIM`, `sourceId`, and `sourceReference`, shows the source link, and appears back on the claim.
+
+![Claim related payments](images/claim-payments.png)
+
+Live evidence:
+
+1. Authorized `SET-2026-0000001` on `CLM-2026-0000001`.
+2. Clicked **Create payment**; Payment opened with $15,000 / USD / Jordan Claimant / source CLM-2026-0000001.
+3. Saved `PAY-2026-0000002` with source linkage.
+4. Claim Settlements tab shows the related payment with amount.
+5. Payment search finds the payment by claim id.

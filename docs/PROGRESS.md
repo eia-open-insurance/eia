@@ -92,3 +92,10 @@
 - Diary & Notes workbench, Open tasks summary, overdue handling, version conflicts.
 - Live event inbox and browser evidence; contracts 9,361 checks; 176 events.
 - Full matrix: 180 suites, 1,481 tests, 0 failures.
+
+## Round 12: settlement-to-payment hand-off
+
+- Payment source linkage, source-aware search, and created-event payload.
+- Settlement hand-off with prefilled payment and source link back to the claim.
+- Related payments on the claim with hydrated amounts.
+- Contracts 9,411 checks; full matrix 181 suites, 1,508 tests, 0 failures.

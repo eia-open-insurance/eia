@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 180 JUnit suites, **1,481 tests, 0 failures/errors**.
+- 181 JUnit suites, **1,508 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 180 JUnit suites, **1,481 tests, 0 failures**.
+- 181 JUnit suites, **1,508 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -171,7 +171,7 @@ exit code: 0
 - Cross-links between claim/policy/party/contract/cession/retrocession/payment/notification records.
 - Related-label resolution shows policy, contract, and party numbers/names instead of UUIDs, with graceful fallback.
 - Process context panels explain why the record matters and where it sits in the workflow.
-- Contracts: ten search paths, 9,361 checks, 0 failures.
+- Contracts: ten search paths, 9,411 checks, 0 failures.
 - Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
 
 ## Round 9: search workspace and process transparency
@@ -191,7 +191,7 @@ exit code: 0
 - Outbox events: `direct.claim.task-created`, `task-completed`, `task-updated`, `note-added`.
 - UI summary: Open tasks card; diary and summary now stay consistent after task changes.
 - Live evidence: created task, completed it, added a note through the Kubernetes shell; task and note events appear in the event-ingest inbox.
-- Contracts: 9,361 checks, 0 failures; 172 published events.
+- Contracts: 9,411 checks, 0 failures; 172 published events.
 - Full matrix: 173 suites, 1,400 tests, 0 failures.
 
 
@@ -201,5 +201,16 @@ exit code: 0
 - Tables, APIs, optimistic task versioning, ASSUMED book wall, and outbox events.
 - Diary & Notes tab, Open tasks card, overdue styling, and notes timeline.
 - Live evidence: created and completed `TSK-2026-0000001` on `RNS-2026-0000002`; inbox received `assumed.claim.task-created` and `assumed.claim.task-completed`.
-- Contracts: 9,361 checks, 0 failures; 176 published events.
+- Contracts: 9,411 checks, 0 failures; 176 published events.
 - Full matrix: 180 suites, 1,481 tests, 0 failures.
+
+## Round 12: settlement-to-payment hand-off
+
+- Payments carry optional sourceType/sourceId/sourceReference.
+- Payment search finds payments by claim id and reference.
+- Direct Claims settlement actions hand off to Payment with prefilled amount, currency, payee, and source.
+- Payment workbench shows the source record and routes back to the claim/policy.
+- Claim Settlements tab shows related payments with hydrated amounts.
+- Live: authorized settlement `SET-2026-0000001` handed off to `PAY-2026-0000002`, source `DIRECT_CLAIM` / `CLM-2026-0000001`.
+- Contracts: 9,411 checks, 0 failures; 176 published events.
+- Full matrix: 181 suites, 1,508 tests, 0 failures.
