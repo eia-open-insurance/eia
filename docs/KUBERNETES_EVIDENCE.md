@@ -96,3 +96,13 @@ The shell now has a shared design system, contextual header, operations dashboar
 ![Policy workspace](images/policy-workspace.png)
 
 ![Direct Claims workspace](images/direct-claims-workspace.png)
+
+### Record detail
+
+The Policy record opens into version, coverage, endorsement, insured/location, and cancellation tabs.
+
+![Policy record detail](images/policy-detail.png)
+
+Direct Claims opens into injury, reserve, coverage, litigation, settlement, and recovery tabs.
+
+![Direct claim detail](images/claim-detail.png)
