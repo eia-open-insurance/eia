@@ -134,3 +134,9 @@
 - Document-to-record links with predictive picker, filter, and canonical events.
 - Link CRUD and duplicate/wall handling.
 - Contracts 9,865 checks; 180 events; 197 suites, 1,707 tests.
+
+## Round 18: reverse document links
+
+- Linked-document cards on claims, policies, parties, contracts, payments.
+- Document evidence is visible from both directions.
+- Full matrix 197 suites, 1,707 tests; contracts 9,865 checks; live 17/17.

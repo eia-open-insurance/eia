@@ -264,3 +264,10 @@ exit code: 0
 - Live: `DOC-2026-0000001` linked to `CLM-2026-0000001`; filter returned the document; event inbox received `document.link.added`.
 - Contracts: 9,865 checks, 0 failures; 180 published events.
 - Full matrix: 197 suites, 1,707 tests, 0 failures.
+
+## Round 18: reverse document visibility
+
+- Direct/Assumed Claims, Policy, Party, Contract, and Payment now show linked documents.
+- Each card is non-blocking, count-aware, and links to the Document record.
+- Live: DOC-2026-0000001 appears on CLM-2026-0000001 via `linkedType=DIRECT_CLAIM`.
+- Full matrix: 197 suites, 1,707 tests; contracts 9,865 checks; 180 events; live 17/17.

@@ -333,3 +333,17 @@ Live evidence:
 3. The link appeared with type, reference, linked record, and added time.
 4. `GET /api/v1/documents?linkedType=DIRECT_CLAIM&linkedId=…` returned the document.
 5. Event inbox received `document.link.added`.
+
+## Reverse document visibility
+
+![Claim linked documents](images/claim-documents.png)
+
+Claims, policies, parties, contracts, and payments now show their linked evidence. The card:
+
+- loads documents by `linkedType` + `linkedId`
+- shows document number, title, type, and status
+- links to `/document?record=<id>`
+- contains loading/empty/error state
+- explains that documents are evidence and the business record remains source of truth
+
+Live: `DOC-2026-0000001` appears on `CLM-2026-0000001`.
