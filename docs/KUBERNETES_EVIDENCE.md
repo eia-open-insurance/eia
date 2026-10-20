@@ -614,3 +614,13 @@ DUE/OVERDUE receivables can record collection communications:
 Dunning does not change installment status, amount, or payment.
 
 Live: POL-2026-0000004 installment 3, REMINDER via EMAIL, SENT.
+
+## Mass-tort allocation guard
+
+Claim allocations now respect the policy mass-tort profile:
+
+- COMPLETE profile with coverage block → policyYear must fall within block years
+- outside → 400 MASS_TORT_YEAR_OUTSIDE_BLOCK, nothing written
+- DRAFT/missing/unavailable profile → allocation allowed
+
+Live: policy block 2020-01-01–2024-12-31 rejected policyYear 2027 and accepted 2024.

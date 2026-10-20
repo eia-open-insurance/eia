@@ -236,3 +236,8 @@
 
 - Installment dunning actions and receivables visibility.
 - Contracts 11,808 checks; 250 suites, 2,356 tests; live 17/17.
+
+## Round 37: mass-tort guard
+
+- Allocation coverage-block enforcement.
+- Contracts 11,809 checks; 251 suites, 2,369 tests; live 17/17.
