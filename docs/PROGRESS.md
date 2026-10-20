@@ -206,3 +206,8 @@
 
 - Party hits enrich with policies and direct claims.
 - Contract 11,054 checks; 231 suites, 2,117 tests; live 17/17.
+
+## Round 31: billing payment application
+
+- Link existing policy payments to installments.
+- Contracts 11,054 checks; 231 suites, 2,117 tests; live 17/17.

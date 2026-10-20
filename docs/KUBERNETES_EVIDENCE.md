@@ -526,3 +526,17 @@ Searching a party now returns:
 Each claim result shows its type, claimant context, status, and opens the claim record.
 
 Live Acme search: 8 records — 1 party, 3 policies, 3 direct claims, 1 document.
+
+## Billing payment application
+
+![Billing payment link](images/billing-payment-link.png)
+
+DUE/OVERDUE installments can link an existing policy-source payment:
+
+- modal lists payment number, status, amount, created date, payee
+- amount mismatch warning for reconciliation
+- Apply sends PATCH status PAID + paymentId
+- row shows paid date and linked payment number
+- billing totals refresh
+
+Live: PAY-2026-0000003 linked to POL-2026-0000004 installment 2; paid $500, outstanding $500.

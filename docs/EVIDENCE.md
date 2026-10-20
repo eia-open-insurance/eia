@@ -375,3 +375,11 @@ exit code: 0
 - Search result type/link/secondary show claimant claims.
 - Live: Acme search returns 1 party, 3 policies, 3 direct claims (CLM-2026-0000001..3).
 - Full matrix: 231 suites, 2,117 tests; contracts 11,054 checks; 189 events; live 17/17.
+
+## Round 31: billing payment application
+
+- Policy Billing links an existing POLICY-source payment to a DUE/OVERDUE installment.
+- PATCH sends status PAID + paymentId; no payment creation/execution from Policy.
+- Modal lists policy payments, amount mismatch warning, linked payment number on the row.
+- Live: PAY-2026-0000003 linked to POL-2026-0000004 installment 2; paid total $500, outstanding $500.
+- Full matrix: 231 suites, 2,117 tests; contracts 11,054 checks; 189 events; live 17/17.
