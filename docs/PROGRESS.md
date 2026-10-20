@@ -158,3 +158,10 @@
 - Directory-backed assignment in both claims books.
 - Adjuster workload in the work queue.
 - 199 suites, 1,732 tests; live 17/17.
+
+## Round 22: billing and directory
+
+- Policy billing plans/installments with payment hand-off.
+- Gateway people/team directory and directory-backed assignment.
+- Adjuster workload.
+- Contracts 10,105 checks; 183 events; 204 suites, 1,784 tests; live 17/17.

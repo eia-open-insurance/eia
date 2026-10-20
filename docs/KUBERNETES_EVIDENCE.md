@@ -389,3 +389,19 @@ The work queue shows adjuster workload:
 - oldest claim
 
 Live: `C. Manager — CLAIMS_MANAGER` assigned to `SUPERVISORY` on CLM-2026-0000001.
+
+## Policy billing
+
+![Policy billing](images/policy-billing.png)
+
+Policy records now expose a Billing tab:
+
+- create a plan of 1–24 installments with frequency and first due date
+- split premium exactly across installments
+- total, paid, outstanding, overdue summary
+- installment status and due dates
+- Mark paid / Waive
+- Create payment for due/overdue installments with sourceType=POLICY
+- billing events in the outbox
+
+Live: `POL-2026-0000004` plan `BP-0001`, 4 quarterly installments of $250; installment 1 marked PAID, outstanding $750.
