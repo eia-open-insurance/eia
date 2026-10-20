@@ -216,3 +216,8 @@
 
 - Contract cash calls with lifecycle and events.
 - Contracts 11,292 checks; 192 events; 235 suites, 2,187 tests; live 17/17.
+
+## Round 33: payment allocations
+
+- Payment allocation ledger and predictive target picker.
+- Contracts 11,477 checks; 193 events; 238 suites, 2,223 tests; live 17/17.

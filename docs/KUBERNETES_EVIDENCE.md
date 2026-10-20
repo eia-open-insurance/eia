@@ -554,3 +554,19 @@ Contract cash calls request interim funding:
 - explicit boundary: a cash call is not a Payment; Payment and FS-RI own execution
 
 Live: CC-2026-00001, USD 50,000, issued, due 2026-11-30.
+
+## Payment allocations
+
+![Payment allocations](images/payment-allocations.png)
+
+The Payment Allocations tab splits one payment across targets:
+
+- target type and predictive record lookup
+- component
+- amount
+- linked target record
+- payment/allocated/unallocated summary
+
+The sum cannot exceed the payment amount, and allocation never changes the payment amount.
+
+Live: PAY-2026-0000003, USD 250, POLICY allocation USD 100, unallocated USD 150.
