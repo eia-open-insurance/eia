@@ -43,3 +43,15 @@
 - FS-RI hand-off verified in-cluster: cession `CES-000000001` is `HANDED_OFF` with `fsriStatus=POSTED`.
 - Two Ingresses (`eia`, `eia-remotes`) and 45 deployment-asset checks pass.
 - Remaining: signed runtime federation manifest/SRI, production FS-RI adapter, TLS/mTLS, HA PostgreSQL.
+
+## Round 6: UI/UX and operational depth
+
+- Shared CSS design system applied across all federated verticals.
+- Operations dashboard with claims, policy, contract, payment, document, and notification metrics.
+- Context header with tenant, book, environment, role, and date.
+- Policy second slice: versions, coverages/limits, endorsements, insureds/locations, cancellation.
+- Contract second slice: layers, participants, terms, security, cessions, bordereaux, commutation, bind.
+- Direct Claims second slice: injuries, exposures, reserve history, coverage, litigation, settlement, recovery, liens.
+- Assumed Claims second slice: loss advice, bordereaux, reserve history, cash calls, recovery, commutation, disputes, audit.
+- Outbox publishers added to Cession, Retrocession, Document, Payment, Notifications.
+- Full matrix: 137 JUnit suites, 1,130 tests, 0 failures; exit 0.
