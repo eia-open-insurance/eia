@@ -171,7 +171,7 @@ exit code: 0
 - Cross-links between claim/policy/party/contract/cession/retrocession/payment/notification records.
 - Related-label resolution shows policy, contract, and party numbers/names instead of UUIDs, with graceful fallback.
 - Process context panels explain why the record matters and where it sits in the workflow.
-- Contracts: ten search paths, 8,874 checks, 0 failures.
+- Contracts: ten search paths, 9,155 checks, 0 failures.
 - Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
 
 ## Round 9: search workspace and process transparency
@@ -193,3 +193,4 @@ exit code: 0
 - Live evidence: created task, completed it, added a note through the Kubernetes shell; task and note events appear in the event-ingest inbox.
 - Contracts: 9,155 checks, 0 failures; 172 published events.
 - Full matrix: 173 suites, 1,400 tests, 0 failures.
+

@@ -201,3 +201,7 @@ Live end-to-end check in `eia-local`:
 5. Event inbox received `direct.claim.task-created`, `direct.claim.task-completed`, and `direct.claim.note-added`.
 
 The claim progress stepper remains visible above the tabs.
+
+## Diary contracts
+
+The Direct Claims OpenAPI now includes task/note routes and schemas. AsyncAPI adds `direct.claim.task-created`, `task-completed`, `task-updated`, and `note-added`; the catalog has 172 published events. Validation: **9,155 checks, 0 failures**.
