@@ -419,3 +419,19 @@ Renewal creates a successor policy without mutating the expiring record:
 - `policy.policy.renewed` outbox event
 
 Live: `POL-2026-0000004` renewed as `POL-2026-0000005`, effective 2027-01-02 to 2028-01-02, premium and limit carried forward.
+
+## Claim payment traceability
+
+![Claim payments](images/claim-payments.png)
+
+Claim Overview now lists the payments linked to that claim:
+
+- number, status, amount/currency, payee, created date
+- total paid and pending count
+- link to the Payment record
+
+Backend filter:
+
+`GET /api/v1/payments?sourceType=DIRECT_CLAIM&sourceId=<claimId>`
+
+`sourceType` and `sourceId` must be supplied together; invalid types or half-pairs return 400. Live CLM-2026-0000001 returned PAY-2026-0000002.

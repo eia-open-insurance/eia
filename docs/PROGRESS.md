@@ -170,3 +170,9 @@
 
 - Policy renewal with lineage and copied terms.
 - Contracts 10,171 checks; 208 suites, 1,817 tests; live 17/17.
+
+## Round 24: payment traceability
+
+- Source-filtered payment list.
+- Claim Payments cards in both books.
+- Contracts 10,199 checks; 209 suites, 1,837 tests; live 17/17.
