@@ -151,3 +151,10 @@
 
 - Activity timelines on all ten verticals and Party.
 - Full matrix 198 suites, 1,726 tests; contracts 9,865 checks; live 17/17.
+
+## Round 21: directory and capacity
+
+- Public people/team directory.
+- Directory-backed assignment in both claims books.
+- Adjuster workload in the work queue.
+- 199 suites, 1,732 tests; live 17/17.

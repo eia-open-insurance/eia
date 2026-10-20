@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 198 JUnit suites, **1,726 tests, 0 failures/errors**.
+- 199 JUnit suites, **1,732 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 198 JUnit suites, **1,726 tests, 0 failures**.
+- 199 JUnit suites, **1,732 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -288,3 +288,11 @@ exit code: 0
 - Document facts include type/classification/retention/link; notifications include channel/recipient/type; party includes type/status/name.
 - Live assumed claim returned 5 events: registered, task created/completed, task created, assigned.
 - Full matrix: 198 suites, 1,726 tests; contracts 9,865 checks; 180 events; live 17/17.
+
+## Round 21: people directory and workload
+
+- Gateway exposes a public `/api/v1/directory` with four adjusters and six teams.
+- Direct/Assumed assignment uses directory people and team routing, with free-text/static fallback if unavailable.
+- Work queue adds adjuster workload: open, aged, teams, oldest claim.
+- Live directory returned 4 people/6 teams; C. Manager + SUPERVISORY assignment succeeded.
+- Full matrix: 199 suites, 1,732 tests; contracts 9,865 checks; 180 events; live 17/17.

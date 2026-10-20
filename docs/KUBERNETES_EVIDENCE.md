@@ -374,3 +374,18 @@ Live `CLM-2026-0000001` returned 8 processed events.
 All ten verticals and Party now show an event-derived Activity timeline. The assumed claim example shows registered, task created/completed, a second task created, and assignment events with status, version, actor, task, and reserve facts.
 
 The timeline is card-local, so an unavailable inbox never blocks the business record.
+
+## People directory and adjuster workload
+
+![Directory assignment](images/directory-assignment.png)
+
+`GET /api/v1/directory` returns 4 adjusters and 6 teams. Claim assignment selects a real person, filters teams by that person, and submits display name + team code.
+
+The work queue shows adjuster workload:
+
+- open claims
+- aged 30+
+- teams
+- oldest claim
+
+Live: `C. Manager — CLAIMS_MANAGER` assigned to `SUPERVISORY` on CLM-2026-0000001.
