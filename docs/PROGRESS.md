@@ -201,3 +201,8 @@
 
 - Policy mass-tort profile and validation.
 - Contracts 11,032 checks; 230 suites, 2,098 tests; live 17/17.
+
+## Round 30: claimant search
+
+- Party hits enrich with policies and direct claims.
+- Contract 11,054 checks; 231 suites, 2,117 tests; live 17/17.

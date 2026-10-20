@@ -512,3 +512,17 @@ Policy records now carry a mass-tort profile:
 The profile guides allocation/coverage administration but does not change coverage, limits, or premium. Policy owns the profile; Direct Claims owns allocations.
 
 Live: POL-2026-0000004, COMPLETE, Asbestos / Exposure / All sums, 2000-01-01–2024-12-31.
+
+## Claimant search enrichment
+
+![Party claims search](images/search-party-claims.png)
+
+Searching a party now returns:
+
+- the party record
+- that party's policies
+- that party's direct claims, where it is the claimant
+
+Each claim result shows its type, claimant context, status, and opens the claim record.
+
+Live Acme search: 8 records — 1 party, 3 policies, 3 direct claims, 1 document.
