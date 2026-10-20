@@ -128,3 +128,9 @@
 - Atomic Direct idempotency under concurrency.
 - Assignment validation/actor alignment.
 - 192 suites, 1,656 tests; live 17/17.
+
+## Round 17: document associations
+
+- Document-to-record links with predictive picker, filter, and canonical events.
+- Link CRUD and duplicate/wall handling.
+- Contracts 9,865 checks; 180 events; 197 suites, 1,707 tests.

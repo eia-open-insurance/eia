@@ -311,3 +311,25 @@ Hardening:
 - Direct assignment accepts only `X-EIA-Actor`.
 - Assumed audit accepts `CLAIM_ASSIGNED`.
 - M-25 assignment contract gaps closed.
+
+## Document association links
+
+![Document associations](images/document-links.png)
+
+The Document Associations tab now supports predictive linking to:
+
+- direct claims
+- assumed claims
+- policies
+- contracts
+- parties
+- payments
+- manual OTHER reference
+
+Live evidence:
+
+1. Opened `DOC-2026-0000001`.
+2. Added a DIRECT_CLAIM link to `CLM-2026-0000001`.
+3. The link appeared with type, reference, linked record, and added time.
+4. `GET /api/v1/documents?linkedType=DIRECT_CLAIM&linkedId=…` returned the document.
+5. Event inbox received `document.link.added`.
