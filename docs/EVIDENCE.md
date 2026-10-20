@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 197 JUnit suites, **1,707 tests, 0 failures/errors**.
+- 198 JUnit suites, **1,726 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 197 JUnit suites, **1,707 tests, 0 failures**.
+- 198 JUnit suites, **1,726 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -271,3 +271,11 @@ exit code: 0
 - Each card is non-blocking, count-aware, and links to the Document record.
 - Live: DOC-2026-0000001 appears on CLM-2026-0000001 via `linkedType=DIRECT_CLAIM`.
 - Full matrix: 197 suites, 1,707 tests; contracts 9,865 checks; 180 events; live 17/17.
+
+## Round 19: record activity timeline
+
+- Event-ingest exposes tenant-scoped aggregate activity: `GET /api/v1/events/aggregate/{id}?limit=50`.
+- Claim, Policy, and Payment workbenches now have an Activity tab fed by the inbox.
+- Timeline shows event type, time, status, version, and payload facts; loading/error states are card-local.
+- Live claim aggregate returned 8 events, including assignment, task, coverage, settlement, and note events.
+- Full matrix: 198 suites, 1,726 tests; contracts 9,865 checks; 180 events; live 17/17.

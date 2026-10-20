@@ -140,3 +140,9 @@
 - Linked-document cards on claims, policies, parties, contracts, payments.
 - Document evidence is visible from both directions.
 - Full matrix 197 suites, 1,707 tests; contracts 9,865 checks; live 17/17.
+
+## Round 19: activity timeline
+
+- Tenant-scoped aggregate event query.
+- Activity tabs on claim, policy, payment.
+- Full matrix 198 suites, 1,726 tests; contracts 9,865 checks; live 17/17.

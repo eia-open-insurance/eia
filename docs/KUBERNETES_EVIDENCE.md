@@ -347,3 +347,22 @@ Claims, policies, parties, contracts, and payments now show their linked evidenc
 - explains that documents are evidence and the business record remains source of truth
 
 Live: `DOC-2026-0000001` appears on `CLM-2026-0000001`.
+
+## Record activity timeline
+
+![Claim activity timeline](images/claim-activity.png)
+
+Claim, policy, and payment records now show an event-derived Activity timeline:
+
+- newest first
+- readable event label plus raw event type
+- occurred timestamp, inbox status, event version
+- payload facts such as status changes, reserves, coverage, settlement, task, note, and payment source
+- card-local loading/error/empty state
+- context note that the business record remains source of truth
+
+Backend route:
+
+`GET /api/v1/events/aggregate/{aggregateId}?limit=50` with `X-EIA-Tenant`.
+
+Live `CLM-2026-0000001` returned 8 processed events.
