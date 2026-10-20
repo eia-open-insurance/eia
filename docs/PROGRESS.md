@@ -85,3 +85,10 @@
 - Diary & Notes workbench with overdue tasks, completion, version conflicts, and append-only notes.
 - Open tasks summary and live event-ingest confirmation.
 - Full matrix: 173 suites, 1,400 tests, 0 failures; contracts 9,155 checks.
+
+## Round 11: Assumed Claims diary
+
+- Task and note persistence, APIs, and outbox events for Assumed Claims.
+- Diary & Notes workbench, Open tasks summary, overdue handling, version conflicts.
+- Live event inbox and browser evidence; contracts 9,361 checks; 176 events.
+- Full matrix: 180 suites, 1,481 tests, 0 failures.

@@ -205,3 +205,23 @@ The claim progress stepper remains visible above the tabs.
 ## Diary contracts
 
 The Direct Claims OpenAPI now includes task/note routes and schemas. AsyncAPI adds `direct.claim.task-created`, `task-completed`, `task-updated`, and `note-added`; the catalog has 172 published events. Validation: **9,155 checks, 0 failures**.
+
+## Assumed claim diary
+
+![Assumed claim diary](images/assumed-diary.png)
+
+Assumed Claims now mirrors the Direct Claims Diary & Notes workspace:
+
+- task list with overdue highlighting, priorities, assignees, status
+- add task, complete/reopen with optimistic versioning
+- newest-first notes with type, author, timestamp
+- Open tasks summary card
+- ASSUMED book wall and process stepper preserved
+
+Live evidence on `RNS-2026-0000002`:
+
+1. Created `TSK-2026-0000001`, due 2027-02-01, priority NORMAL.
+2. Completed it; Open tasks moved from 1 to 0.
+3. Event inbox received `assumed.claim.task-created` and `assumed.claim.task-completed`.
+
+Live suite after rollout: **16/16 passed**, including both claim diary tabs.
