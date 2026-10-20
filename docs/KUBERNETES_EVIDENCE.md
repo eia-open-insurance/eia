@@ -366,3 +366,11 @@ Backend route:
 `GET /api/v1/events/aggregate/{aggregateId}?limit=50` with `X-EIA-Tenant`.
 
 Live `CLM-2026-0000001` returned 8 processed events.
+
+## Activity across every workbench
+
+![Assumed claim activity](images/assumed-activity.png)
+
+All ten verticals and Party now show an event-derived Activity timeline. The assumed claim example shows registered, task created/completed, a second task created, and assignment events with status, version, actor, task, and reserve facts.
+
+The timeline is card-local, so an unavailable inbox never blocks the business record.

@@ -146,3 +146,8 @@
 - Tenant-scoped aggregate event query.
 - Activity tabs on claim, policy, payment.
 - Full matrix 198 suites, 1,726 tests; contracts 9,865 checks; live 17/17.
+
+## Round 20: activity everywhere
+
+- Activity timelines on all ten verticals and Party.
+- Full matrix 198 suites, 1,726 tests; contracts 9,865 checks; live 17/17.

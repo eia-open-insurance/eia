@@ -279,3 +279,12 @@ exit code: 0
 - Timeline shows event type, time, status, version, and payload facts; loading/error states are card-local.
 - Live claim aggregate returned 8 events, including assignment, task, coverage, settlement, and note events.
 - Full matrix: 198 suites, 1,726 tests; contracts 9,865 checks; 180 events; live 17/17.
+
+## Round 20: activity on every workbench
+
+- Activity timeline now exists on all ten verticals plus Party: Policy, Contract, Direct, Assumed, Cession, Retrocession, Document, Payment, Notifications, Party.
+- Each fetch is tenant-scoped, card-local, selection-driven, and refreshable.
+- Contract/cession/retrocession facts include bind, capacity, commutation, and FS-RI hand-off.
+- Document facts include type/classification/retention/link; notifications include channel/recipient/type; party includes type/status/name.
+- Live assumed claim returned 5 events: registered, task created/completed, task created, assigned.
+- Full matrix: 198 suites, 1,726 tests; contracts 9,865 checks; 180 events; live 17/17.
