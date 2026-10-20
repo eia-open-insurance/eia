@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 137 JUnit suites, **1,130 tests, 0 failures/errors**.
+- 156 JUnit suites, **1,206 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 137 JUnit suites, **1,130 tests, 0 failures**.
+- 156 JUnit suites, **1,206 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -148,3 +148,14 @@ exit code: 0
 - All ten verticals still load through the Kubernetes-hosted shell after the redesign.
 - Demo operational data seeded through the gateway: 3 parties, 2 policies, 2 direct claims, 1 assumed claim, 1 contract, 1 cession, 1 document, 1 payment, 1 notification.
 - Screenshots: `images/operations-dashboard.png`, `images/policy-workspace.png`, `images/direct-claims-workspace.png`.
+
+## Round 7: transactional event pipeline
+
+- New `eia-platform/event-ingest` service on port 8102 with PostgreSQL `eia_platform`.
+- Signed `POST /internal/events`; 202 first delivery, 200 replay, 409 conflicting payload, 401 bad HMAC, 400 validation, 413 oversized.
+- Idempotent `inbox_event` keyed by event ID with payload hash.
+- Gateway exposes read-only `/api/v1/events/recent` and `/api/v1/events/stats`; `/internal/**` is not routable through gateway or shell.
+- All ten experts now produce transactional outbox events; Kubernetes and Compose wire `EIA_OUTBOX_ENABLED`, endpoint, and shared signing secret.
+- Live evidence: 14 events, 14 processed, 0 failed; policy, contract, direct-claim, assumed-claim, party, payment, document, notification events observed.
+- Dashboard Event Stream card shows processed/total counts, recent types, latest deliveries, and LIVE status.
+- Contracts updated to 168 published events and 8,607 checks, 0 failures.

@@ -142,3 +142,10 @@ The UI uses the same header, queue, record panel, summary cards, tab strip, form
 ![Cession record](images/cession-workspace.png)
 
 ![Document record](images/document-workspace.png)
+
+## Event pipeline
+
+- `eia-event-ingest` Deployment and Service are live in `eia-local`.
+- All ten expert Deployments carry the transactional outbox endpoint and signing secret.
+- Event Stream dashboard card is fed by `/api/v1/events/stats` and `/recent`.
+- Live smoke: 14 events processed, 0 failed; 38/38 pods Ready.

@@ -55,3 +55,11 @@
 - Assumed Claims second slice: loss advice, bordereaux, reserve history, cash calls, recovery, commutation, disputes, audit.
 - Outbox publishers added to Cession, Retrocession, Document, Payment, Notifications.
 - Full matrix: 137 JUnit suites, 1,130 tests, 0 failures; exit 0.
+
+## Round 7: event-driven platform
+
+- Transactional outbox producers added to Policy, Contract, Direct Claims, and Assumed Claims; all ten verticals now publish.
+- Event-ingest inbox deployed with idempotency, HMAC verification, conflict detection, and read APIs.
+- Kubernetes and Compose deliver signed events from every expert.
+- Dashboard event stream shows processed counts, event types, latest deliveries, and live status.
+- Full matrix: 156 suites, 1,206 tests, 0 failures.
