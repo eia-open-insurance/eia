@@ -105,3 +105,10 @@
 - Idempotency-Key support and replay/conflict semantics for task/note creates.
 - Stable UI keys across retries; new key after success.
 - Contract 9,470 checks; full matrix 185 suites, 1,568 tests.
+
+## Round 14: claim ownership
+
+- Adjuster/team assignment with optimistic versioning and outbox events in both claims books.
+- Ownership in headers, summaries, queue rows, and filters; audited reassignment.
+- Search enriches insured-party hits with policies.
+- Contracts 9,656 checks; full matrix 192 suites, 1,652 tests, 0 failures.

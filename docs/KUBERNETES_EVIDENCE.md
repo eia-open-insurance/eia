@@ -258,3 +258,20 @@ Live evidence in `eia-local`:
 - assumed claims: identical replay returned the same ID with `replay=true`
 
 The browser forms generate a UUID per create attempt and reuse it only while the attempt is unresolved.
+
+## Claim ownership
+
+![Direct claim assigned](images/claim-assigned.png)
+
+Both claims books now show the owner in the record header, summary, and queue, with an Assign action.
+
+Live evidence:
+
+- `CLM-2026-0000001` assigned to `A. Adjuster` / `DIRECT_CLAIMS`.
+- `RNS-2026-0000002` assigned to `B. Examiner` / `ASSUMED_CLAIMS`.
+- Both assignment events reached the event inbox.
+- Queue filters match owner, team, and Unassigned.
+
+## Insured-name search
+
+Searching `Acme` now returns the Acme party plus its direct policies (`POL-2026-…`) by resolving `GET /api/v1/policies?insuredPartyId=…` for the matched party. Clicking a policy opens the policy record.
