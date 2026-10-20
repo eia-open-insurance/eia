@@ -196,3 +196,8 @@
 
 - Cross-policy premium receivables queue and dashboard card.
 - Contracts 10,847 checks; 225 suites, 2,052 tests; live 17/17.
+
+## Round 29: mass tort profile
+
+- Policy mass-tort profile and validation.
+- Contracts 11,032 checks; 230 suites, 2,098 tests; live 17/17.

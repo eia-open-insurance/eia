@@ -496,3 +496,19 @@ Cross-policy premium collection workspace:
 Backend: `GET /api/v1/billing/installments?limit=200` with tenant + DIRECT.
 
 Live: POL-2026-0000004 had 3 DUE installments totaling USD 750.
+
+## Mass tort profile
+
+![Mass tort profile](images/policy-mass-tort.png)
+
+Policy records now carry a mass-tort profile:
+
+- tort type
+- trigger theory
+- allocation method and notes
+- coverage block
+- DRAFT/COMPLETE status
+
+The profile guides allocation/coverage administration but does not change coverage, limits, or premium. Policy owns the profile; Direct Claims owns allocations.
+
+Live: POL-2026-0000004, COMPLETE, Asbestos / Exposure / All sums, 2000-01-01–2024-12-31.
