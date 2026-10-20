@@ -226,3 +226,8 @@
 
 - Allocation-to-policy limit erosion with status/retry.
 - Contracts 11,527 checks; 239 suites, 2,271 tests; live 17/17.
+
+## Round 35: contract security
+
+- Contract security collateral records.
+- Contracts 11,646 checks; 244 suites, 2,309 tests; live 17/17.

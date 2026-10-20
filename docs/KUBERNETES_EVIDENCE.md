@@ -583,3 +583,19 @@ Claim allocations can consume a selected policy limit:
 - policy remaining amount decreases
 
 Live: claim allocation 2027 EXCESS_1 25% USD 1,000 posted to limit 93e3960f; policy limit state moved from USD 100,000 to USD 99,000.
+
+## Contract security
+
+![Contract security](images/contract-security.png)
+
+The Contract Security tab records collateral:
+
+- security type
+- required and held amounts
+- currency
+- provider party
+- expiry date
+- approval reference
+- status
+
+Live: QS-043225, LETTER_OF_CREDIT, required 500,000, held 450,000, USD, expiry 2027-06-30.
