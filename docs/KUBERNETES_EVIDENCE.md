@@ -599,3 +599,18 @@ The Contract Security tab records collateral:
 - status
 
 Live: QS-043225, LETTER_OF_CREDIT, required 500,000, held 450,000, USD, expiry 2027-06-30.
+
+## Billing dunning
+
+![Premium dunning](images/premium-dunning.png)
+
+DUE/OVERDUE receivables can record collection communications:
+
+- level REMINDER / FIRST_NOTICE / SECOND_NOTICE / COLLECTIONS
+- channel EMAIL / LETTER / PORTAL
+- notes
+- last dunning level/date in the queue
+
+Dunning does not change installment status, amount, or payment.
+
+Live: POL-2026-0000004 installment 3, REMINDER via EMAIL, SENT.

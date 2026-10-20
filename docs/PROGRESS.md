@@ -231,3 +231,8 @@
 
 - Contract security collateral records.
 - Contracts 11,646 checks; 244 suites, 2,309 tests; live 17/17.
+
+## Round 36: dunning
+
+- Installment dunning actions and receivables visibility.
+- Contracts 11,808 checks; 250 suites, 2,356 tests; live 17/17.
