@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 67 JUnit suites, **509 tests, 0 failures/errors**.
+- 137 JUnit suites, **1,130 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 67 JUnit suites, **509 tests, 0 failures**.
+- 137 JUnit suites, **1,130 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -140,3 +140,11 @@ exit code: 0
 - FS-RI in-cluster hand-off: `CES-000000001` → `HANDED_OFF`, `fsriStatus=POSTED`.
 - Contract validation: **4,043 checks, 0 failures**.
 - Deployment asset validation: **45 checks**.
+
+## Round 6: operational UI
+
+- Shared design system in the shell: navy operations header, context strip, consistent typography, tables, forms, buttons, and status pills.
+- Operations dashboard aggregating direct/assumed claims, policies, contracts, cession/retrocession hand-offs, documents, payments, and notifications.
+- All ten verticals still load through the Kubernetes-hosted shell after the redesign.
+- Demo operational data seeded through the gateway: 3 parties, 2 policies, 2 direct claims, 1 assumed claim, 1 contract, 1 cession, 1 document, 1 payment, 1 notification.
+- Screenshots: `images/operations-dashboard.png`, `images/policy-workspace.png`, `images/direct-claims-workspace.png`.
