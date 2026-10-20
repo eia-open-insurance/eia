@@ -449,3 +449,16 @@ Technical accounts are period statements for an assumed contract:
 - events for create/issue/settle
 
 Live: `TA-2026-00001` for contract `QS-043225`, period 2026-01-01–2026-03-31, balance $60,500, issued.
+
+## Contract bordereaux
+
+![Contract bordereaux](images/contract-bordereaux.png)
+
+The Bordereaux tab now works:
+
+- period submission with premium, loss, commission, other charges, line count, notes
+- RECEIVED → PROCESSED or FAILED
+- processing creates or reuses the period technical account and links it
+- summary cards and linked account column
+
+Live: `BRD-2026-00001` processed for 2026-04-01–2026-06-30 and linked `TA-2026-00002`.

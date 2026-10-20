@@ -181,3 +181,8 @@
 
 - Contract technical accounts with lifecycle and events.
 - Contracts 10,406 checks; 186 events; 213 suites, 1,899 tests; live 17/17.
+
+## Round 26: bordereaux
+
+- Contract period bordereaux with processing to technical accounts.
+- Contracts 10,593 checks; 188 events; 217 suites, 1,964 tests; live 17/17.
