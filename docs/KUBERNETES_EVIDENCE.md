@@ -106,3 +106,14 @@ The Policy record opens into version, coverage, endorsement, insured/location, a
 Direct Claims opens into injury, reserve, coverage, litigation, settlement, and recovery tabs.
 
 ![Direct claim detail](images/claim-detail.png)
+
+## Shared record redesign
+
+Policy, Contract, Direct Claims, and Assumed Claims now use the same record layout: left queue, right record header, summary cards, canonical tabs, form grids, tables, and action hierarchy.
+
+- Policy detail tabs: Overview, Versions, Coverages & Limits, Endorsements, Insureds & Locations, Cancellation.
+- Direct claim tabs: Overview, Injuries & Exposures, Reserve History, Coverage, Litigation, Settlements, Recovery & Liens.
+- Assumed claim tabs: Overview, Loss Advice, Reserve History, Cash Calls, Recoveries, Commutation, Disputes, Audit.
+- Contract tabs: Overview, Layers, Participants, Terms, Security, Cessions, Bordereaux, Commutation.
+
+After the redesign, the live Kubernetes browser suite passed **10/10** in 6.0 seconds.
