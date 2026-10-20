@@ -245,3 +245,16 @@ Live evidence:
 3. Saved `PAY-2026-0000002` with source linkage.
 4. Claim Settlements tab shows the related payment with amount.
 5. Payment search finds the payment by claim id.
+
+## Idempotent diary writes
+
+Direct and Assumed Claims task/note creates now accept `Idempotency-Key` and store the response in `claim_command_idempotency`.
+
+Live evidence in `eia-local`:
+
+- first direct task POST: `replay=false`, new ID
+- identical replay: same ID, `replay=true`, no duplicate/event
+- changed body with the same key: `409`
+- assumed claims: identical replay returned the same ID with `replay=true`
+
+The browser forms generate a UUID per create attempt and reuse it only while the attempt is unresolved.

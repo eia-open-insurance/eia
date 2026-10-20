@@ -99,3 +99,9 @@
 - Settlement hand-off with prefilled payment and source link back to the claim.
 - Related payments on the claim with hydrated amounts.
 - Contracts 9,411 checks; full matrix 181 suites, 1,508 tests, 0 failures.
+
+## Round 13: idempotent diary writes
+
+- Idempotency-Key support and replay/conflict semantics for task/note creates.
+- Stable UI keys across retries; new key after success.
+- Contract 9,470 checks; full matrix 185 suites, 1,568 tests.
