@@ -78,3 +78,10 @@
 - Party-to-policy cross-links using the insured-party policy filter.
 - Claim progress steppers for Direct and Assumed Claims with next-step guidance.
 - Full matrix: 168 suites, 1,333 tests, 0 failures.
+
+## Round 10: claim diary and notes
+
+- Claim task and note persistence, APIs, and outbox events.
+- Diary & Notes workbench with overdue tasks, completion, version conflicts, and append-only notes.
+- Open tasks summary and live event-ingest confirmation.
+- Full matrix: 173 suites, 1,400 tests, 0 failures; contracts 9,155 checks.

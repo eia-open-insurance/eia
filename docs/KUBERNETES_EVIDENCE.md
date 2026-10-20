@@ -179,3 +179,25 @@ Direct and Assumed Claims now show a process stepper with completed, current, de
 Party records cross-link to their direct policies through the new `insuredPartyId` policy filter.
 
 Live browser suite after rollout: **14/14 passed**.
+
+## Claim diary and notes
+
+![Direct claim diary](images/diary-notes.png)
+
+The Direct Claims record now includes a Diary & Notes tab:
+
+- task number, title, due date, priority, assignee, status
+- overdue highlight
+- Add task modal, Complete/Reopen with optimistic versioning
+- newest-first claim notes with type, author, timestamp
+- Open tasks summary card
+
+Live end-to-end check in `eia-local`:
+
+1. Opened `CLM-2026-0000001`.
+2. Created task `TSK-2026-0000001` with due date 2027-01-15.
+3. Completed it; summary changed from 1 open task to 0.
+4. Added a `DIARY` note; it appeared at the top of the timeline.
+5. Event inbox received `direct.claim.task-created`, `direct.claim.task-completed`, and `direct.claim.note-added`.
+
+The claim progress stepper remains visible above the tabs.

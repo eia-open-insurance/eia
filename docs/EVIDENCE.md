@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 168 JUnit suites, **1,333 tests, 0 failures/errors**.
+- 173 JUnit suites, **1,400 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 168 JUnit suites, **1,333 tests, 0 failures**.
+- 173 JUnit suites, **1,400 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -182,3 +182,14 @@ exit code: 0
 - Added a Guidewire-style claim progress stepper to Direct and Assumed Claims with current, completed, denied, and next-step states.
 - Live browser suite: 14/14, including the search workspace.
 - Full matrix: 168 suites, 1,333 tests, 0 failures.
+
+## Round 10: claim diary, tasks, and notes
+
+- Direct Claims now has a Diary & Notes tab with tasks, due dates, priorities, assignees, completion/reopen, overdue highlighting, and append-only notes.
+- Expert schema: `claim_task` and `claim_note`; optimistic task versioning; DIRECT book wall and tenant isolation.
+- Domain API: `GET/POST /api/v1/claims/{claimId}/tasks`, `PATCH .../tasks/{taskId}`, `GET/POST .../notes`.
+- Outbox events: `direct.claim.task-created`, `task-completed`, `task-updated`, `note-added`.
+- UI summary: Open tasks card; diary and summary now stay consistent after task changes.
+- Live evidence: created task, completed it, added a note through the Kubernetes shell; task and note events appear in the event-ingest inbox.
+- Contracts: 9,155 checks, 0 failures; 172 published events.
+- Full matrix: 173 suites, 1,400 tests, 0 failures.
