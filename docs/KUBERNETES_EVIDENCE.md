@@ -275,3 +275,20 @@ Live evidence:
 ## Insured-name search
 
 Searching `Acme` now returns the Acme party plus its direct policies (`POL-2026-…`) by resolving `GET /api/v1/policies?insuredPartyId=…` for the matched party. Clicking a policy opens the policy record.
+
+## Cross-book work queue
+
+![Work queue](images/work-queue.png)
+
+The work queue shows:
+
+- My work
+- Unassigned work
+- Team queue
+- Direct/assumed split
+- book filter, owner/team filter, closed toggle
+- open claim from the queue
+
+Dashboard adds My work cards for direct, assumed, and unassigned claims. Owner assignment is visible in the claim header, summary, and queue, and emits `direct.claim.assigned` / `assumed.claim.assigned`.
+
+Live suite after rollout: **17/17 passed**.

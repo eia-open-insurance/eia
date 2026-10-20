@@ -235,3 +235,12 @@ exit code: 0
 - Search enriches an insured-party hit with that party's direct policies, so searching an insured name finds their policies.
 - Contracts: 9,656 checks, 0 failures; 178 published events.
 - Full matrix: 192 suites, 1,652 tests, 0 failures.
+
+## Round 15: cross-book work queue
+
+- New /work queue for My work, Unassigned, and Team queue across Direct and Assumed.
+- Dashboard My work cards for direct, assumed, and unassigned claims.
+- Claim assignment in both books with adjuster/team, optimistic versioning, audit, and events.
+- Search enriches an insured-party hit with that party's direct policies.
+- Live browser suite: 17/17.
+- Full matrix: 192 suites, 1,652 tests; contracts 9,656 checks; 178 events.

@@ -112,3 +112,11 @@
 - Ownership in headers, summaries, queue rows, and filters; audited reassignment.
 - Search enriches insured-party hits with policies.
 - Contracts 9,656 checks; full matrix 192 suites, 1,652 tests, 0 failures.
+
+## Round 15: work queue and ownership
+
+- Cross-book /work queue with My work, Unassigned, and Team views.
+- Dashboard ownership summary.
+- Claim assignment with adjuster/team, optimistic versioning, audit, and events.
+- Search enrichment for insured-party policies.
+- Contracts 9,656 checks; 192 suites, 1,652 tests; live 17/17.
