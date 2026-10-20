@@ -117,3 +117,28 @@ Policy, Contract, Direct Claims, and Assumed Claims now use the same record layo
 - Contract tabs: Overview, Layers, Participants, Terms, Security, Cessions, Bordereaux, Commutation.
 
 After the redesign, the live Kubernetes browser suite passed **10/10** in 6.0 seconds.
+
+## Consistent workbench coverage
+
+All ten workbenches now use the shared queue-record-summary-tabs pattern:
+
+- Party
+- Policy
+- Contract
+- Direct Claims
+- Assumed Claims
+- Cession
+- Retrocession
+- Document
+- Payment
+- Notifications
+
+The UI uses the same header, queue, record panel, summary cards, tab strip, form grid, tables, badges, and action hierarchy.
+
+![Party record](images/party-workspace.png)
+
+![Payment record](images/payment-workspace.png)
+
+![Cession record](images/cession-workspace.png)
+
+![Document record](images/document-workspace.png)
