@@ -120,3 +120,11 @@
 - Claim assignment with adjuster/team, optimistic versioning, audit, and events.
 - Search enrichment for insured-party policies.
 - Contracts 9,656 checks; 192 suites, 1,652 tests; live 17/17.
+
+## Round 16: supervisory work queue
+
+- Aging and team workload analytics.
+- Highlighted search matches.
+- Atomic Direct idempotency under concurrency.
+- Assignment validation/actor alignment.
+- 192 suites, 1,656 tests; live 17/17.

@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 192 JUnit suites, **1,652 tests, 0 failures/errors**.
+- 192 JUnit suites, **1,656 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 192 JUnit suites, **1,652 tests, 0 failures**.
+- 192 JUnit suites, **1,656 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -244,3 +244,13 @@ exit code: 0
 - Search enriches an insured-party hit with that party's direct policies.
 - Live browser suite: 17/17.
 - Full matrix: 192 suites, 1,652 tests; contracts 9,656 checks; 178 events.
+
+## Round 16: supervisory work queue and hardening
+
+- Work queue now shows aging and team workload: open, unassigned, aged 30+, oldest claim.
+- Search matches are highlighted.
+- Direct task/note idempotency reservation is atomic under concurrency.
+- Direct negative assignment version returns 400.
+- Direct assignment accepts only X-EIA-Actor.
+- Contract M-25 closed.
+- Full matrix: 192 suites, 1,656 tests, 0 failures.

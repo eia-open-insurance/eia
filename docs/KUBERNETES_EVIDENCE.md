@@ -292,3 +292,22 @@ The work queue shows:
 Dashboard adds My work cards for direct, assumed, and unassigned claims. Owner assignment is visible in the claim header, summary, and queue, and emits `direct.claim.assigned` / `assumed.claim.assigned`.
 
 Live suite after rollout: **17/17 passed**.
+
+## Supervisory workload and hardening
+
+![Work queue workload](images/work-queue.png)
+
+The work queue now includes:
+
+- open, unassigned, team queue, and aged 30+ cards
+- team workload table with open/unassigned/aged/oldest claim
+- aging measured from loss date
+- highlighted search matches
+
+Hardening:
+
+- Direct idempotency reservation now uses atomic `ON CONFLICT DO NOTHING`; concurrent same-key creates produce one row/event and one replay, not a constraint error.
+- Direct negative assignment `expectedVersion` returns 400.
+- Direct assignment accepts only `X-EIA-Actor`.
+- Assumed audit accepts `CLAIM_ASSIGNED`.
+- M-25 assignment contract gaps closed.
