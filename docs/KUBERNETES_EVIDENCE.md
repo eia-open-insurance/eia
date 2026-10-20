@@ -435,3 +435,17 @@ Backend filter:
 `GET /api/v1/payments?sourceType=DIRECT_CLAIM&sourceId=<claimId>`
 
 `sourceType` and `sourceId` must be supplied together; invalid types or half-pairs return 400. Live CLM-2026-0000001 returned PAY-2026-0000002.
+
+## Contract technical accounts
+
+![Contract technical accounts](images/contract-technical-accounts.png)
+
+Technical accounts are period statements for an assumed contract:
+
+- ceded premium, ceded losses, commission, other charges
+- balance = ceded premium − ceded losses − commission + other charges
+- status DRAFT → ISSUED → SETTLED
+- duplicate period and invalid transition rejected
+- events for create/issue/settle
+
+Live: `TA-2026-00001` for contract `QS-043225`, period 2026-01-01–2026-03-31, balance $60,500, issued.

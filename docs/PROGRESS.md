@@ -176,3 +176,8 @@
 - Source-filtered payment list.
 - Claim Payments cards in both books.
 - Contracts 10,199 checks; 209 suites, 1,837 tests; live 17/17.
+
+## Round 25: technical accounts
+
+- Contract technical accounts with lifecycle and events.
+- Contracts 10,406 checks; 186 events; 213 suites, 1,899 tests; live 17/17.
