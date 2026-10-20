@@ -86,3 +86,13 @@ The local stack is test-double based: FS-RI is the deterministic eia-quality sim
 
 ![Kubernetes-hosted Policy workbench](images/kubernetes-shell.png)
 
+
+## Operational UI
+
+![Claims operations dashboard](images/operations-dashboard.png)
+
+The shell now has a shared design system, contextual header, operations dashboard, and consistent vertical navigation. The dashboard aggregates direct/assumed claims, policies, contracts, cession/retrocession hand-offs, documents, payments, and notifications.
+
+![Policy workspace](images/policy-workspace.png)
+
+![Direct Claims workspace](images/direct-claims-workspace.png)
