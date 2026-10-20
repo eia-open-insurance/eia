@@ -63,3 +63,11 @@
 - Kubernetes and Compose deliver signed events from every expert.
 - Dashboard event stream shows processed counts, event types, latest deliveries, and live status.
 - Full matrix: 156 suites, 1,206 tests, 0 failures.
+
+## Round 8: search-first operational UX
+
+- Global search across all ten verticals with grouped results and create actions.
+- Deep links, queue filters, and predictive pickers across all ten workbenches.
+- Cross-links and process-context panels between policy, claim, party, contract, cession, retrocession, payment, and notification records.
+- Search contracts and validation: 8,874 checks.
+- Full matrix: 167 suites, 1,324 tests, 0 failures.

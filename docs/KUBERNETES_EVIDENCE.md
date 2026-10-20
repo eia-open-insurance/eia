@@ -149,3 +149,17 @@ The UI uses the same header, queue, record panel, summary cards, tab strip, form
 - All ten expert Deployments carry the transactional outbox endpoint and signing secret.
 - Event Stream dashboard card is fed by `/api/v1/events/stats` and `/recent`.
 - Live smoke: 14 events processed, 0 failed; 38/38 pods Ready.
+
+## Global record search
+
+The shell now carries a persistent Ctrl+K search across all ten verticals. It groups results, shows record status and secondary context, supports keyboard navigation, and offers create actions for every record type.
+
+![Global search](images/global-search.png)
+
+![Predictive form entry](images/predictive-form.png)
+
+- Search endpoints are tenant-scoped and book-walled.
+- Deep links (`?record=`) select the record in its workbench.
+- `?new=1` opens creation from search.
+- Cross-links navigate between related records in the SPA.
+- Live suite after deployment: **13/13 passed**, including search-open-record and search-create-claim.

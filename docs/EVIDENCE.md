@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 156 JUnit suites, **1,206 tests, 0 failures/errors**.
+- 167 JUnit suites, **1,324 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 156 JUnit suites, **1,206 tests, 0 failures**.
+- 167 JUnit suites, **1,324 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -159,3 +159,17 @@ exit code: 0
 - Live evidence: 14 events, 14 processed, 0 failed; policy, contract, direct-claim, assumed-claim, party, payment, document, notification events observed.
 - Dashboard Event Stream card shows processed/total counts, recent types, latest deliveries, and LIVE status.
 - Contracts updated to 168 published events and 8,607 checks, 0 failures.
+
+## Round 8: global search, record discovery, and cross-links
+
+- Common search endpoint on all ten verticals: `GET /api/v1/{resource}/search?q=&limit=`.
+- Shared response: `{query, limit, items[{id,type,label,secondary,status,href}]}`.
+- Tenant-scoped; book-scoped verticals enforce DIRECT/ASSUMED before returning results.
+- Shell global search (Ctrl+K) across all ten verticals, grouped results, create actions, recent searches, keyboard navigation, and direct record links.
+- Each workbench has a prominent queue filter, `?record=` deep-link selection, and `?new=1` create entry.
+- Predictive typeahead pickers for party, policy, contract, and payee fields replace raw UUID entry.
+- Cross-links between claim/policy/party/contract/cession/retrocession/payment/notification records.
+- Related-label resolution shows policy, contract, and party numbers/names instead of UUIDs, with graceful fallback.
+- Process context panels explain why the record matters and where it sits in the workflow.
+- Contracts: ten search paths, 8,874 checks, 0 failures.
+- Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
