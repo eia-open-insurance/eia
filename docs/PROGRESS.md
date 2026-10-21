@@ -241,3 +241,8 @@
 
 - Allocation coverage-block enforcement.
 - Contracts 11,809 checks; 251 suites, 2,369 tests; live 17/17.
+
+## Round 38: policy programs
+
+- Program catalog and policy membership.
+- Contracts 12,109 checks; 258 suites, 2,437 tests; live 17/17.

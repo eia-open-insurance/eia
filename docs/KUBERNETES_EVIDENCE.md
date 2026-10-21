@@ -624,3 +624,17 @@ Claim allocations now respect the policy mass-tort profile:
 - DRAFT/missing/unavailable profile → allocation allowed
 
 Live: policy block 2020-01-01–2024-12-31 rejected policyYear 2027 and accepted 2024.
+
+## Policy programs
+
+![Policy program](images/policy-program.png)
+
+Policies can be grouped under a program for capacity and aggregate administration:
+
+- program number/name/type
+- effective dates and status
+- lead policy link
+- attach/detach
+- create program from the policy
+
+Live: PRG-2026-0000001 "Acme Mass Tort Program 2026", MASS_TORT, attached to POL-2026-0000004.
