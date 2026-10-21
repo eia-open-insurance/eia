@@ -291,3 +291,8 @@
 
 - Program capacity/usage and utilization.
 - Contracts 13,320 checks; 285 suites, 2,831 tests; live 17/17.
+
+## Round 48: document holds
+
+- Legal holds and disposition with retention gating.
+- Contracts 13,501 checks; 289 suites, 2,880 tests; live 17/17.

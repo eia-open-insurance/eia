@@ -764,3 +764,16 @@ Programs now measure capacity:
 - policy count
 
 Live: PRG-2026-0000002 capacity USD 2,000,000, used USD 100,000, utilization 5%.
+
+## Document legal holds and disposition
+
+![Document legal hold](images/document-legal-hold.png)
+
+Evidence lifecycle controls:
+
+- place a legal hold with reason (status ON_HOLD)
+- release restores the prior status
+- disposition blocked while held or before retention
+- disposition is irreversible; audit trail retained
+
+Live: DOC-2026-0000001 placed on hold, dispose blocked with DOCUMENT_ON_LEGAL_HOLD, release restored ACTIVE.
