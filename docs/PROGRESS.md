@@ -286,3 +286,8 @@
 
 - Credit notes applied to installments with net billing/receivables.
 - Contracts 13,282 checks; 285 suites, 2,806 tests; live 17/17.
+
+## Round 47: program capacity
+
+- Program capacity/usage and utilization.
+- Contracts 13,320 checks; 285 suites, 2,831 tests; live 17/17.

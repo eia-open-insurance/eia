@@ -751,3 +751,16 @@ Credit notes now reduce a specific installment:
 - receivables show net amount and credited amount
 
 Live: CN-0000002 USD 100 applied to installment 3; billed credited 100, outstanding 400, receivable net 150.
+
+## Program capacity
+
+![Program capacity](images/policy-program-capacity.png)
+
+Programs now measure capacity:
+
+- capacity amount/currency
+- used amount = sum of assigned policy limits
+- utilization percentage
+- policy count
+
+Live: PRG-2026-0000002 capacity USD 2,000,000, used USD 100,000, utilization 5%.
