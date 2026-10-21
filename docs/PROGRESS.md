@@ -266,3 +266,8 @@
 
 - Immutable content revisions and history.
 - Contracts 12,657 checks; 271 suites, 2,610 tests; live 17/17.
+
+## Round 43: technical account lines
+
+- Statement line detail and issue reconciliation.
+- Contracts 12,857 checks; 275 suites, 2,678 tests; live 17/17.

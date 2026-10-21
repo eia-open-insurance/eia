@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 271 JUnit suites, **2,610 tests, 0 failures/errors**.
+- 275 JUnit suites, **2,678 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 271 JUnit suites, **2,610 tests, 0 failures**.
+- 275 JUnit suites, **2,678 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -171,7 +171,7 @@ exit code: 0
 - Cross-links between claim/policy/party/contract/cession/retrocession/payment/notification records.
 - Related-label resolution shows policy, contract, and party numbers/names instead of UUIDs, with graceful fallback.
 - Process context panels explain why the record matters and where it sits in the workflow.
-- Contracts: ten search paths, 12,657 checks, 0 failures.
+- Contracts: ten search paths, 12,857 checks, 0 failures.
 - Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
 
 ## Round 9: search workspace and process transparency
@@ -191,7 +191,7 @@ exit code: 0
 - Outbox events: `direct.claim.task-created`, `task-completed`, `task-updated`, `note-added`.
 - UI summary: Open tasks card; diary and summary now stay consistent after task changes.
 - Live evidence: created task, completed it, added a note through the Kubernetes shell; task and note events appear in the event-ingest inbox.
-- Contracts: 12,657 checks, 0 failures; 172 published events.
+- Contracts: 12,857 checks, 0 failures; 172 published events.
 - Full matrix: 173 suites, 1,400 tests, 0 failures.
 
 
@@ -201,7 +201,7 @@ exit code: 0
 - Tables, APIs, optimistic task versioning, ASSUMED book wall, and outbox events.
 - Diary & Notes tab, Open tasks card, overdue styling, and notes timeline.
 - Live evidence: created and completed `TSK-2026-0000001` on `RNS-2026-0000002`; inbox received `assumed.claim.task-created` and `assumed.claim.task-completed`.
-- Contracts: 12,657 checks, 0 failures; 176 published events.
+- Contracts: 12,857 checks, 0 failures; 176 published events.
 - Full matrix: 180 suites, 1,481 tests, 0 failures.
 
 ## Round 12: settlement-to-payment hand-off
@@ -212,7 +212,7 @@ exit code: 0
 - Payment workbench shows the source record and routes back to the claim/policy.
 - Claim Settlements tab shows related payments with hydrated amounts.
 - Live: authorized settlement `SET-2026-0000001` handed off to `PAY-2026-0000002`, source `DIRECT_CLAIM` / `CLM-2026-0000001`.
-- Contracts: 12,657 checks, 0 failures; 176 published events.
+- Contracts: 12,857 checks, 0 failures; 176 published events.
 - Full matrix: 181 suites, 1,508 tests, 0 failures.
 
 ## Round 13: idempotent claim diary writes
@@ -223,7 +223,7 @@ exit code: 0
 - Requests without a key behave as before.
 - Direct and Assumed UIs generate stable keys and retain them across failed retries.
 - Live: repeated direct task POST returned the same task ID with replay=true; repeated assumed task POST likewise; changed body returned 409.
-- Contracts: 12,657 checks, 0 failures.
+- Contracts: 12,857 checks, 0 failures.
 - Full matrix: 185 suites, 1,568 tests, 0 failures.
 
 ## Round 14: claim ownership and name-based search
@@ -233,7 +233,7 @@ exit code: 0
 - Assignment is versioned, audited, and emits `direct.claim.assigned` / `assumed.claim.assigned`.
 - Record headers, queue rows, summaries, and filters show ownership.
 - Search enriches an insured-party hit with that party's direct policies, so searching an insured name finds their policies.
-- Contracts: 12,657 checks, 0 failures; 178 published events.
+- Contracts: 12,857 checks, 0 failures; 178 published events.
 - Full matrix: 192 suites, 1,652 tests, 0 failures.
 
 ## Round 15: cross-book work queue
@@ -262,7 +262,7 @@ exit code: 0
 - Document list/search can match linked references.
 - Events `document.link.added` and `document.link.removed` are canonical outbox events.
 - Live: `DOC-2026-0000001` linked to `CLM-2026-0000001`; filter returned the document; event inbox received `document.link.added`.
-- Contracts: 12,657 checks, 0 failures; 180 published events.
+- Contracts: 12,857 checks, 0 failures; 180 published events.
 - Full matrix: 197 suites, 1,707 tests, 0 failures.
 
 ## Round 18: reverse document visibility
@@ -303,7 +303,7 @@ exit code: 0
 - Payment hand-off from due/overdue installments with sourceType=POLICY.
 - Gateway directory with 4 adjusters / 6 teams; assignment selects people and routes teams.
 - Adjuster workload table.
-- Contracts: 12,657 checks, 0 failures; 183 published events.
+- Contracts: 12,857 checks, 0 failures; 183 published events.
 - Full matrix: 204 suites, 1,784 tests; live 17/17.
 
 ## Round 23: policy renewal
@@ -477,3 +477,13 @@ exit code: 0
 - File tab shows current version and history with old-version downloads.
 - Live: DOC-2026-0000001 v2 evidence-v2.pdf, v1 evidence.pdf retained and downloadable.
 - Full matrix: 271 suites, 2,610 tests; contracts 12,657 checks; 201 events; live 17/17.
+
+
+## Round 43: technical account lines
+
+- Statement lines by PREMIUM/LOSS/COMMISSION/OTHER with reference/description/amount.
+- DRAFT-only line editing; issue reconciles line totals to header components.
+- UI expandable accounts with lines, totals, reconciliation, 409 detail.
+- Events line-added/line-removed.
+- Live: TA-2026-00002 four lines totaling 50k/10k/7.5k/250; issued reconciled.
+- Full matrix: 275 suites, 2,678 tests; contracts 12,857 checks; 203 events; live 17/17.

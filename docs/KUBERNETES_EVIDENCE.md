@@ -695,3 +695,18 @@ Every document upload creates an immutable revision:
 - upload event carries version
 
 Live: DOC-2026-0000001 v2 evidence-v2.pdf (29 B), v1 evidence.pdf (22 B) retained.
+
+## Technical account lines
+
+![Technical account lines](images/technical-account-lines.png)
+
+DRAFT statements now carry detail lines:
+
+- line type PREMIUM/LOSS/COMMISSION/OTHER
+- reference, description, amount
+- totals by type vs header component
+- reconciliation within 0.01
+- issue blocked on mismatch with per-component detail
+- issued line detail immutable
+
+Live: TA-2026-00002 had four lines totaling USD 50,000 / 10,000 / 7,500 / 250 and issued reconciled.
