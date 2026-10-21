@@ -281,3 +281,8 @@
 
 - 13 detailed line types with bucket roll-up.
 - Contracts 13,190 checks; 284 suites, 2,787 tests; live 17/17.
+
+## Round 46: credit application
+
+- Credit notes applied to installments with net billing/receivables.
+- Contracts 13,282 checks; 285 suites, 2,806 tests; live 17/17.

@@ -737,3 +737,17 @@ DRAFT statements support 13 detail types rolled into four header buckets:
 - FUNDS_WITHHELD / TAX / ADJUSTMENT / OTHER -> other
 
 Live: TA-2026-00003 with PREMIUM 1,000, PAID_LOSS 200, ALAE 300, BROKERAGE 100, FUNDS_WITHHELD 50 — reconciled and issued.
+
+## Credit note application
+
+![Credit application](images/policy-credit-application.png)
+
+Credit notes now reduce a specific installment:
+
+- apply only to DUE/OVERDUE with enough outstanding
+- partial credit reduces outstanding
+- full credit marks CREDITED
+- billing summary shows credited and net outstanding
+- receivables show net amount and credited amount
+
+Live: CN-0000002 USD 100 applied to installment 3; billed credited 100, outstanding 400, receivable net 150.
