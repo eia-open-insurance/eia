@@ -638,3 +638,18 @@ Policies can be grouped under a program for capacity and aggregate administratio
 - create program from the policy
 
 Live: PRG-2026-0000001 "Acme Mass Tort Program 2026", MASS_TORT, attached to POL-2026-0000004.
+
+## Document file content
+
+![Document file](images/document-file.png)
+
+The Document workbench stores actual evidence files:
+
+- upload raw bytes with file name/MIME
+- 10 MiB cap
+- SHA-256 and size metadata
+- Download with attachment filename
+- optional file at document registration
+- drag/drop, progress, and contained errors
+
+Live: DOC-2026-0000001 stored `evidence.pdf`, 22 bytes, application/pdf; download returned attachment headers.
