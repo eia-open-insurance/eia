@@ -261,3 +261,8 @@
 
 - Policy credit notes with lifecycle and billing visibility.
 - Contracts 12,561 checks; 269 suites, 2,590 tests; live 17/17.
+
+## Round 42: document versions
+
+- Immutable content revisions and history.
+- Contracts 12,657 checks; 271 suites, 2,610 tests; live 17/17.

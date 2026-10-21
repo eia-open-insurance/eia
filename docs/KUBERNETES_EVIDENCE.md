@@ -681,3 +681,17 @@ Credit notes correct premium owed without changing the policy premium:
 - issued/applied totals
 
 Live: CN-0000001, USD 100, audit premium return, APPLIED.
+
+## Document content versions
+
+![Document versions](images/document-versions.png)
+
+Every document upload creates an immutable revision:
+
+- current pointer and currentVersion
+- version history newest first
+- download any prior version
+- SHA-256 per version
+- upload event carries version
+
+Live: DOC-2026-0000001 v2 evidence-v2.pdf (29 B), v1 evidence.pdf (22 B) retained.
