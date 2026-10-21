@@ -271,3 +271,8 @@
 
 - Statement line detail and issue reconciliation.
 - Contracts 12,857 checks; 275 suites, 2,678 tests; live 17/17.
+
+## Round 44: legal entities
+
+- Legal entity catalog and policy issuing-entity assignment.
+- Contracts 13,143 checks; 282 suites, 2,753 tests; live 17/17.

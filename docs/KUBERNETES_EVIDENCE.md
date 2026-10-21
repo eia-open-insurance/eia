@@ -710,3 +710,17 @@ DRAFT statements now carry detail lines:
 - issued line detail immutable
 
 Live: TA-2026-00002 had four lines totaling USD 50,000 / 10,000 / 7,500 / 250 and issued reconciled.
+
+## Policy legal entities
+
+![Policy legal entity](images/policy-legal-entity.png)
+
+Policies now identify their issuing legal entity:
+
+- entity code/name/type
+- jurisdiction, regulator, license
+- status
+- attach/detach
+- create catalog entry
+
+Live: EIA-INS-US, Insurer, jurisdiction US, attached to POL-2026-0000004 and detached successfully.
