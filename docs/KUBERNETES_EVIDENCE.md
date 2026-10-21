@@ -724,3 +724,16 @@ Policies now identify their issuing legal entity:
 - create catalog entry
 
 Live: EIA-INS-US, Insurer, jurisdiction US, attached to POL-2026-0000004 and detached successfully.
+
+## Expanded technical account line types
+
+![Technical line types](images/technical-account-line-types.png)
+
+DRAFT statements support 13 detail types rolled into four header buckets:
+
+- PREMIUM -> premium
+- PAID_LOSS / OUTSTANDING_LOSS / IBNR / ALAE / REINSTATEMENT / CASH_CALL -> loss
+- COMMISSION / BROKERAGE -> commission
+- FUNDS_WITHHELD / TAX / ADJUSTMENT / OTHER -> other
+
+Live: TA-2026-00003 with PREMIUM 1,000, PAID_LOSS 200, ALAE 300, BROKERAGE 100, FUNDS_WITHHELD 50 — reconciled and issued.

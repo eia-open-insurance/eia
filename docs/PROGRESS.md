@@ -276,3 +276,8 @@
 
 - Legal entity catalog and policy issuing-entity assignment.
 - Contracts 13,143 checks; 282 suites, 2,753 tests; live 17/17.
+
+## Round 45: technical line types
+
+- 13 detailed line types with bucket roll-up.
+- Contracts 13,190 checks; 284 suites, 2,787 tests; live 17/17.
