@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 289 JUnit suites, **2,880 tests, 0 failures/errors**.
+- 293 JUnit suites, **2,897 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 289 JUnit suites, **2,880 tests, 0 failures**.
+- 293 JUnit suites, **2,897 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -535,3 +535,13 @@ exit code: 0
 - Events legal-hold.placed/released and document.document.disposed.
 - Live: DOC-2026-0000001 ACTIVE -> ON_HOLD; dispose 409; release -> ACTIVE.
 - Full matrix: 289 suites, 2,880 tests; contracts 13,501 checks; 207 events; live 17/17.
+
+
+## Round 49: auth foundation
+
+- Auth service supports password grant for eia-shell: adjuster/password -> JWT.
+- Issuer configurable; default http://localhost:9000; JWKS endpoint works.
+- Gateway has opt-in JWT validation (eia.auth.enabled=false by default), issuer/signature/scope tests.
+- Live K8s token: 3-part JWT, iss=http://localhost:9000, sub=adjuster, aud=eia-shell, scope openid/profile/eia.read; JWKS 1 RSA key.
+- Gateway auth remains disabled until the shell login flow lands.
+- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 207 events; live 17/17.

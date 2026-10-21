@@ -777,3 +777,17 @@ Evidence lifecycle controls:
 - disposition is irreversible; audit trail retained
 
 Live: DOC-2026-0000001 placed on hold, dispose blocked with DOCUMENT_ON_LEGAL_HOLD, release restored ACTIVE.
+
+## Authentication foundation
+
+The auth service now issues JWTs for the shell client:
+
+- POST /oauth2/token
+- grant_type=password
+- eia-shell:shell-secret
+- adjuster/password
+- scopes openid profile eia.read
+
+Live token: issuer http://localhost:9000, subject adjuster, audience eia-shell, 3-part JWT, refresh token present. JWKS returns one RSA key.
+
+Gateway JWT validation is implemented but disabled by default (eia.auth.enabled=false); the shell login/token-injection flow is next.

@@ -296,3 +296,8 @@
 
 - Legal holds and disposition with retention gating.
 - Contracts 13,501 checks; 289 suites, 2,880 tests; live 17/17.
+
+## Round 49: auth foundation
+
+- Password-grant JWT issuance and opt-in gateway validation.
+- 293 suites, 2,897 tests; live 17/17.
