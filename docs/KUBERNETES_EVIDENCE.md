@@ -653,3 +653,17 @@ The Document workbench stores actual evidence files:
 - drag/drop, progress, and contained errors
 
 Live: DOC-2026-0000001 stored `evidence.pdf`, 22 bytes, application/pdf; download returned attachment headers.
+
+## Contract security lifecycle
+
+![Contract security lifecycle](images/contract-security-lifecycle.png)
+
+Collateral can be released or expired:
+
+- ACTIVE/OUTSTANDING/PARTIAL/REQUIRED -> RELEASED or EXPIRED
+- EXPIRED -> RELEASED
+- RELEASED terminal
+
+The Security panel shows required, held, outstanding, active, and released totals, plus release/expire actions.
+
+Live: QS-043225 LETTER_OF_CREDIT released; summary shows 0 active, 1 released.

@@ -251,3 +251,8 @@
 
 - File upload/download for document evidence.
 - Contracts 12,255 checks; 262 suites, 2,481 tests; live 17/17.
+
+## Round 40: security lifecycle
+
+- Collateral release/expire and dedicated panel.
+- Contracts 12,333 checks; 263 suites, 2,526 tests; live 17/17.
