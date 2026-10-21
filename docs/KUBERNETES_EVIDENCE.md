@@ -667,3 +667,17 @@ Collateral can be released or expired:
 The Security panel shows required, held, outstanding, active, and released totals, plus release/expire actions.
 
 Live: QS-043225 LETTER_OF_CREDIT released; summary shows 0 active, 1 released.
+
+## Policy credit notes
+
+![Policy credit notes](images/policy-credit-notes.png)
+
+Credit notes correct premium owed without changing the policy premium:
+
+- create DRAFT
+- Issue
+- Apply
+- Cancel
+- issued/applied totals
+
+Live: CN-0000001, USD 100, audit premium return, APPLIED.

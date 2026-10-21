@@ -256,3 +256,8 @@
 
 - Collateral release/expire and dedicated panel.
 - Contracts 12,333 checks; 263 suites, 2,526 tests; live 17/17.
+
+## Round 41: credit notes
+
+- Policy credit notes with lifecycle and billing visibility.
+- Contracts 12,561 checks; 269 suites, 2,590 tests; live 17/17.
