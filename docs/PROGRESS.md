@@ -391,3 +391,8 @@
 
 - Disposition destroys content automatically.
 - 299 suites, 3,134 tests; contracts 14,088 checks; live 17/17.
+
+## Round 67: payment status reasons
+
+- Expose and display latest payment status reason.
+- 300 suites, 3,141 tests; contracts 14,098 checks; live 17/17.

@@ -1041,3 +1041,17 @@ Disposition now destroys stored content automatically:
 - no separate DELETE is required
 
 Live: disposition-evidence.pdf uploaded, retention set past, disposed; metadata deleted=true, download 410, both events present.
+
+## Payment status reason
+
+![Payment status reason](images/payment-status-reason.png)
+
+Payment transitions now explain themselves:
+
+- statusReason is the trimmed reason of the latest accepted status change
+- each change replaces it; a blank reason clears it
+- null before any transition
+- 200-character cap
+- UI shows the reason with latest transition context (from -> to, time, version)
+
+Live: PAY-2026-0000002 REVERSED; reason "Bank returned funds"; lifecycle shows PAID -> REVERSED.
