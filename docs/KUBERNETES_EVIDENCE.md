@@ -817,3 +817,20 @@ Issuer: http://localhost:3000/auth. JWKS: http://eia-auth:9000/oauth2/jwks.
 - The gateway injects X-EIA-Actor from the JWT subject when absent.
 - Shell refreshes the access token on 401 and replays the request once; failed refresh returns to sign-in.
 - Live: adjuster mutation passed authorization, auditor POST returned 403, refresh returned a new JWT.
+
+## Tenant-bound authorization
+
+Access tokens now carry:
+
+- tenant_id
+- roles
+- scope
+
+The gateway compares X-EIA-Tenant to the token claim:
+
+- match -> forward
+- missing -> inject from claim
+- mismatch -> 403 TENANT_FORBIDDEN
+- missing claim -> 403 on protected paths
+
+Live: token tenant 11111111-1111-7111-8111-111111111111 / CLAIMS_ADJUSTER; matching GET 200, wrong tenant 403, no header GET 200 after injection.

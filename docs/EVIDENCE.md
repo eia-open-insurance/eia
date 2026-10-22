@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 295 JUnit suites, **2,919 tests, 0 failures/errors**.
+- 296 JUnit suites, **2,939 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 295 JUnit suites, **2,919 tests, 0 failures**.
+- 296 JUnit suites, **2,939 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -566,3 +566,12 @@ exit code: 0
 - Password grants exclude openid so refresh does not need an authorization code.
 - Live: adjuster token scope profile/eia.read/eia.write; auditor GET 200, POST 403; adjuster POST 400 validation (authorized); refresh returns new JWT.
 - Full matrix: 295 suites, 2,919 tests; contracts 13,501 checks; 207 events; live 17/17.
+
+
+## Round 52: tenant-bound tokens
+
+- Access tokens carry tenant_id and roles (CLAIMS_ADJUSTER/AUDITOR).
+- Gateway injects X-EIA-Tenant when absent and rejects mismatches with 403 TENANT_FORBIDDEN.
+- Missing tenant claim fails closed for protected paths; directory/health remain public.
+- Live: token tenant 1111.../CLAIMS_ADJUSTER; matching header 200; wrong header 403; missing header injected -> 200.
+- Full matrix: 296 suites, 2,939 tests; contracts 13,501 checks; 207 events; live 17/17.

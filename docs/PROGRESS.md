@@ -311,3 +311,8 @@
 
 - Read/write scopes, actor propagation, refresh retry.
 - 295 suites, 2,919 tests; live 17/17.
+
+## Round 52: tenant binding
+
+- Tokens carry tenant/roles; gateway rejects tenant mismatches.
+- 296 suites, 2,939 tests; live 17/17.
