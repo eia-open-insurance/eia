@@ -416,3 +416,8 @@
 
 - Surface reversed payments linked to policy installments and claim settlements.
 - 302 suites, 3,144 tests; contracts 14,098 checks; live 17/17.
+
+## Round 72: allocation reversal
+
+- Append-only allocation reversal with net/reversed summary.
+- 303 suites, 3,169 tests; contracts 14,205 checks; 212 events; live 17/17.

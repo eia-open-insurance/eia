@@ -1116,3 +1116,19 @@ Cross-vertical payment links now reveal reversals:
 - failed status reads are contained
 
 Live: SET-2026-0000001 linked to REVERSED PAY-2026-0000002 shows "Payment REVERSED — settlement link needs review".
+
+## Payment allocation reversal
+
+![Allocation reversal](images/payment-allocation-reversal.png)
+
+Allocation splits are now correctable without deleting audit:
+
+- Reverse action on active allocations
+- reason required (<=200)
+- row remains with REVERSED badge, reason, and date
+- summary shows gross allocated, reversed, net, remaining
+- reversed capacity is reusable for new allocations
+- repeat reversal returns 409
+- payment.allocation.reversed event
+
+Live: PAY-2026-0000004 allocation of $50 reversed ("Applied to wrong policy"); net $0, remaining $100.
