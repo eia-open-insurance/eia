@@ -372,3 +372,7 @@
 
 - DUNNING_NOTICE type and prefilled notification draft from receivables.
 - 298 suites, 3,103 tests; contracts 14,069 checks; live 17/17.
+
+## Round 63 (cont.): dunning template
+
+- Seeded ACTIVE DUNNING_NOTICE template v1; handoff binds it; create + send succeed.

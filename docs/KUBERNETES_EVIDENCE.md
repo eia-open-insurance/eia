@@ -989,7 +989,8 @@ Premium dunning can launch a notice draft:
 - subject/body include policy, installment, outstanding amount, due date, days past due
 - Notifications owns recipient, template, channel, and send
 - the draft is not created or sent by the handoff
-- template code is left empty so an unregistered claim template is not bound
-- the user confirms Create notification
+- template DUNNING_NOTICE v1 is seeded ACTIVE and bound
+- the user confirms Create notification; send then succeeds
 
-Live: Compose notice from POL-2026-0000004 opened a prefilled DUNNING_NOTICE/EMAIL draft; Create notification returned a new NTF.
+Live: Compose notice from POL-2026-0000004 opened a prefilled DUNNING_NOTICE/EMAIL draft with the template bound; NTF-2026-000000004 was created and sent (SENT).
+

@@ -678,8 +678,9 @@ exit code: 0
 ## Round 63: dunning notice handoff
 
 - DUNNING_NOTICE added to notifications expert/domain/contract and UI.
-- Notifications create accepts the type without a template (template code left empty rather than binding an unregistered template).
+- DUNNING_NOTICE template v1 is seeded ACTIVE, so the draft binds an approved template and send succeeds.
 - Notification create URL supports prefill (type, channel, recipient, subject, body, template code).
 - Shell receivables expose Compose notice for receivables with dunning history; URL carries policy, installment, outstanding, due date/days past due.
-- Live: Compose notice opened a prefilled DUNNING_NOTICE/EMAIL draft; Create notification succeeded.
+- Live: Compose notice opened a prefilled DUNNING_NOTICE/EMAIL draft with the template bound; Created NTF-2026-000000004 and sent it successfully (SENT).
 - Full matrix: 298 suites, 3,103 tests; contracts 14,069 checks; 211 events; live 17/17.
+
