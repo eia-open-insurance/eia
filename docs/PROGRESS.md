@@ -486,3 +486,8 @@
 
 - Party lifecycle transitions.
 - 330 suites, 3,478 tests; contracts 15,478 checks; live 17/17.
+
+## Round 86: reinsurance notifications
+
+- Cession/retro cards and source types.
+- 330 suites, 3,483 tests; contracts 15,481 checks; live 17/17.

@@ -1335,3 +1335,20 @@ Party lifecycle is now operable:
 - explains INACTIVE/BLOCKED/RESTRICTED can stop new claims/policies/payments while existing records stay unchanged
 
 Live: PTY-00000001 PROSPECT -> ACTIVE, version 3, reason recorded on the event.
+
+## Reinsurance notification cards
+
+![Cession notifications](images/cession-notifications.png)
+
+Notifications now cover reinsurance:
+
+- CESSION source type -> /cession?record=
+- RETROCESSION source type -> /retrocession?record=
+- DOCUMENT and PARTY source types also accepted
+- Cession Overview: count, newest 3, links, filtered View all
+- Retrocession Overview: same
+- cards are card-local and reload on selection/refresh
+
+Live:
+- NTF-2026-000000010 CESSION / CES-000000001
+- NTF-2026-000000011 RETROCESSION / RET-000000001
