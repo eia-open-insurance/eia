@@ -446,3 +446,8 @@
 
 - Automatic disposition at retention expiry.
 - 320 suites, 3,303 tests; live 17/17.
+
+## Round 78: net billing variance
+
+- Variance net of credits.
+- 320 suites, 3,303 tests; live 17/17.

@@ -1207,3 +1207,17 @@ Expired evidence is disposed without manual action:
 - enabled with EIA_DOCUMENT_RETENTION_ENABLED=true
 
 Live: DOC-2026-0000002 (ACTIVE, retention 2025-01-01) was disposed by a temporary 10-second cron at 2026-10-22T10:26:00Z; deployment was reset to the daily cron afterwards.
+
+## Net billing variance
+
+![Billing variance cleared](images/policy-billing-variance-cleared.png)
+
+Billing compares policy premium to net plan premium:
+
+- net = plan total - applied credits
+- credits can close a negative premium-audit variance
+- warning shows gross total and credits when present
+- net floors at zero
+- equal net shows no warning
+
+Live: POL-2026-0000005 audited to 1,200; plan 1,500 less CN-0000005 300 = net 1,200; warning cleared.

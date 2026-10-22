@@ -806,3 +806,10 @@ exit code: 0
 - Enabled in K8s; cron reset to daily 02:00 UTC after live proof.
 - Live: DOC-2026-0000002 ACTIVE retention 2025-01-01; temporary 10s cron disposed it at 10:26 UTC.
 - Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 216 events; live 17/17.
+
+## Round 78: net billing variance
+
+- Variance compares policy premium to plan total less creditedAmount, cent precision.
+- Warning states net plan premium and shows gross/credits when credits exist; net floors at 0.
+- Live: POL-2026-0000005 audited down to 1200; CN-0000005 300 applied; plan 1500 less 300 = 1200; warning cleared.
+- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 216 events; live 17/17.
