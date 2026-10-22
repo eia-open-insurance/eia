@@ -301,3 +301,8 @@
 
 - Password-grant JWT issuance and opt-in gateway validation.
 - 293 suites, 2,897 tests; live 17/17.
+
+## Round 50: auth enabled
+
+- Shell login, bearer injection, gateway enforcement, live login per test.
+- 293 suites, 2,897 tests; live 17/17.

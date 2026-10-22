@@ -791,3 +791,18 @@ The auth service now issues JWTs for the shell client:
 Live token: issuer http://localhost:9000, subject adjuster, audience eia-shell, 3-part JWT, refresh token present. JWKS returns one RSA key.
 
 Gateway JWT validation is implemented but disabled by default (eia.auth.enabled=false); the shell login/token-injection flow is next.
+
+## Authentication enabled
+
+![Login](images/login.png)
+
+![Authenticated dashboard](images/authenticated-dashboard.png)
+
+- `GET /auth-config.js` enables auth in the deployed shell only.
+- Login posts to `/auth/oauth2/token` with eia-shell credentials and adjuster/password.
+- Tokens are stored in sessionStorage; fetch and XHR add `Authorization: Bearer`.
+- A 401 clears the token and returns to sign-in.
+- Gateway rejects unauthenticated `/api` with 401; a valid token reaches the domain.
+- Live suite performs a real login before each scenario (17/17).
+
+Issuer: http://localhost:3000/auth. JWKS: http://eia-auth:9000/oauth2/jwks.

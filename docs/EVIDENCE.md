@@ -545,3 +545,13 @@ exit code: 0
 - Live K8s token: 3-part JWT, iss=http://localhost:9000, sub=adjuster, aud=eia-shell, scope openid/profile/eia.read; JWKS 1 RSA key.
 - Gateway auth remains disabled until the shell login flow lands.
 - Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 207 events; live 17/17.
+
+## Round 50: authentication enabled end to end
+
+- Shell login (password grant) at /auth/oauth2/token through same-origin nginx proxy.
+- JWT stored; fetch and XHR attach Bearer for /api; 401 clears and returns to login.
+- Gateway JWT validation enabled in K8s; issuer http://localhost:3000/auth, JWKS internal.
+- Auth service issuer set to the proxied URL.
+- Manual: no token 401, valid token 200; UI login renders authenticated dashboard.
+- Live suite signs in per test: 17/17.
+- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 207 events.
