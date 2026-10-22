@@ -1466,3 +1466,15 @@ Keyed policy mutations are now retry-safe:
 - request bodies are not compared; the first success is authoritative
 
 Live: rating FLAT 2,000 applied with one key -> 201, version 4, worksheet 6c8d8f8f…; repeat with the same key -> 200 replay=true, same worksheet and version.
+
+## Idempotency conflicts
+
+Retries are now safe in both directions:
+
+- same key + identical canonical request -> 200 stored replay
+- same key + different request -> 409 IDEMPOTENCY_CONFLICT, no write
+- canonicalization ignores decimal scale and enum whitespace/case
+- 409 meta carries operation and key
+- legacy rows without a hash still replay
+
+Live: rating key K FLAT 1,500 -> 201 version 5; rating key K FLAT 1,600 -> 409 IDEMPOTENCY_CONFLICT.
