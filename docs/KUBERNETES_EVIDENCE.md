@@ -1435,3 +1435,21 @@ New business now starts before a policy:
 - events policy.submission.created/status-changed
 
 Live: SUB-2026-0000001, CGL, USD 5,000,000, ASBESTOS/TALC, QUOTED.
+
+## Submission conversion
+
+![Converted submission](images/submission-converted-policy.png)
+
+Quoted submissions can become policies:
+
+- Convert action on QUOTED/BOUND
+- premium amount/currency and optional expiration
+- creates DRAFT policy from applicant, product, requested limit, effective date
+- initializes coverage and limit state
+- links policy.submission_id and submission.policyId
+- submission moves to BOUND
+- idempotent replay returns the linked policy
+- UI navigates to the created policy and keeps a policy link on the submission
+- event policy.submission.converted
+
+Live: SUB-2026-0000001 -> POL-2026-0000006 DRAFT, premium 125,000, term 2027-01-01 to 2028-01-01, submission BOUND.

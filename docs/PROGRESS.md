@@ -516,3 +516,8 @@
 
 - Submission queue and lifecycle.
 - 345 suites, 3,707 tests; contracts 16,687 checks; 227 events; live 17/17.
+
+## Round 92: submission conversion
+
+- Quote/bind to draft policy.
+- 348 suites, 3,753 tests; contracts 16,871 checks; 228 events; live 17/17.
