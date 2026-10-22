@@ -931,3 +931,19 @@ The Payment workbench now executes the full lifecycle:
 - 409 reloads the authoritative version and contains the conflict
 
 Live: PAY-2026-0000003 DRAFT -> RECONCILED across 9 versioned transitions.
+
+## Payment terminal actions
+
+![Payment terminal actions](images/payment-terminal-actions.png)
+
+Payments can be stopped before or after approval:
+
+- DRAFT / PENDING_AUTHORITY / AUTHORIZED: Cancel, Void
+- APPROVED: Void, Stop
+- SCHEDULED: Cancel, Void
+- RETURNED / FAILED: Cancel
+- Void/Stop require a reason; Cancel accepts an optional reason
+- all actions are versioned and confirmed
+- reason >200 returns 400 before persistence; terminal states hide actions
+
+Live: PAY-2026-0000001 VOID (v1); new DRAFT PAY-2026-0000004 shows Cancel/Void.

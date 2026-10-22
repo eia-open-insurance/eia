@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 296 JUnit suites, **3,043 tests, 0 failures/errors**.
+- 296 JUnit suites, **3,063 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 296 JUnit suites, **3,043 tests, 0 failures**.
+- 296 JUnit suites, **3,063 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -644,3 +644,11 @@ exit code: 0
 - Mark paid and Reconcile require confirmation; 409 reloads and contains.
 - Live: PAY-2026-0000003 driven through all 10 states, version 0 -> 9, final RECONCILED.
 - Full matrix: 296 suites, 3,043 tests; contracts 13,978 checks; 210 events; live 17/17.
+
+
+## Round 60: payment terminal actions
+
+- Cancel, Void, and Stop actions mapped by status; reasons required for Void/Stop.
+- Expert validates reason <=200 before persistence (400, not 502).
+- Live: overlong reason 400; PAY-2026-0000001 VOID v1 with reason; new DRAFT payment shows Cancel/Void.
+- Full matrix: 296 suites, 3,063 tests; contracts 13,978 checks; 210 events; live 17/17.

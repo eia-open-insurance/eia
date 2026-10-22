@@ -352,3 +352,8 @@
 
 - Payment execution transitions and UI timeline.
 - 296 suites, 3,043 tests; contracts 13,978 checks; live 17/17.
+
+## Round 60: payment terminal actions
+
+- Cancel/Void/Stop controls and reason validation.
+- 296 suites, 3,063 tests; live 17/17.
