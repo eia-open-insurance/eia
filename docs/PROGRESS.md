@@ -396,3 +396,8 @@
 
 - Expose and display latest payment status reason.
 - 300 suites, 3,141 tests; contracts 14,098 checks; live 17/17.
+
+## Round 68: recent records
+
+- Recent records in global search and /search.
+- 300 suites, 3,141 tests; contracts 14,098 checks; live 17/17.

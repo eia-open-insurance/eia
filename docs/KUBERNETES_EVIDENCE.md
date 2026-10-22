@@ -1055,3 +1055,20 @@ Payment transitions now explain themselves:
 - UI shows the reason with latest transition context (from -> to, time, version)
 
 Live: PAY-2026-0000002 REVERSED; reason "Bank returned funds"; lifecycle shows PAID -> REVERSED.
+
+## Recent records in search
+
+![Recent records](images/search-recent-records.png)
+
+Search now preserves session continuity:
+
+- Ctrl+K with no query shows RECENT RECORDS
+- each entry shows type, label, status, and secondary context
+- clicking opens the record
+- results opened from search are saved
+- dedupe by type+id, cap 8
+- Clear recent
+- logout clears history
+- malformed localStorage is tolerated
+
+Live: DOC-2026-0000001 opened from search and appears under RECENT RECORDS on the next Ctrl+K.

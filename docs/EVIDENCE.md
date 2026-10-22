@@ -718,3 +718,11 @@ exit code: 0
 - UI shows status reason + latest transition context in lifecycle and details.
 - Live: PAY-2026-0000002 REVERSED with "Bank returned funds"; lifecycle banner shows reason and PAID -> REVERSED.
 - Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 211 events; live 17/17.
+
+## Round 68: recent records in search
+
+- Global search palette and /search show Recent records when the query is empty.
+- Recent entries store type/label/status/href, dedupe by type+id, cap at 8, tolerate malformed storage.
+- Clicking a recent record opens it; Clear recent removes history; logout clears it.
+- Live: opened DOC-2026-0000001 from search, then Ctrl+K showed it under RECENT RECORDS.
+- Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 211 events; live 17/17.
