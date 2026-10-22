@@ -1084,3 +1084,19 @@ Policy changes now close the entire open timeline:
 - historical duplicate-open-version data no longer blocks cancellation or endorsement
 
 Verified by integration tests for multiple open rows and a genuinely overlapping VOIDED window.
+
+## Saved searches
+
+![Saved searches](images/search-saved-searches.png)
+
+Search now supports repeatable investigations:
+
+- save a query with a name and active lens
+- cap 10, replace same name, malformed storage tolerated
+- landing /search lists saved searches with query and lens
+- apply restores query + lens; delete removes
+- lens chips filter result groups by record type
+- active lens shown in the results header
+- saved searches persist across sign-out (recent records do not)
+
+Live: "Acme records" saved from q=Acme/lens=All and shown on the empty search landing.

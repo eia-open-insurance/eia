@@ -735,3 +735,12 @@ exit code: 0
 - Historical multiple-open-version policies no longer fail cancellation/endorsement with VERSION_RANGE_OVERLAP.
 - Tests: multiple open rows close, new version links latest id, VOIDED overlap rejects and rolls back; order findLatest -> supersedeAllOpen -> findWindows -> insert.
 - Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 211 events; live 17/17.
+
+## Round 70: saved searches and lens
+
+- /search supports saved searches (name required, cap 10, case-insensitive replace) stored in eia.saved.searches.v1.
+- Saved searches persist across logout; recent records still clear.
+- Lens chips filter results by Claims/Policies/Parties/Contracts/Payments/Documents/Notifications.
+- Apply restores query+lens; delete removes.
+- Live: saved "Acme records" (query Acme, lens All); empty /search shows the saved entry.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 211 events; live 17/17.

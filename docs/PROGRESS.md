@@ -406,3 +406,8 @@
 
 - Close all open versions transactionally on issuance.
 - 302 suites, 3,144 tests; live 17/17.
+
+## Round 70: saved searches
+
+- Saved searches, lens filters, apply/delete.
+- 302 suites, 3,144 tests; live 17/17.
