@@ -1236,3 +1236,18 @@ Premium variance now has an operational resolution:
 - warning clears when net plan premium equals policy premium
 
 Live: POL-2026-0000005 premium 1,500; plan gross 1,500 less credits 300 = 1,200; adjustment +300 appended (#5); gross 1,800, net 1,500; warning cleared.
+
+## Litigation damages and counsel
+
+![Litigation damages](images/claim-litigation-damages.png)
+
+Claim litigation now records pleaded exposure and uses party data:
+
+- Counsel selected predictively from /parties/search
+- Counsel stored as party id + linked record; label hydrated
+- Damages sought amount + ISO currency, both-or-neither, positive
+- Damages shown in the matter table and detail
+- Context separates pleaded damages from reserve, settlement authority, and payments
+- Events direct.claim.litigation-created / litigation-updated
+
+Live: CLM-2026-0000001 DEFENSE matter, counsel Acme Manufacturing, case 2026-CV-12345, damages USD 500,000.

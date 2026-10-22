@@ -456,3 +456,8 @@
 
 - Positive adjustment installment and negative credit-note guidance.
 - 323 suites, 3,351 tests; contracts 14,694 checks; 217 events; live 17/17.
+
+## Round 80: litigation damages
+
+- Pleaded damages and predictive counsel picker.
+- 324 suites, 3,376 tests; contracts 14,825 checks; 218 events; live 17/17.
