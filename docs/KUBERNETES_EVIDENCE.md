@@ -916,3 +916,18 @@ Settlements now record the payment that funded them:
 - link records evidence only; it does not change payment status or paid loss
 
 Live: SET-2026-0000001 linked to PAY-2026-0000002 on CLM-2026-0000001; Settlement progress step is current.
+
+## Payment execution lifecycle
+
+![Payment lifecycle](images/payment-lifecycle.png)
+
+The Payment workbench now executes the full lifecycle:
+
+- one next action per status
+- PATCH {status, expectedVersion}
+- Mark paid and Reconcile require confirmation
+- timeline shows passed/current/pending
+- terminal states expose no action
+- 409 reloads the authoritative version and contains the conflict
+
+Live: PAY-2026-0000003 DRAFT -> RECONCILED across 9 versioned transitions.
