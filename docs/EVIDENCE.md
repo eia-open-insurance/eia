@@ -772,3 +772,10 @@ exit code: 0
 - UI Templates registry with filter, create, approve, retire, approval-gate context.
 - Live: PAYMENT_REMINDER v1 created DRAFT and approved ACTIVE; registry lists 4 templates.
 - Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 215 events; live 17/17.
+
+## Round 74: template versioning
+
+- Every template row offers New version; modal prefills code/locale/channel/body and version = source + 1.
+- Shows "Based on vX" and same-code version history; creates DRAFT; 409/validation contained.
+- Live: PAYMENT_REMINDER v2 created DRAFT from v1; registry shows v2 DRAFT and v1 ACTIVE.
+- Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 215 events; live 17/17.

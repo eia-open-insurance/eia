@@ -426,3 +426,8 @@
 
 - Template registry with draft/approve/retire.
 - 309 suites, 3,244 tests; contracts 14,465 checks; 215 events; live 17/17.
+
+## Round 74: template versioning
+
+- New version from existing template.
+- 309 suites, 3,244 tests; live 17/17.

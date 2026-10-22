@@ -1148,3 +1148,18 @@ Templates are now managed in the workbench:
 - only ACTIVE approved templates can send
 
 Live: PAYMENT_REMINDER v1 (EMAIL) created DRAFT and approved ACTIVE; registry shows 4 templates including DUNNING_NOTICE and CLAIM_NOTICE_STANDARD.
+
+## Template versioning
+
+![Template version](images/notification-template-version.png)
+
+Templates can be revised without retyping:
+
+- New version prefilled from the selected template
+- version increments automatically
+- code/locale/channel/body remain editable
+- create always yields DRAFT
+- Based on vX context and same-code history
+- duplicates/validation stay in the modal
+
+Live: PAYMENT_REMINDER v2 created DRAFT from v1; v1 remains ACTIVE.
