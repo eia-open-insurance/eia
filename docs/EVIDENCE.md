@@ -744,3 +744,10 @@ exit code: 0
 - Apply restores query+lens; delete removes.
 - Live: saved "Acme records" (query Acme, lens All); empty /search shows the saved entry.
 - Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 211 events; live 17/17.
+
+## Round 71: payment link mismatch warnings
+
+- Policy installments with linked paymentId fetch payment status; non-PAID shows warning + Payment record link; summary counts reviews; no automatic status change; fetch failures contained.
+- Claim settlements hydrate payment status; non-PAID shows red badge + "settlement link needs review" and Unlink remains available; no automatic settlement/paid-loss change.
+- Live: claim SET-2026-0000001 linked to REVERSED PAY-2026-0000002 shows warning; policy installment 2 linked to REVERSED payment shows warning/count.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 211 events; live 17/17.

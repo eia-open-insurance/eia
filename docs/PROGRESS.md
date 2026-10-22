@@ -411,3 +411,8 @@
 
 - Saved searches, lens filters, apply/delete.
 - 302 suites, 3,144 tests; live 17/17.
+
+## Round 71: payment link mismatch warnings
+
+- Surface reversed payments linked to policy installments and claim settlements.
+- 302 suites, 3,144 tests; contracts 14,098 checks; live 17/17.

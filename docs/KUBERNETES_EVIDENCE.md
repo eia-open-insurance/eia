@@ -1100,3 +1100,19 @@ Search now supports repeatable investigations:
 - saved searches persist across sign-out (recent records do not)
 
 Live: "Acme records" saved from q=Acme/lens=All and shown on the empty search landing.
+
+## Payment link mismatch warnings
+
+![Claim settlement reversed payment](images/claim-settlement-reversed-payment.png)
+
+Cross-vertical payment links now reveal reversals:
+
+- linked payment status is fetched and shown
+- REVERSED/RETURNED/VOID/CANCELLED/FAILED produces a warning
+- warning links to the Payment record
+- claim settlement Unlink remains available
+- policy billing summary counts impacted installments
+- no automatic status/paid-loss change
+- failed status reads are contained
+
+Live: SET-2026-0000001 linked to REVERSED PAY-2026-0000002 shows "Payment REVERSED — settlement link needs review".
