@@ -316,3 +316,8 @@
 
 - Tokens carry tenant/roles; gateway rejects tenant mismatches.
 - 296 suites, 2,939 tests; live 17/17.
+
+## Round 53: credit reversal
+
+- APPLIED -> REVERSED restores installment credit.
+- 296 suites, 2,963 tests; contracts 13,558 checks; 208 events; live 17/17.

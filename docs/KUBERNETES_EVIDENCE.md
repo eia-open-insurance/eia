@@ -834,3 +834,17 @@ The gateway compares X-EIA-Tenant to the token claim:
 - missing claim -> 403 on protected paths
 
 Live: token tenant 11111111-1111-7111-8111-111111111111 / CLAIMS_ADJUSTER; matching GET 200, wrong tenant 403, no header GET 200 after injection.
+
+## Credit note reversal
+
+![Credit reversal](images/policy-credit-reversal.png)
+
+Applied credit notes can be reversed:
+
+- reverse requires a reason
+- only APPLIED notes can reverse
+- the credited amount is restored to the installment
+- a fully credited installment reopens to DUE or OVERDUE
+- billing and receivables net back up
+
+Live: CN-0000002 USD 100 reversed — credited 100 -> 0, outstanding 400 -> 500, receivable total 500.
