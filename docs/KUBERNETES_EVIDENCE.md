@@ -1009,3 +1009,19 @@ After money moves, exceptions remain actionable:
 - 409 reloads the authoritative record
 
 Live: PAY-2026-0000002 PAID (v1) reversed with reason; final REVERSED (v2).
+
+## Read-only auditor session
+
+![Read-only auditor](images/read-only-auditor.png)
+
+The auditor demo user signs in read-only:
+
+- login retries without eia.write after invalid_scope
+- session stores read_only and the tokens
+- persistent banner: "Read-only access. Changes are not permitted."
+- header shows READ ONLY and Auditor
+- refresh keeps the narrow scope and read-only state
+- data reads and dashboards still load
+- mutation controls remain visible but the gateway rejects writes with 403
+
+Live: auditor/password signed in, read_only=true, dashboard loaded.

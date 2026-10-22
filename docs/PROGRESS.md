@@ -381,3 +381,8 @@
 
 - Return, reverse, escheat, reschedule controls.
 - 298 suites, 3,129 tests; live 17/17.
+
+## Round 65: read-only auditor
+
+- Scope fallback and read-only session UI.
+- 298 suites, 3,129 tests; live 17/17.

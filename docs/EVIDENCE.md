@@ -692,3 +692,12 @@ exit code: 0
 - Return/Reverse/Escheat require a reason; all actions versioned and confirmed.
 - Live: PAY-2026-0000002 PAID v1 -> REVERSED v2 with reason "Bank returned funds".
 - Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 211 events; live 17/17.
+
+## Round 65: read-only auditor session
+
+- Shell login requests write scope first; 400 invalid_scope retries with profile eia.read and stores read_only.
+- Refresh preserves read-only and narrows scope.
+- Read-only sessions show a persistent banner and READ ONLY badge; role shown as Auditor.
+- Adjuster flow unchanged.
+- Live: auditor/password signed in; banner/badge visible; read_only=true; dashboard and read APIs load.
+- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 211 events; live 17/17.
