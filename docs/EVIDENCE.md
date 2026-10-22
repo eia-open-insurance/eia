@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 298 JUnit suites, **3,103 tests, 0 failures/errors**.
+- 298 JUnit suites, **3,129 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 298 JUnit suites, **3,103 tests, 0 failures**.
+- 298 JUnit suites, **3,129 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -684,3 +684,11 @@ exit code: 0
 - Live: Compose notice opened a prefilled DUNNING_NOTICE/EMAIL draft with the template bound; Created NTF-2026-000000004 and sent it successfully (SENT).
 - Full matrix: 298 suites, 3,103 tests; contracts 14,069 checks; 211 events; live 17/17.
 
+
+
+## Round 64: post-payment exceptions
+
+- PAID/PARTIALLY_PAID: Return -> RETURNED, Reverse -> REVERSED; RECONCILED: Escheat -> ESCHEATED; RETURNED: Reschedule -> SCHEDULED, Cancel -> CANCELLED.
+- Return/Reverse/Escheat require a reason; all actions versioned and confirmed.
+- Live: PAY-2026-0000002 PAID v1 -> REVERSED v2 with reason "Bank returned funds".
+- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 211 events; live 17/17.

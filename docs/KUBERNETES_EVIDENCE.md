@@ -994,3 +994,18 @@ Premium dunning can launch a notice draft:
 
 Live: Compose notice from POL-2026-0000004 opened a prefilled DUNNING_NOTICE/EMAIL draft with the template bound; NTF-2026-000000004 was created and sent (SENT).
 
+
+## Post-payment exception controls
+
+![Post-payment controls](images/payment-post-payment.png)
+
+After money moves, exceptions remain actionable:
+
+- PAID / PARTIALLY_PAID: Return payment, Reverse payment
+- RECONCILED: Escheat payment
+- RETURNED: Reschedule, Cancel
+- Return/Reverse/Escheat require a reason
+- actions are versioned, confirmed, and update payment + queue
+- 409 reloads the authoritative record
+
+Live: PAY-2026-0000002 PAID (v1) reversed with reason; final REVERSED (v2).

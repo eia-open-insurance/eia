@@ -376,3 +376,8 @@
 ## Round 63 (cont.): dunning template
 
 - Seeded ACTIVE DUNNING_NOTICE template v1; handoff binds it; create + send succeed.
+
+## Round 64: post-payment exceptions
+
+- Return, reverse, escheat, reschedule controls.
+- 298 suites, 3,129 tests; live 17/17.
