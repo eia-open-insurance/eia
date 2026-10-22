@@ -882,3 +882,10 @@ exit code: 0
 - Cession and Retrocession Overviews show linked notifications with count/newest 3/record links/filtered View all.
 - Live: NTF-2026-000000010 CESSION/CES-000000001, NTF-2026-000000011 RETROCESSION/RET-000000001.
 - Full matrix: 330 suites, 3,483 tests; contracts 15,481 checks; 220 events; live 17/17.
+
+## Round 87: notification cards on document and party
+
+- Document Overview and Party Overview show source-linked notifications with count/newest 3/record links/filtered View all.
+- All ten source types now have a destination; ten workspaces carry cards.
+- Live: NTF-2026-000000012 DOCUMENT/DOC-2026-0000001, NTF-2026-000000013 PARTY/PTY-00000001.
+- Full matrix: 330 suites, 3,483 tests; contracts 15,481 checks; 220 events; live 17/17.

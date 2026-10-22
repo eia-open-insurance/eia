@@ -1352,3 +1352,20 @@ Notifications now cover reinsurance:
 Live:
 - NTF-2026-000000010 CESSION / CES-000000001
 - NTF-2026-000000011 RETROCESSION / RET-000000001
+
+## Notification graph complete
+
+![Party notifications](images/party-notifications.png)
+
+Source-linked notifications now appear in all ten workspaces:
+
+- Direct Claim, Assumed Claim, Policy, Contract, Payment
+- Cession, Retrocession
+- Document, Party
+- Notifications itself
+
+Each card shows count + newest 3, links to records, and filtered View all. Document and Party cards are card-local and do not block master data.
+
+Live:
+- NTF-2026-000000012 DOCUMENT / DOC-2026-0000001
+- NTF-2026-000000013 PARTY / PTY-00000001

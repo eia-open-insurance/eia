@@ -491,3 +491,8 @@
 
 - Cession/retro cards and source types.
 - 330 suites, 3,483 tests; contracts 15,481 checks; live 17/17.
+
+## Round 87: document/party notifications
+
+- Notification cards in all ten workspaces.
+- 330 suites, 3,483 tests; live 17/17.
