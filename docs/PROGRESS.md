@@ -521,3 +521,8 @@
 
 - Quote/bind to draft policy.
 - 348 suites, 3,753 tests; contracts 16,871 checks; 228 events; live 17/17.
+
+## Round 93: idempotency replay
+
+- Rating/conversion key replay.
+- 349 suites, 3,769 tests; contracts 16,936 checks; live 17/17.

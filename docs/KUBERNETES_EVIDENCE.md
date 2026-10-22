@@ -1453,3 +1453,16 @@ Quoted submissions can become policies:
 - event policy.submission.converted
 
 Live: SUB-2026-0000001 -> POL-2026-0000006 DRAFT, premium 125,000, term 2027-01-01 to 2028-01-01, submission BOUND.
+
+## Rating and conversion replay
+
+Keyed policy mutations are now retry-safe:
+
+- Idempotency-Key stored per tenant+operation
+- first call 201
+- replay 200 + Idempotent-Replayed with stored body/ETag
+- keys shared across policy/submission ids within the operation
+- key max 128; over-long 400 before write
+- request bodies are not compared; the first success is authoritative
+
+Live: rating FLAT 2,000 applied with one key -> 201, version 4, worksheet 6c8d8f8f…; repeat with the same key -> 200 replay=true, same worksheet and version.
