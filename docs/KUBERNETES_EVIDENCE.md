@@ -1540,3 +1540,18 @@ The catalog is now operable:
 - no product deletion
 
 Live: EXCESS · Excess Liability · US created ACTIVE, retired, shown under All with Reactivate.
+
+## Active product enforcement
+
+New business must use the catalog:
+
+- productCode trimmed/upper-cased then looked up
+- unknown -> 422 UNKNOWN_PRODUCT
+- RETIRED -> 422 PRODUCT_NOT_ACTIVE
+- errors[0].field=productCode, meta carries productCode/tenantId (+productId/status for retired)
+- no row written; submission number not consumed
+- policy-create idempotent replay resolves before the guard
+- conversion/renewal reuse accepted codes even if later retired
+- existing records never re-validated
+
+Live: submission NOT_A_PRODUCT -> 422; CGL -> 201 SUB-2026-0000002.

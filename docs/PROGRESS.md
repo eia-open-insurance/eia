@@ -551,3 +551,8 @@
 
 - Catalog create/retire UI.
 - 357 suites, 3,868 tests; live 17/17.
+
+## Round 99: active product enforcement
+
+- Catalog authoritative for new business.
+- 359 suites, 3,888 tests; contracts 17,479 checks; live 17/17.
