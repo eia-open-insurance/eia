@@ -321,3 +321,8 @@
 
 - APPLIED -> REVERSED restores installment credit.
 - 296 suites, 2,963 tests; contracts 13,558 checks; 208 events; live 17/17.
+
+## Round 54: cash call settlement
+
+- Settlement references and Payment handoff for cash calls.
+- 296 suites, 2,976 tests; contracts 13,576 checks; live 17/17.

@@ -848,3 +848,16 @@ Applied credit notes can be reversed:
 - billing and receivables net back up
 
 Live: CN-0000002 USD 100 reversed — credited 100 -> 0, outstanding 400 -> 500, receivable total 500.
+
+## Contract cash call settlement
+
+![Cash call settlement](images/contract-cash-call-settlement.png)
+
+Issued cash calls now carry a settlement reference when settled:
+
+- SETTLED requires a payment/settlement reference (1-120 chars)
+- reference is stored and shown in the cash-call table
+- contract.cash-call.settled includes it
+- ISSUED calls link to Payment with source CONTRACT_CASH_CALL
+
+Live: CC-2026-00001 settled with PAY-2026-000042; CC-2026-00002 issued with a Create payment link.
