@@ -337,3 +337,8 @@
 
 - DRAFT current version superseded on change; live cancellation + linked credit note.
 - 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.
+
+## Round 57: technical settlement
+
+- Technical account settlement references.
+- 296 suites, 3,005 tests; contracts 13,688 checks; live 17/17.

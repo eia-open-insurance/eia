@@ -889,3 +889,16 @@ The policy version issuer now:
 - supersedes DRAFT as well as ISSUED when issuing a change
 
 Live: POL-2026-0000004 cancelled PRO_RATA on 2026-10-22 (CX-0000001, return premium USD 194.52). CN-0000003 was created from that cancellation and linked to CX-0000001.
+
+## Technical account settlement
+
+![Technical account settlement](images/technical-account-settlement.png)
+
+Settled technical accounts now carry the treasury reference:
+
+- SETTLED requires a settlement reference (1-120 chars)
+- reference is stored and shown on the statement row
+- contract.technical-account.settled includes it
+- the reference ties the statement to Payment but does not create a Payment
+
+Live: TA-2026-00003 SETTLED with SET-2026-000088.
