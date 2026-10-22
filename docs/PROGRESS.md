@@ -342,3 +342,8 @@
 
 - Technical account settlement references.
 - 296 suites, 3,005 tests; contracts 13,688 checks; live 17/17.
+
+## Round 58: settlement payment links
+
+- Claim settlement to payment link, UI picker, event.
+- 296 suites, 3,032 tests; contracts 13,815 checks; 210 events; live 17/17.

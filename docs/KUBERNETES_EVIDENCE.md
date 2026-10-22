@@ -902,3 +902,17 @@ Settled technical accounts now carry the treasury reference:
 - the reference ties the statement to Payment but does not create a Payment
 
 Live: TA-2026-00003 SETTLED with SET-2026-000088.
+
+## Claim settlement payment link
+
+![Settlement payment](images/claim-settlement-payment.png)
+
+Settlements now record the payment that funded them:
+
+- settlement payment column links to the Payment record
+- link/unlink only for AUTHORIZED or EXECUTED settlements
+- picker lists PAID DIRECT_CLAIM payments
+- payments already linked to another settlement are disabled
+- link records evidence only; it does not change payment status or paid loss
+
+Live: SET-2026-0000001 linked to PAY-2026-0000002 on CLM-2026-0000001; Settlement progress step is current.
