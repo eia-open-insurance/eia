@@ -441,3 +441,8 @@
 
 - Surface policy premium vs plan total mismatch.
 - 315 suites, 3,294 tests; live 17/17.
+
+## Round 77: retention scheduler
+
+- Automatic disposition at retention expiry.
+- 320 suites, 3,303 tests; live 17/17.

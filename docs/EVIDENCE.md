@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 315 JUnit suites, **3,294 tests, 0 failures/errors**.
+- 320 JUnit suites, **3,303 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 315 JUnit suites, **3,294 tests, 0 failures**.
+- 320 JUnit suites, **3,303 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -797,3 +797,12 @@ exit code: 0
 - Equal/missing amounts show no warning.
 - Live: POL-2026-0000005 premium 1800 vs plan 1500 by 300 after second premium audit.
 - Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
+
+
+## Round 77: retention disposition scheduler
+
+- Quartz daily job disposes ACTIVE/ARCHIVED/SUPERSEDED documents whose retention date passed, excluding held/disposed.
+- Batch size 100, per-document transactions, failures isolated, system actor on events.
+- Enabled in K8s; cron reset to daily 02:00 UTC after live proof.
+- Live: DOC-2026-0000002 ACTIVE retention 2025-01-01; temporary 10s cron disposed it at 10:26 UTC.
+- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 216 events; live 17/17.

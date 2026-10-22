@@ -1194,3 +1194,16 @@ Premium and billing changes are reconciled visibly:
 - no automatic installment rewrite
 
 Live: POL-2026-0000005 premium $1,800 vs plan $1,500 by $300 after a second audit.
+
+## Automatic retention disposition
+
+Expired evidence is disposed without manual action:
+
+- Quartz job document.retention-disposition, daily 02:00 UTC
+- selects ACTIVE/ARCHIVED/SUPERSEDED documents with retention_until <= today
+- excludes legal holds and already-disposed records
+- batch size 100, per-document failure isolation
+- disposition and content tombstone events carry the system actor UUID
+- enabled with EIA_DOCUMENT_RETENTION_ENABLED=true
+
+Live: DOC-2026-0000002 (ACTIVE, retention 2025-01-01) was disposed by a temporary 10-second cron at 2026-10-22T10:26:00Z; deployment was reset to the daily cron afterwards.
