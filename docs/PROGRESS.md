@@ -306,3 +306,8 @@
 
 - Shell login, bearer injection, gateway enforcement, live login per test.
 - 293 suites, 2,897 tests; live 17/17.
+
+## Round 51: auth scopes and refresh
+
+- Read/write scopes, actor propagation, refresh retry.
+- 295 suites, 2,919 tests; live 17/17.

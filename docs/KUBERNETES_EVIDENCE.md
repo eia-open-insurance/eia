@@ -806,3 +806,14 @@ Gateway JWT validation is implemented but disabled by default (eia.auth.enabled=
 - Live suite performs a real login before each scenario (17/17).
 
 Issuer: http://localhost:3000/auth. JWKS: http://eia-auth:9000/oauth2/jwks.
+
+## Authenticated authorization
+
+![Authenticated dashboard](images/authenticated-dashboard.png)
+
+- Tokens carry profile, eia.read, and eia.write for adjusters; auditors receive read only.
+- Gateway requires eia.read for GET/HEAD/OPTIONS and eia.write for POST/PUT/PATCH/DELETE.
+- A read-only token receives 403 on mutation.
+- The gateway injects X-EIA-Actor from the JWT subject when absent.
+- Shell refreshes the access token on 401 and replays the request once; failed refresh returns to sign-in.
+- Live: adjuster mutation passed authorization, auditor POST returned 403, refresh returned a new JWT.

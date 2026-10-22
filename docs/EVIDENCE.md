@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 293 JUnit suites, **2,897 tests, 0 failures/errors**.
+- 295 JUnit suites, **2,919 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 293 JUnit suites, **2,897 tests, 0 failures**.
+- 295 JUnit suites, **2,919 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -555,3 +555,14 @@ exit code: 0
 - Manual: no token 401, valid token 200; UI login renders authenticated dashboard.
 - Live suite signs in per test: 17/17.
 - Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 207 events.
+
+
+## Round 51: auth scopes, actor, and refresh
+
+- eia.read/eia.write scopes; gateway authorizes GET vs mutating methods.
+- Authenticated JWT sub propagates as X-EIA-Actor when the caller omits it.
+- Shell requests write scope and refreshes on 401, replaying once; concurrent 401s share one refresh.
+- Auditor user is read-only; explicit eia.write is rejected.
+- Password grants exclude openid so refresh does not need an authorization code.
+- Live: adjuster token scope profile/eia.read/eia.write; auditor GET 200, POST 403; adjuster POST 400 validation (authorized); refresh returns new JWT.
+- Full matrix: 295 suites, 2,919 tests; contracts 13,501 checks; 207 events; live 17/17.
