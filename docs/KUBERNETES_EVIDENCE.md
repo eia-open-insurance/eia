@@ -1179,3 +1179,18 @@ Written premium can be audited without changing coverage:
 - event policy.policy.premium-audited
 
 Live: POL-2026-0000005 BOUND, premium 1000 -> 1500 effective 2027-01-15; END-0001 PREMIUM_AUDIT $500; current version PREMIUM_AUDIT.
+
+## Billing premium variance
+
+![Billing variance](images/policy-billing-variance.png)
+
+Premium and billing changes are reconciled visibly:
+
+- policy premium vs plan total compared to the cent
+- mismatch states both totals and the delta
+- explains premium audits/endorsements do not automatically re-plan installments
+- Review premium audit jumps to Endorsements and opens the audit when eligible
+- equal or missing amounts show no warning
+- no automatic installment rewrite
+
+Live: POL-2026-0000005 premium $1,800 vs plan $1,500 by $300 after a second audit.

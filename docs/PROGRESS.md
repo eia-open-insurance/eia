@@ -436,3 +436,8 @@
 
 - Premium audit command + UI.
 - 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
+
+## Round 76: billing variance
+
+- Surface policy premium vs plan total mismatch.
+- 315 suites, 3,294 tests; live 17/17.

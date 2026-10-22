@@ -789,3 +789,11 @@ exit code: 0
 - UI Endorsements premium audit card/modal with delta preview, status gating, ETag, refresh.
 - Live: POL-2026-0000005 BOUND 1000 -> 1500 effective 2027-01-15; END-0001 PREMIUM_AUDIT +$500; version PREMIUM_AUDIT.
 - Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
+
+## Round 76: billing premium variance
+
+- Billing compares policy premiumAmount with plan totalPremium at cent precision.
+- Mismatch shows amount/delta, explains audits/endorsements do not re-plan installments, and offers Review premium audit.
+- Equal/missing amounts show no warning.
+- Live: POL-2026-0000005 premium 1800 vs plan 1500 by 300 after second premium audit.
+- Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
