@@ -546,3 +546,8 @@
 
 - Product pickers and catalog.
 - 357 suites, 3,868 tests; contracts 17,367 checks; 230 events; live 17/17.
+
+## Round 98: product administration
+
+- Catalog create/retire UI.
+- 357 suites, 3,868 tests; live 17/17.

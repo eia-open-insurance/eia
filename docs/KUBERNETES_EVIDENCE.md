@@ -1524,3 +1524,19 @@ Products are now shared taxonomy for new business:
 - events product.product.created/status-changed; product event vertical admitted
 
 Live: 3 active products; catalog panel selected CGL.
+
+## Product catalog administration
+
+![Product catalog admin](images/policy-product-catalog-admin.png)
+
+The catalog is now operable:
+
+- New product with code, name, line, jurisdiction
+- duplicate code 409 contained in the modal
+- retire/reactivate with confirmation
+- All/ACTIVE/RETIRED filter
+- retired products hidden from new policy/submission pickers
+- existing records unchanged by retirement
+- no product deletion
+
+Live: EXCESS · Excess Liability · US created ACTIVE, retired, shown under All with Reactivate.

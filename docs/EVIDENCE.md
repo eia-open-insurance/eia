@@ -974,3 +974,10 @@ exit code: 0
 - Policy New policy and Submission create use predictive ProductPicker; Product catalog read-only tab.
 - Live: 3 active products seeded; catalog panel shows CGL/Products Liability/Umbrella.
 - Full matrix: 357 suites, 3,868 tests; contracts 17,367 checks; 230 events; live 17/17.
+
+## Round 98: product catalog administration
+
+- Product catalog create (code/name/line/jurisdiction) with duplicate 409 and validation; retire/reactivate with confirmation; All/ACTIVE/RETIRED filter.
+- Retired products excluded from pickers; existing policies/submissions unchanged.
+- Live: created EXCESS Excess Liability US, retired it; catalog shows 4 products with Reactivate action.
+- Full matrix: 357 suites, 3,868 tests; contracts 17,367 checks; 230 events; live 17/17.
