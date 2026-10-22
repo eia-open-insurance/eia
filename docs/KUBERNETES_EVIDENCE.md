@@ -1163,3 +1163,19 @@ Templates can be revised without retyping:
 - duplicates/validation stay in the modal
 
 Live: PAYMENT_REMINDER v2 created DRAFT from v1; v1 remains ACTIVE.
+
+## Policy premium audit
+
+![Premium audit](images/policy-premium-audit.png)
+
+Written premium can be audited without changing coverage:
+
+- record audited premium, effective date, reason
+- optional approver/approval reference
+- status gate BOUND/ISSUED/IN_FORCE/ENDORSED/REINSTATED
+- delta preview (increase/decrease/no change)
+- issues PREMIUM_AUDIT endorsement + immutable version
+- updates policy premium and version/ETag
+- event policy.policy.premium-audited
+
+Live: POL-2026-0000005 BOUND, premium 1000 -> 1500 effective 2027-01-15; END-0001 PREMIUM_AUDIT $500; current version PREMIUM_AUDIT.
