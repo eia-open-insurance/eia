@@ -1418,3 +1418,20 @@ Party reference data is now maintainable:
 - deleted snapshot retained in the event
 
 Live: identifier TIN 12-3456789 issuingAuthority changed to IRS; address deleted (204), list empty.
+
+## Underwriting submissions
+
+![Submissions](images/policy-submissions.png)
+
+New business now starts before a policy:
+
+- Policy / Submissions workspace tab
+- searchable queue by number/applicant/product/tort/status
+- create with applicant party picker, product, requested date/limit/currency, tort codes, notes
+- detail with status actions and optional reason
+- graph RECEIVED -> REFERRED/QUOTED/DECLINED/WITHDRAWN; REFERRED -> QUOTED/DECLINED/WITHDRAWN; QUOTED -> BOUND/DECLINED/WITHDRAWN
+- terminal BOUND/DECLINED/WITHDRAWN
+- quoting/binding does not create a policy
+- events policy.submission.created/status-changed
+
+Live: SUB-2026-0000001, CGL, USD 5,000,000, ASBESTOS/TALC, QUOTED.
