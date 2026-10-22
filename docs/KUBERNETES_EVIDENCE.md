@@ -1251,3 +1251,20 @@ Claim litigation now records pleaded exposure and uses party data:
 - Events direct.claim.litigation-created / litigation-updated
 
 Live: CLM-2026-0000001 DEFENSE matter, counsel Acme Manufacturing, case 2026-CV-12345, damages USD 500,000.
+
+## Notification source linkage
+
+![Notification source](images/notification-source-link.png)
+
+Notifications now trace back to the record that caused them:
+
+- sourceType: DIRECT_CLAIM / ASSUMED_CLAIM / POLICY / CONTRACT / PAYMENT / OTHER
+- sourceId and optional sourceReference
+- type+id both-or-neither
+- details and related-records link to the source
+- create dialog accepts an optional source
+- URL prefill supports source fields
+- dunning Compose notice passes POLICY source and policy number
+- no-source notifications remain valid
+
+Live: NTF-2026-000000005 linked to POL-2026-0000005 with reference POL-2026-0000005.
