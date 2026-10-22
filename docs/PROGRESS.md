@@ -471,3 +471,8 @@
 
 - Claim/policy cards and source-filtered notification queue.
 - 326 suites, 3,427 tests; contracts 14,947 checks; live 17/17.
+
+## Round 83: notification cards everywhere
+
+- Payment, contract, assumed claim cards.
+- 326 suites, 3,427 tests; live 17/17.

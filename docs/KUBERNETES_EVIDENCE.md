@@ -1284,3 +1284,22 @@ Notifications are linked in both directions:
 - source cards remain isolated from claim/policy failures
 
 Live: NTF-2026-000000006 (DIRECT_CLAIM, CLM-2026-0000001) filtered queue count 1; policy NTF-2026-000000005 linked on POL-2026-0000005.
+
+## Notifications across workspaces
+
+![Contract notifications](images/contract-notifications.png)
+
+Source-linked notifications now appear on:
+
+- Direct Claim Overview (DIRECT_CLAIM)
+- Assumed Claim Overview (ASSUMED_CLAIM)
+- Policy Overview (POLICY)
+- Contract Overview (CONTRACT)
+- Payment Overview (PAYMENT)
+
+Each card shows count and newest 3, links rows to /notifications?record=..., and View all opens the filtered queue. Loading/empty/error are card-local.
+
+Live:
+- NTF-2026-000000007 PAYMENT / PAY-2026-0000004
+- NTF-2026-000000008 CONTRACT / QS-043225
+- NTF-2026-000000009 ASSUMED_CLAIM / RNS-2026-0000002

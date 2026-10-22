@@ -849,3 +849,10 @@ exit code: 0
 - Notifications queue supports URL source filter with banner/clear; claim View all opens the filtered queue.
 - Live: NTF-2026-000000006 source DIRECT_CLAIM/CLM-2026-0000001; queue filtered to 1; policy NTF-2026-000000005 source POLICY.
 - Full matrix: 326 suites, 3,427 tests; contracts 14,947 checks; 218 events; live 17/17.
+
+## Round 83: notifications on payment, contract, assumed claim
+
+- Payment, Contract, and Assumed Claim Overviews show source-linked notifications (count, newest 3, record links, filtered View all).
+- Loading/empty/error contained; stable sibling keys on claim overviews.
+- Live: NTF-2026-000000007 PAYMENT/PAY-2026-0000004, NTF-2026-000000008 CONTRACT/QS-043225, NTF-2026-000000009 ASSUMED_CLAIM/RNS-2026-0000002.
+- Full matrix: 326 suites, 3,427 tests; contracts 14,947 checks; 218 events; live 17/17.
