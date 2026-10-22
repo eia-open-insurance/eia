@@ -1403,3 +1403,18 @@ Draft quotes can be rated reproducibly:
 - event policy.policy.rated on apply
 
 Live: POL-2026-0000001 0.50 x 2,000 x 1.05 = 1,050.0000 applied, version 3, hash 9e00ea0a7bd2c7ef7b57d73ad4ec1bb8a76ec3385a16c2b91c8600b82563e519.
+
+## Party identifier/address maintenance
+
+![Party identifiers edit](images/party-identifiers-edit.png)
+
+Party reference data is now maintainable:
+
+- Edit prefilled row -> PATCH full replacement
+- Delete with master-data impact confirmation -> DELETE 204
+- 400/404/409 contained inline
+- version bump and events on update/delete
+- no-op updates do not bump version
+- deleted snapshot retained in the event
+
+Live: identifier TIN 12-3456789 issuingAuthority changed to IRS; address deleted (204), list empty.

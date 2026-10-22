@@ -506,3 +506,8 @@
 
 - Reproducible draft rating.
 - 338 suites, 3,568 tests; contracts 15,814 checks; 221 events; live 17/17.
+
+## Round 90: party reference maintenance
+
+- Edit/delete identifiers and addresses.
+- 338 suites, 3,612 tests; contracts 16,329 checks; 225 events; live 17/17.
