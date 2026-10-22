@@ -1303,3 +1303,19 @@ Live:
 - NTF-2026-000000007 PAYMENT / PAY-2026-0000004
 - NTF-2026-000000008 CONTRACT / QS-043225
 - NTF-2026-000000009 ASSUMED_CLAIM / RNS-2026-0000002
+
+## Party identifiers and addresses
+
+![Party identifiers](images/party-identifiers.png)
+
+Party master data is now editable:
+
+- identifiers: type, value, issuing authority, effective date
+- addresses: type, lines, city/state/postal, ISO alpha-2 country
+- full identifier vocabulary (TIN/EIN/SSN/LEI/PASSPORT/…)
+- full address vocabulary (LEGAL/PHYSICAL/MAILING/BILLING/…)
+- duplicate identifier 409
+- events party.party.identifier-added and party.party.address-added
+- Master-data context links claims, policies, and payments
+
+Live: PTY-00000001 TIN 12-3456789 issued by IRS; PHYSICAL 100 Market Street, Floor 3, Columbus, OH 43215, US.

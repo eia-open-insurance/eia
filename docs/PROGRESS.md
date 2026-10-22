@@ -476,3 +476,8 @@
 
 - Payment, contract, assumed claim cards.
 - 326 suites, 3,427 tests; live 17/17.
+
+## Round 84: party master data
+
+- Identifiers and addresses.
+- 330 suites, 3,465 tests; contracts 15,375 checks; 220 events; live 17/17.
