@@ -496,3 +496,8 @@
 
 - Notification cards in all ten workspaces.
 - 330 suites, 3,483 tests; live 17/17.
+
+## Round 88: delivery attempts
+
+- Simulator provider, attempts, references.
+- 332 suites, 3,506 tests; contracts 15,608 checks; live 17/17.

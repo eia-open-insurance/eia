@@ -1369,3 +1369,20 @@ Each card shows count + newest 3, links to records, and filtered View all. Docum
 Live:
 - NTF-2026-000000012 DOCUMENT / DOC-2026-0000001
 - NTF-2026-000000013 PARTY / PTY-00000001
+
+## Notification delivery attempts
+
+![Delivery attempts](images/notification-delivery-attempts.png)
+
+Sending now records delivery evidence:
+
+- local SIMULATOR provider (no external network)
+- deterministic SIM-<notification uuid> reference
+- DELIVERED attempt persisted on send
+- notification carries providerReference/deliveredAt
+- sent event includes both
+- Delivery tab lists attempt/provider/status/reference/attempted/error
+- CREATED notifications show "not sent yet"
+- no production email/SMS/webhook adapter
+
+Live: NTF-2026-000000005 SENT via SIMULATOR, attempt #1 DELIVERED, reference SIM-01a16380-67ef-7dd1-9bac-8c22775a70c8.
