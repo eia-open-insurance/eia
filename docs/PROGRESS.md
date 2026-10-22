@@ -326,3 +326,9 @@
 
 - Settlement references and Payment handoff for cash calls.
 - 296 suites, 2,976 tests; contracts 13,576 checks; live 17/17.
+
+## Round 55: cancellation credit notes
+
+- Linked return-premium credit notes and cancellation numbers.
+- 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.
+- Found seeded-policy version overlap blocking live cancellation; to fix next.

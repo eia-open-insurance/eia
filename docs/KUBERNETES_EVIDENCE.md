@@ -861,3 +861,19 @@ Issued cash calls now carry a settlement reference when settled:
 - ISSUED calls link to Payment with source CONTRACT_CASH_CALL
 
 Live: CC-2026-00001 settled with PAY-2026-000042; CC-2026-00002 issued with a Create payment link.
+
+## Cancellation-linked credit notes
+
+Cancellation return premium can become a credit note:
+
+- cancellation numbers CX-0000001
+- one credit note per cancellation
+- amount must equal return premium within 0.01
+- currency must match
+- only ACTIVE cancellations can link
+- duplicate link returns 409
+- creation emits policy.credit-note.created
+
+The Cancellation tab shows Credit note created / Create credit note and the Billing ledger shows the source cancellation.
+
+Note: cancelling seeded POL-2026-0000004 returned 409 VERSION_RANGE_OVERLAP because prior issued versions overlap its term; a fresh policy timeline is needed to exercise this live.
