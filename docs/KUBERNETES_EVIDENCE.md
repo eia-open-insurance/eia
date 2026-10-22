@@ -1268,3 +1268,19 @@ Notifications now trace back to the record that caused them:
 - no-source notifications remain valid
 
 Live: NTF-2026-000000005 linked to POL-2026-0000005 with reference POL-2026-0000005.
+
+## Related notifications and queue filtering
+
+![Notification source filter](images/notification-queue-source-filter.png)
+
+Notifications are linked in both directions:
+
+- Claim and Policy Overview cards show linked notification counts and newest 3
+- each row links to /notifications?record=...
+- View all opens /notifications?sourceType=...&sourceId=...
+- queue sends the source pair and shows a Source filter banner with reference
+- Clear filter removes only the source pair
+- partial/unknown filters show an error and never send a half pair
+- source cards remain isolated from claim/policy failures
+
+Live: NTF-2026-000000006 (DIRECT_CLAIM, CLM-2026-0000001) filtered queue count 1; policy NTF-2026-000000005 linked on POL-2026-0000005.

@@ -466,3 +466,8 @@
 
 - Source linkage and links.
 - 325 suites, 3,404 tests; contracts 14,914 checks; live 17/17.
+
+## Round 82: related notifications
+
+- Claim/policy cards and source-filtered notification queue.
+- 326 suites, 3,427 tests; contracts 14,947 checks; live 17/17.
