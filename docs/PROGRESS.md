@@ -531,3 +531,8 @@
 
 - Different payload under same key rejected.
 - 349 suites, 3,781 tests; contracts 16,993 checks; live 17/17.
+
+## Round 95: picker consistency
+
+- Reviewer and release pickers.
+- 349 suites, 3,781 tests; live 17/17.

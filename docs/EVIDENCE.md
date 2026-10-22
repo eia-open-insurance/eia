@@ -949,3 +949,11 @@ exit code: 0
 - Decimal scale and enum whitespace/case are canonicalized; legacy null-hash rows replay.
 - Live: key K rating FLAT 1500 -> 201 version 5; key K rating FLAT 1600 -> 409 IDEMPOTENCY_CONFLICT.
 - Full matrix: 349 suites, 3,781 tests; contracts 16,993 checks; 228 events; live 17/17.
+
+## Round 95: predictive reviewer and release pickers
+
+- Direct Claims coverage reviewer is a party picker with label/link; payload remains reviewerPartyId; saved decisions hydrate.
+- Assumed Claims commutation release is a document picker over /documents/search; payload remains releaseDocumentId; saved releases hydrate.
+- Removed the last raw-ID entry points in these flows.
+- Live: Coverage tab reviewer picker + context; Commutation release document picker + context.
+- Full matrix: 349 suites, 3,781 tests; contracts 16,993 checks; 228 events; live 17/17.

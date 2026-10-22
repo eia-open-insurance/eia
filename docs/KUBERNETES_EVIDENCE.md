@@ -1478,3 +1478,18 @@ Retries are now safe in both directions:
 - legacy rows without a hash still replay
 
 Live: rating key K FLAT 1,500 -> 201 version 5; rating key K FLAT 1,600 -> 409 IDEMPOTENCY_CONFLICT.
+
+## Predictive pickers for reviewers and releases
+
+![Coverage reviewer picker](images/claim-coverage-reviewer-picker.png)
+
+Data entry now reuses existing records instead of raw UUIDs:
+
+- coverage reviewer searches parties by number/name
+- selected reviewer links to the party record
+- commutation release searches documents by number/title
+- selected release links to the document record
+- payloads remain ids only
+- saved records hydrate labels with short-id fallback
+
+Live: Direct Claim Coverage reviewer picker; Assumed Claim Commutation release document picker.
