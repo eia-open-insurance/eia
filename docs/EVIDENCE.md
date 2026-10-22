@@ -605,4 +605,14 @@ exit code: 0
 - UI creates a locked return-premium credit note from Cancellation and links the ledger.
 - Cancellation number exposed through domain.
 - Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.
-- Live cancellation note creation was not exercised: cancelling seeded POL-2026-0000004 returned 409 VERSION_RANGE_OVERLAP from pre-existing issued versions; unit/service coverage passes.
+- Live cancellation initially returned 409 VERSION_RANGE_OVERLAP because a DRAFT version remained current; fixed in Round 56 and then exercised live.
+
+
+## Round 56: version timeline fix and live cancellation credit
+
+- VersionIssuer now treats the latest non-superseded DRAFT or ISSUED version as current.
+- supersede closes DRAFT as well as ISSUED, so a change on an unissued initial version no longer overlaps.
+- Live: POL-2026-0000004 cancelled PRO_RATA 2026-10-22; CX-0000001; return premium 194.5210; status ACTIVE.
+- Live: CN-0000003 created from the cancellation, amount 194.5210 USD, linked to CX-0000001.
+- UI shows Credit note created · CN-0000003 in the Cancellation tab.
+- Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.

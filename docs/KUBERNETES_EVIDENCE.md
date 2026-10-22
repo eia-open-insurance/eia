@@ -876,4 +876,16 @@ Cancellation return premium can become a credit note:
 
 The Cancellation tab shows Credit note created / Create credit note and the Billing ledger shows the source cancellation.
 
-Note: cancelling seeded POL-2026-0000004 returned 409 VERSION_RANGE_OVERLAP because prior issued versions overlap its term; a fresh policy timeline is needed to exercise this live.
+The initial cancellation attempt returned 409 VERSION_RANGE_OVERLAP because the only version was still DRAFT and was not treated as current. After the version fix, cancellation and the linked credit note were exercised live.
+
+
+## Version timeline fix
+
+![Cancellation credit note](images/policy-cancellation-credit-note.png)
+
+The policy version issuer now:
+
+- treats the latest non-superseded DRAFT or ISSUED version as current
+- supersedes DRAFT as well as ISSUED when issuing a change
+
+Live: POL-2026-0000004 cancelled PRO_RATA on 2026-10-22 (CX-0000001, return premium USD 194.52). CN-0000003 was created from that cancellation and linked to CX-0000001.

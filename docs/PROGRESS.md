@@ -332,3 +332,8 @@
 - Linked return-premium credit notes and cancellation numbers.
 - 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.
 - Found seeded-policy version overlap blocking live cancellation; to fix next.
+
+## Round 56: withdrawal version fix
+
+- DRAFT current version superseded on change; live cancellation + linked credit note.
+- 296 suites, 2,994 tests; contracts 13,645 checks; 209 events; live 17/17.
