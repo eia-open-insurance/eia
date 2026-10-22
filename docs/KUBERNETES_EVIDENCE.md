@@ -1493,3 +1493,18 @@ Data entry now reuses existing records instead of raw UUIDs:
 - saved records hydrate labels with short-id fallback
 
 Live: Direct Claim Coverage reviewer picker; Assumed Claim Commutation release document picker.
+
+## Directory approvers and document links
+
+![Template approver picker](images/notification-template-approver-picker.png)
+
+Configuration data now uses the shared directory/document records:
+
+- template approver searches directory people by name/email
+- approval posts the directory id (a-adjuster), stored as VARCHAR(128)
+- registry resolves approver name with short-id fallback
+- directory outage falls back to manual id entry
+- document links use a type-aware picker and hydrate existing labels across six verticals
+- lookup failures fall back to short ids without blocking the record
+
+Live: CLAIM_NOTICE_DRAFT approved by a-adjuster; approver picker lists A. Adjuster and B. Examiner.

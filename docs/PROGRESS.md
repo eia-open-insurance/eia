@@ -536,3 +536,8 @@
 
 - Reviewer and release pickers.
 - 349 suites, 3,781 tests; live 17/17.
+
+## Round 96: directory approvers
+
+- String approver ids + document link hydration.
+- 349 suites, 3,788 tests; contracts 17,002 checks; live 17/17.
