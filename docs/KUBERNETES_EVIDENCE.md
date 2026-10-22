@@ -1386,3 +1386,20 @@ Sending now records delivery evidence:
 - no production email/SMS/webhook adapter
 
 Live: NTF-2026-000000005 SENT via SIMULATOR, attempt #1 DELIVERED, reference SIM-01a16380-67ef-7dd1-9bac-8c22775a70c8.
+
+## Policy rating worksheet
+
+![Rating worksheet](images/policy-rating-worksheet.png)
+
+Draft quotes can be rated reproducibly:
+
+- RATE_TIMES_EXPOSURE or FLAT
+- base rate, exposure, factor inputs
+- live four-decimal preview
+- immutable worksheet with SHA-256
+- Apply to quote replaces policy premium and advances version/ETag
+- calculation-only leaves the policy untouched
+- DRAFT/QUOTED only; issued premium changes use premium audit
+- event policy.policy.rated on apply
+
+Live: POL-2026-0000001 0.50 x 2,000 x 1.05 = 1,050.0000 applied, version 3, hash 9e00ea0a7bd2c7ef7b57d73ad4ec1bb8a76ec3385a16c2b91c8600b82563e519.

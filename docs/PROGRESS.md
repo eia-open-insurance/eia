@@ -501,3 +501,8 @@
 
 - Simulator provider, attempts, references.
 - 332 suites, 3,506 tests; contracts 15,608 checks; live 17/17.
+
+## Round 89: rating worksheets
+
+- Reproducible draft rating.
+- 338 suites, 3,568 tests; contracts 15,814 checks; 221 events; live 17/17.
