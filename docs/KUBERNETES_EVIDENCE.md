@@ -1072,3 +1072,15 @@ Search now preserves session continuity:
 - malformed localStorage is tolerated
 
 Live: DOC-2026-0000001 opened from search and appears under RECENT RECORDS on the next Ctrl+K.
+
+## Version issuance hardening
+
+Policy changes now close the entire open timeline:
+
+- every DRAFT/ISSUED version is superseded at the change date
+- overlap validation runs against the closed timeline
+- the new version records the latest open id as supersedesVersionId
+- issuance is transactional; rejection rolls back all closures
+- historical duplicate-open-version data no longer blocks cancellation or endorsement
+
+Verified by integration tests for multiple open rows and a genuinely overlapping VOIDED window.

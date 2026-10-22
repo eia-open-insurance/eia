@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 300 JUnit suites, **3,141 tests, 0 failures/errors**.
+- 302 JUnit suites, **3,144 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 300 JUnit suites, **3,141 tests, 0 failures**.
+- 302 JUnit suites, **3,144 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -726,3 +726,12 @@ exit code: 0
 - Clicking a recent record opens it; Clear recent removes history; logout clears it.
 - Live: opened DOC-2026-0000001 from search, then Ctrl+K showed it under RECENT RECORDS.
 - Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 211 events; live 17/17.
+
+
+## Round 69: version issuance hardening
+
+- VersionIssuer closes every open DRAFT/ISSUED version before overlap validation and insert.
+- Issue is @Transactional; rejected overlaps roll back all closures.
+- Historical multiple-open-version policies no longer fail cancellation/endorsement with VERSION_RANGE_OVERLAP.
+- Tests: multiple open rows close, new version links latest id, VOIDED overlap rejects and rolls back; order findLatest -> supersedeAllOpen -> findWindows -> insert.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 211 events; live 17/17.
