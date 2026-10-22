@@ -1025,3 +1025,19 @@ The auditor demo user signs in read-only:
 - mutation controls remain visible but the gateway rejects writes with 403
 
 Live: auditor/password signed in, read_only=true, dashboard loaded.
+
+## Disposition destroys content
+
+![Disposition tombstone](images/document-disposition-tombstone.png)
+
+Disposition now destroys stored content automatically:
+
+- current pointer and all live revisions have bytes cleared
+- deletedAt is recorded
+- file name, type, size, SHA-256, versions, and upload times remain
+- document.content.deleted is emitted with document.document.disposed
+- no content/already tombstoned: only the disposed fact
+- legal hold blocks disposition before content work
+- no separate DELETE is required
+
+Live: disposition-evidence.pdf uploaded, retention set past, disposed; metadata deleted=true, download 410, both events present.

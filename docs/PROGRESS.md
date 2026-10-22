@@ -386,3 +386,8 @@
 
 - Scope fallback and read-only session UI.
 - 298 suites, 3,129 tests; live 17/17.
+
+## Round 66: disposition content
+
+- Disposition destroys content automatically.
+- 299 suites, 3,134 tests; contracts 14,088 checks; live 17/17.
