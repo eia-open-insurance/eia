@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 320 JUnit suites, **3,303 tests, 0 failures/errors**.
+- 323 JUnit suites, **3,351 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 320 JUnit suites, **3,303 tests, 0 failures**.
+- 323 JUnit suites, **3,351 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -171,7 +171,7 @@ exit code: 0
 - Cross-links between claim/policy/party/contract/cession/retrocession/payment/notification records.
 - Related-label resolution shows policy, contract, and party numbers/names instead of UUIDs, with graceful fallback.
 - Process context panels explain why the record matters and where it sits in the workflow.
-- Contracts: ten search paths, 14,576 checks, 0 failures.
+- Contracts: ten search paths, 14,694 checks, 0 failures.
 - Live Kubernetes suite: 13/13 (dashboard, event stream, ten verticals, search-open-record, search-create-claim).
 
 ## Round 9: search workspace and process transparency
@@ -191,7 +191,7 @@ exit code: 0
 - Outbox events: `direct.claim.task-created`, `task-completed`, `task-updated`, `note-added`.
 - UI summary: Open tasks card; diary and summary now stay consistent after task changes.
 - Live evidence: created task, completed it, added a note through the Kubernetes shell; task and note events appear in the event-ingest inbox.
-- Contracts: 14,576 checks, 0 failures; 172 published events.
+- Contracts: 14,694 checks, 0 failures; 172 published events.
 - Full matrix: 173 suites, 1,400 tests, 0 failures.
 
 
@@ -201,7 +201,7 @@ exit code: 0
 - Tables, APIs, optimistic task versioning, ASSUMED book wall, and outbox events.
 - Diary & Notes tab, Open tasks card, overdue styling, and notes timeline.
 - Live evidence: created and completed `TSK-2026-0000001` on `RNS-2026-0000002`; inbox received `assumed.claim.task-created` and `assumed.claim.task-completed`.
-- Contracts: 14,576 checks, 0 failures; 176 published events.
+- Contracts: 14,694 checks, 0 failures; 176 published events.
 - Full matrix: 180 suites, 1,481 tests, 0 failures.
 
 ## Round 12: settlement-to-payment hand-off
@@ -212,7 +212,7 @@ exit code: 0
 - Payment workbench shows the source record and routes back to the claim/policy.
 - Claim Settlements tab shows related payments with hydrated amounts.
 - Live: authorized settlement `SET-2026-0000001` handed off to `PAY-2026-0000002`, source `DIRECT_CLAIM` / `CLM-2026-0000001`.
-- Contracts: 14,576 checks, 0 failures; 176 published events.
+- Contracts: 14,694 checks, 0 failures; 176 published events.
 - Full matrix: 181 suites, 1,508 tests, 0 failures.
 
 ## Round 13: idempotent claim diary writes
@@ -223,7 +223,7 @@ exit code: 0
 - Requests without a key behave as before.
 - Direct and Assumed UIs generate stable keys and retain them across failed retries.
 - Live: repeated direct task POST returned the same task ID with replay=true; repeated assumed task POST likewise; changed body returned 409.
-- Contracts: 14,576 checks, 0 failures.
+- Contracts: 14,694 checks, 0 failures.
 - Full matrix: 185 suites, 1,568 tests, 0 failures.
 
 ## Round 14: claim ownership and name-based search
@@ -233,7 +233,7 @@ exit code: 0
 - Assignment is versioned, audited, and emits `direct.claim.assigned` / `assumed.claim.assigned`.
 - Record headers, queue rows, summaries, and filters show ownership.
 - Search enriches an insured-party hit with that party's direct policies, so searching an insured name finds their policies.
-- Contracts: 14,576 checks, 0 failures; 178 published events.
+- Contracts: 14,694 checks, 0 failures; 178 published events.
 - Full matrix: 192 suites, 1,652 tests, 0 failures.
 
 ## Round 15: cross-book work queue
@@ -262,7 +262,7 @@ exit code: 0
 - Document list/search can match linked references.
 - Events `document.link.added` and `document.link.removed` are canonical outbox events.
 - Live: `DOC-2026-0000001` linked to `CLM-2026-0000001`; filter returned the document; event inbox received `document.link.added`.
-- Contracts: 14,576 checks, 0 failures; 180 published events.
+- Contracts: 14,694 checks, 0 failures; 180 published events.
 - Full matrix: 197 suites, 1,707 tests, 0 failures.
 
 ## Round 18: reverse document visibility
@@ -303,7 +303,7 @@ exit code: 0
 - Payment hand-off from due/overdue installments with sourceType=POLICY.
 - Gateway directory with 4 adjusters / 6 teams; assignment selects people and routes teams.
 - Adjuster workload table.
-- Contracts: 14,576 checks, 0 failures; 183 published events.
+- Contracts: 14,694 checks, 0 failures; 183 published events.
 - Full matrix: 204 suites, 1,784 tests; live 17/17.
 
 ## Round 23: policy renewal
@@ -534,7 +534,7 @@ exit code: 0
 - Retention tab shows hold/disposition state and actions.
 - Events legal-hold.placed/released and document.document.disposed.
 - Live: DOC-2026-0000001 ACTIVE -> ON_HOLD; dispose 409; release -> ACTIVE.
-- Full matrix: 289 suites, 2,880 tests; contracts 13,501 checks; 216 events; live 17/17.
+- Full matrix: 289 suites, 2,880 tests; contracts 13,501 checks; 217 events; live 17/17.
 
 
 ## Round 49: auth foundation
@@ -544,7 +544,7 @@ exit code: 0
 - Gateway has opt-in JWT validation (eia.auth.enabled=false by default), issuer/signature/scope tests.
 - Live K8s token: 3-part JWT, iss=http://localhost:9000, sub=adjuster, aud=eia-shell, scope openid/profile/eia.read; JWKS 1 RSA key.
 - Gateway auth remains disabled until the shell login flow lands.
-- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 216 events; live 17/17.
+- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 217 events; live 17/17.
 
 ## Round 50: authentication enabled end to end
 
@@ -554,7 +554,7 @@ exit code: 0
 - Auth service issuer set to the proxied URL.
 - Manual: no token 401, valid token 200; UI login renders authenticated dashboard.
 - Live suite signs in per test: 17/17.
-- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 216 events.
+- Full matrix: 293 suites, 2,897 tests; contracts 13,501 checks; 217 events.
 
 
 ## Round 51: auth scopes, actor, and refresh
@@ -565,7 +565,7 @@ exit code: 0
 - Auditor user is read-only; explicit eia.write is rejected.
 - Password grants exclude openid so refresh does not need an authorization code.
 - Live: adjuster token scope profile/eia.read/eia.write; auditor GET 200, POST 403; adjuster POST 400 validation (authorized); refresh returns new JWT.
-- Full matrix: 295 suites, 2,919 tests; contracts 13,501 checks; 216 events; live 17/17.
+- Full matrix: 295 suites, 2,919 tests; contracts 13,501 checks; 217 events; live 17/17.
 
 
 ## Round 52: tenant-bound tokens
@@ -574,7 +574,7 @@ exit code: 0
 - Gateway injects X-EIA-Tenant when absent and rejects mismatches with 403 TENANT_FORBIDDEN.
 - Missing tenant claim fails closed for protected paths; directory/health remain public.
 - Live: token tenant 1111.../CLAIMS_ADJUSTER; matching header 200; wrong header 403; missing header injected -> 200.
-- Full matrix: 296 suites, 2,939 tests; contracts 13,501 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 2,939 tests; contracts 13,501 checks; 217 events; live 17/17.
 
 
 ## Round 53: credit note reversal
@@ -584,7 +584,7 @@ exit code: 0
 - Event policy.credit-note.reversed.
 - UI Reverse action with reason, REVERSED row and reversal details.
 - Live: CN-0000002 USD 100 reversed; credited 100 -> 0, outstanding 400 -> 500; receivable 500.
-- Full matrix: 296 suites, 2,963 tests; contracts 13,558 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 2,963 tests; contracts 13,558 checks; 217 events; live 17/17.
 
 
 ## Round 54: cash call settlement references
@@ -594,7 +594,7 @@ exit code: 0
 - ISSUED calls link to Payment with sourceType CONTRACT_CASH_CALL.
 - UI settle modal validates the reference; settled rows show it.
 - Live: CC-2026-00001 settled with PAY-2026-000042; CC-2026-00002 ISSUED with Create payment.
-- Full matrix: 296 suites, 2,976 tests; contracts 13,576 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 2,976 tests; contracts 13,576 checks; 217 events; live 17/17.
 
 
 ## Round 55: cancellation-linked credit notes
@@ -604,7 +604,7 @@ exit code: 0
 - New event policy.credit-note.created.
 - UI creates a locked return-premium credit note from Cancellation and links the ledger.
 - Cancellation number exposed through domain.
-- Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 217 events; live 17/17.
 - Live cancellation initially returned 409 VERSION_RANGE_OVERLAP because a DRAFT version remained current; fixed in Round 56 and then exercised live.
 
 
@@ -615,7 +615,7 @@ exit code: 0
 - Live: POL-2026-0000004 cancelled PRO_RATA 2026-10-22; CX-0000001; return premium 194.5210; status ACTIVE.
 - Live: CN-0000003 created from the cancellation, amount 194.5210 USD, linked to CX-0000001.
 - UI shows Credit note created · CN-0000003 in the Cancellation tab.
-- Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 2,994 tests; contracts 13,645 checks; 217 events; live 17/17.
 
 
 ## Round 57: technical account settlement references
@@ -624,7 +624,7 @@ exit code: 0
 - Technical account DTO and settled event carry settlementReference.
 - UI settle modal requires the reference and shows it on settled statements.
 - Live: TA-2026-00003 settled with SET-2026-000088.
-- Full matrix: 296 suites, 3,005 tests; contracts 13,688 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 3,005 tests; contracts 13,688 checks; 217 events; live 17/17.
 
 
 ## Round 58: claim settlement payment links
@@ -634,7 +634,7 @@ exit code: 0
 - UI Payment column, PAID payment picker, unlink, no-PAID guidance.
 - Event direct.claim.settlement-payment-linked.
 - Live: SET-2026-0000001 linked to PAY-2026-0000002 (demo payment marked PAID); claim progress Payment step current.
-- Full matrix: 296 suites, 3,032 tests; contracts 13,815 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 3,032 tests; contracts 13,815 checks; 217 events; live 17/17.
 
 
 ## Round 59: payment execution lifecycle
@@ -643,7 +643,7 @@ exit code: 0
 - UI drives DRAFT -> PENDING_AUTHORITY -> AUTHORIZED -> APPROVED -> SCHEDULED -> SUBMITTED -> ACCEPTED -> PROCESSING -> PAID -> RECONCILED with versioned transitions.
 - Mark paid and Reconcile require confirmation; 409 reloads and contains.
 - Live: PAY-2026-0000003 driven through all 10 states, version 0 -> 9, final RECONCILED.
-- Full matrix: 296 suites, 3,043 tests; contracts 13,978 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 3,043 tests; contracts 13,978 checks; 217 events; live 17/17.
 
 
 ## Round 60: payment terminal actions
@@ -651,7 +651,7 @@ exit code: 0
 - Cancel, Void, and Stop actions mapped by status; reasons required for Void/Stop.
 - Expert validates reason <=200 before persistence (400, not 502).
 - Live: overlong reason 400; PAY-2026-0000001 VOID v1 with reason; new DRAFT payment shows Cancel/Void.
-- Full matrix: 296 suites, 3,063 tests; contracts 13,978 checks; 216 events; live 17/17.
+- Full matrix: 296 suites, 3,063 tests; contracts 13,978 checks; 217 events; live 17/17.
 
 
 ## Round 61: reinstatement credit-note guard
@@ -661,7 +661,7 @@ exit code: 0
 - No writes, versions, events, or idempotency rows on rejection.
 - UI renders the guard in the Reinstatement section, lists notes, links to the Billing ledger.
 - Live: CN-0000003 DRAFT blocks reinstatement (409, CX-0000001); after CANCELLED, reinstatement succeeds.
-- Full matrix: 297 suites, 3,078 tests; contracts 13,978 checks; 216 events; live 17/17.
+- Full matrix: 297 suites, 3,078 tests; contracts 13,978 checks; 217 events; live 17/17.
 
 
 ## Round 62: document content tombstones
@@ -672,7 +672,7 @@ exit code: 0
 - Event document.content.deleted.
 - UI File tab tombstone state, delete confirmation, legal-hold/no-content reasons.
 - Live: hold blocked delete; after release DELETE 204; metadata deleted=true; download 410.
-- Full matrix: 298 suites, 3,100 tests; contracts 14,058 checks; 216 events; live 17/17.
+- Full matrix: 298 suites, 3,100 tests; contracts 14,058 checks; 217 events; live 17/17.
 
 
 ## Round 63: dunning notice handoff
@@ -682,7 +682,7 @@ exit code: 0
 - Notification create URL supports prefill (type, channel, recipient, subject, body, template code).
 - Shell receivables expose Compose notice for receivables with dunning history; URL carries policy, installment, outstanding, due date/days past due.
 - Live: Compose notice opened a prefilled DUNNING_NOTICE/EMAIL draft with the template bound; Created NTF-2026-000000004 and sent it successfully (SENT).
-- Full matrix: 298 suites, 3,103 tests; contracts 14,069 checks; 216 events; live 17/17.
+- Full matrix: 298 suites, 3,103 tests; contracts 14,069 checks; 217 events; live 17/17.
 
 
 
@@ -691,7 +691,7 @@ exit code: 0
 - PAID/PARTIALLY_PAID: Return -> RETURNED, Reverse -> REVERSED; RECONCILED: Escheat -> ESCHEATED; RETURNED: Reschedule -> SCHEDULED, Cancel -> CANCELLED.
 - Return/Reverse/Escheat require a reason; all actions versioned and confirmed.
 - Live: PAY-2026-0000002 PAID v1 -> REVERSED v2 with reason "Bank returned funds".
-- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 216 events; live 17/17.
+- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 217 events; live 17/17.
 
 ## Round 65: read-only auditor session
 
@@ -700,7 +700,7 @@ exit code: 0
 - Read-only sessions show a persistent banner and READ ONLY badge; role shown as Auditor.
 - Adjuster flow unchanged.
 - Live: auditor/password signed in; banner/badge visible; read_only=true; dashboard and read APIs load.
-- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 216 events; live 17/17.
+- Full matrix: 298 suites, 3,129 tests; contracts 14,069 checks; 217 events; live 17/17.
 
 
 ## Round 66: disposition destroys content
@@ -709,7 +709,7 @@ exit code: 0
 - No content/already tombstoned: only the disposed fact; legal hold still blocks before any content work.
 - UI refetches content metadata after dispose and renders the tombstone immediately.
 - Live: uploaded disposition-evidence.pdf, set retention past, DISPOSED; metadata deleted=true, download 410; outbox has both content.deleted and document.disposed.
-- Full matrix: 299 suites, 3,134 tests; contracts 14,088 checks; 216 events; live 17/17.
+- Full matrix: 299 suites, 3,134 tests; contracts 14,088 checks; 217 events; live 17/17.
 
 
 ## Round 67: payment status reasons
@@ -717,7 +717,7 @@ exit code: 0
 - Payment projection exposes statusReason (latest trimmed reason; cleared on blank; null before first change; 200-char cap).
 - UI shows status reason + latest transition context in lifecycle and details.
 - Live: PAY-2026-0000002 REVERSED with "Bank returned funds"; lifecycle banner shows reason and PAID -> REVERSED.
-- Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 216 events; live 17/17.
+- Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 217 events; live 17/17.
 
 ## Round 68: recent records in search
 
@@ -725,7 +725,7 @@ exit code: 0
 - Recent entries store type/label/status/href, dedupe by type+id, cap at 8, tolerate malformed storage.
 - Clicking a recent record opens it; Clear recent removes history; logout clears it.
 - Live: opened DOC-2026-0000001 from search, then Ctrl+K showed it under RECENT RECORDS.
-- Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 216 events; live 17/17.
+- Full matrix: 300 suites, 3,141 tests; contracts 14,098 checks; 217 events; live 17/17.
 
 
 ## Round 69: version issuance hardening
@@ -734,7 +734,7 @@ exit code: 0
 - Issue is @Transactional; rejected overlaps roll back all closures.
 - Historical multiple-open-version policies no longer fail cancellation/endorsement with VERSION_RANGE_OVERLAP.
 - Tests: multiple open rows close, new version links latest id, VOIDED overlap rejects and rolls back; order findLatest -> supersedeAllOpen -> findWindows -> insert.
-- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 216 events; live 17/17.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 217 events; live 17/17.
 
 ## Round 70: saved searches and lens
 
@@ -743,14 +743,14 @@ exit code: 0
 - Lens chips filter results by Claims/Policies/Parties/Contracts/Payments/Documents/Notifications.
 - Apply restores query+lens; delete removes.
 - Live: saved "Acme records" (query Acme, lens All); empty /search shows the saved entry.
-- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 216 events; live 17/17.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 217 events; live 17/17.
 
 ## Round 71: payment link mismatch warnings
 
 - Policy installments with linked paymentId fetch payment status; non-PAID shows warning + Payment record link; summary counts reviews; no automatic status change; fetch failures contained.
 - Claim settlements hydrate payment status; non-PAID shows red badge + "settlement link needs review" and Unlink remains available; no automatic settlement/paid-loss change.
 - Live: claim SET-2026-0000001 linked to REVERSED PAY-2026-0000002 shows warning; policy installment 2 linked to REVERSED payment shows warning/count.
-- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 216 events; live 17/17.
+- Full matrix: 302 suites, 3,144 tests; contracts 14,098 checks; 217 events; live 17/17.
 
 
 ## Round 72: allocation reversal
@@ -761,7 +761,7 @@ exit code: 0
 - Event payment.allocation.reversed.
 - UI: reversed badge/reason/date, Reverse modal, net/reversed/remaining cards.
 - Live: PAY-2026-0000004 allocation 50 OTHER reversed with "Applied to wrong policy"; summary total 50, reversed 50, net 0, unallocated 100.
-- Full matrix: 303 suites, 3,169 tests; contracts 14,205 checks; 216 events; live 17/17.
+- Full matrix: 303 suites, 3,169 tests; contracts 14,205 checks; 217 events; live 17/17.
 
 
 ## Round 73: notification template management
@@ -771,14 +771,14 @@ exit code: 0
 - Events notifications.template.created/approved/retired.
 - UI Templates registry with filter, create, approve, retire, approval-gate context.
 - Live: PAYMENT_REMINDER v1 created DRAFT and approved ACTIVE; registry lists 4 templates.
-- Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 216 events; live 17/17.
+- Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 217 events; live 17/17.
 
 ## Round 74: template versioning
 
 - Every template row offers New version; modal prefills code/locale/channel/body and version = source + 1.
 - Shows "Based on vX" and same-code version history; creates DRAFT; 409/validation contained.
 - Live: PAYMENT_REMINDER v2 created DRAFT from v1; registry shows v2 DRAFT and v1 ACTIVE.
-- Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 216 events; live 17/17.
+- Full matrix: 309 suites, 3,244 tests; contracts 14,465 checks; 217 events; live 17/17.
 
 
 ## Round 75: policy premium audit
@@ -788,7 +788,7 @@ exit code: 0
 - No change -> 400; invalid status 409; version timeline 422/428.
 - UI Endorsements premium audit card/modal with delta preview, status gating, ETag, refresh.
 - Live: POL-2026-0000005 BOUND 1000 -> 1500 effective 2027-01-15; END-0001 PREMIUM_AUDIT +$500; version PREMIUM_AUDIT.
-- Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
+- Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 217 events; live 17/17.
 
 ## Round 76: billing premium variance
 
@@ -796,7 +796,7 @@ exit code: 0
 - Mismatch shows amount/delta, explains audits/endorsements do not re-plan installments, and offers Review premium audit.
 - Equal/missing amounts show no warning.
 - Live: POL-2026-0000005 premium 1800 vs plan 1500 by 300 after second premium audit.
-- Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 216 events; live 17/17.
+- Full matrix: 315 suites, 3,294 tests; contracts 14,576 checks; 217 events; live 17/17.
 
 
 ## Round 77: retention disposition scheduler
@@ -805,11 +805,20 @@ exit code: 0
 - Batch size 100, per-document transactions, failures isolated, system actor on events.
 - Enabled in K8s; cron reset to daily 02:00 UTC after live proof.
 - Live: DOC-2026-0000002 ACTIVE retention 2025-01-01; temporary 10s cron disposed it at 10:26 UTC.
-- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 216 events; live 17/17.
+- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 217 events; live 17/17.
 
 ## Round 78: net billing variance
 
 - Variance compares policy premium to plan total less creditedAmount, cent precision.
 - Warning states net plan premium and shows gross/credits when credits exist; net floors at 0.
 - Live: POL-2026-0000005 audited down to 1200; CN-0000005 300 applied; plan 1500 less 300 = 1200; warning cleared.
-- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 216 events; live 17/17.
+- Full matrix: 320 suites, 3,303 tests; contracts 14,576 checks; 217 events; live 17/17.
+
+
+## Round 79: billing adjustment installment
+
+- POST /policies/{id}/billing/adjustment {dueDate,reason}; delta = policy premium - (plan total - credits), positive only.
+- Appends one DUE installment, updates plan gross total/count, emits policy.billing-plan.adjusted.
+- UI positive variance action; negative variance opens prefilled credit note.
+- Live: POL-2026-0000005 audited back to 1500; plan 1500 gross less credits 300 = net 1200; adjustment 300 added; plan gross 1800, 5 installments, net 1500 = policy; warning cleared.
+- Full matrix: 323 suites, 3,351 tests; contracts 14,694 checks; 217 events; live 17/17.

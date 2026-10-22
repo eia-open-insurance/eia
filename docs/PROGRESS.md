@@ -451,3 +451,8 @@
 
 - Variance net of credits.
 - 320 suites, 3,303 tests; live 17/17.
+
+## Round 79: billing adjustment
+
+- Positive adjustment installment and negative credit-note guidance.
+- 323 suites, 3,351 tests; contracts 14,694 checks; 217 events; live 17/17.

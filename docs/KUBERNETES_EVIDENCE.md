@@ -1221,3 +1221,18 @@ Billing compares policy premium to net plan premium:
 - equal net shows no warning
 
 Live: POL-2026-0000005 audited to 1,200; plan 1,500 less CN-0000005 300 = net 1,200; warning cleared.
+
+## Billing adjustment installment
+
+![Billing adjustment](images/policy-billing-adjustment.png)
+
+Premium variance now has an operational resolution:
+
+- positive variance: Add adjustment installment
+- amount derived from policy premium minus net plan premium
+- one DUE installment appended, plan gross total/count updated
+- event policy.billing-plan.adjusted
+- negative variance: Create credit note prefilled for the difference
+- warning clears when net plan premium equals policy premium
+
+Live: POL-2026-0000005 premium 1,500; plan gross 1,500 less credits 300 = 1,200; adjustment +300 appended (#5); gross 1,800, net 1,500; warning cleared.
