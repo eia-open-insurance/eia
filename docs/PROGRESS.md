@@ -541,3 +541,8 @@
 
 - String approver ids + document link hydration.
 - 349 suites, 3,788 tests; contracts 17,002 checks; live 17/17.
+
+## Round 97: product catalog
+
+- Product pickers and catalog.
+- 357 suites, 3,868 tests; contracts 17,367 checks; 230 events; live 17/17.

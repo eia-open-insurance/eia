@@ -1508,3 +1508,19 @@ Configuration data now uses the shared directory/document records:
 - lookup failures fall back to short ids without blocking the record
 
 Live: CLAIM_NOTICE_DRAFT approved by a-adjuster; approver picker lists A. Adjuster and B. Examiner.
+
+## Product catalog
+
+![Product catalog](images/policy-product-catalog.png)
+
+Products are now shared taxonomy for new business:
+
+- catalog seeded with CGL, PRODUCTS_LIABILITY, UMBRELLA (US)
+- search by code/name, ACTIVE only in pickers
+- New policy and Submission create select a product predictively
+- productCode is stored; catalog name is presentation
+- read-only Product catalog tab with search/detail
+- empty/unavailable catalog falls back to manual code entry
+- events product.product.created/status-changed; product event vertical admitted
+
+Live: 3 active products; catalog panel selected CGL.
