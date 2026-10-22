@@ -947,3 +947,18 @@ Payments can be stopped before or after approval:
 - reason >200 returns 400 before persistence; terminal states hide actions
 
 Live: PAY-2026-0000001 VOID (v1); new DRAFT PAY-2026-0000004 shows Cancel/Void.
+
+## Reinstatement guard
+
+![Reinstatement guard](images/policy-reinstatement-guard.png)
+
+A cancelled policy cannot be reinstated while its return premium is still credited:
+
+- DRAFT, ISSUED, or APPLIED cancellation credit notes block reinstatement
+- response is 409 CANCELLATION_CREDIT_NOTE_OPEN
+- detail/meta name the cancellation and note numbers
+- CANCELLED or REVERSED notes allow reinstatement
+- no version, event, or idempotency row is written on rejection
+- the UI keeps the form, lists the notes, and links to the Billing ledger
+
+Live: CN-0000003 (DRAFT) blocked reinstatement; after it was CANCELLED the policy reinstated successfully.

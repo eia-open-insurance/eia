@@ -357,3 +357,8 @@
 
 - Cancel/Void/Stop controls and reason validation.
 - 296 suites, 3,063 tests; live 17/17.
+
+## Round 61: reinstatement guard
+
+- Block reinstatement on open cancellation credit notes.
+- 297 suites, 3,078 tests; live 17/17.

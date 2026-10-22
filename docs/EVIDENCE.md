@@ -11,7 +11,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 296 JUnit suites, **3,063 tests, 0 failures/errors**.
+- 297 JUnit suites, **3,078 tests, 0 failures/errors**.
 - 11 Playwright suites: 10 vertical workbenches plus the shell.
 
 ## Running stack
@@ -132,7 +132,7 @@ exit code: 0
 ```
 
 - 37 repositories checked.
-- 296 JUnit suites, **3,063 tests, 0 failures**.
+- 297 JUnit suites, **3,078 tests, 0 failures**.
 - 12 Playwright suites, including the opt-in live all-vertical suite.
 - Kubernetes namespace `eia-local`: **37/37 pods Ready**.
 - Gateway smoke: **10/10 vertical APIs**.
@@ -652,3 +652,13 @@ exit code: 0
 - Expert validates reason <=200 before persistence (400, not 502).
 - Live: overlong reason 400; PAY-2026-0000001 VOID v1 with reason; new DRAFT payment shows Cancel/Void.
 - Full matrix: 296 suites, 3,063 tests; contracts 13,978 checks; 210 events; live 17/17.
+
+
+## Round 61: reinstatement credit-note guard
+
+- Reinstatement blocked with 409 CANCELLATION_CREDIT_NOTE_OPEN when the active cancellation has DRAFT/ISSUED/APPLIED credit notes.
+- Detail and meta list note numbers; CANCELLED/REVERSED do not block.
+- No writes, versions, events, or idempotency rows on rejection.
+- UI renders the guard in the Reinstatement section, lists notes, links to the Billing ledger.
+- Live: CN-0000003 DRAFT blocks reinstatement (409, CX-0000001); after CANCELLED, reinstatement succeeds.
+- Full matrix: 297 suites, 3,078 tests; contracts 13,978 checks; 210 events; live 17/17.
