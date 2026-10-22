@@ -977,3 +977,19 @@ Content can be destroyed while its audit metadata remains:
 - event document.content.deleted records the tombstone
 
 Live: DOC-2026-0000001 deletion blocked under hold; after release DELETE 204, deleted=true, download 410.
+
+## Dunning notice handoff
+
+![Dunning notification](images/dunning-notification.png)
+
+Premium dunning can launch a notice draft:
+
+- Compose notice appears on receivables with dunning history
+- URL prefills type DUNNING_NOTICE, channel, insured recipient, subject, body
+- subject/body include policy, installment, outstanding amount, due date, days past due
+- Notifications owns recipient, template, channel, and send
+- the draft is not created or sent by the handoff
+- template code is left empty so an unregistered claim template is not bound
+- the user confirms Create notification
+
+Live: Compose notice from POL-2026-0000004 opened a prefilled DUNNING_NOTICE/EMAIL draft; Create notification returned a new NTF.

@@ -367,3 +367,8 @@
 
 - Document content deletion with retained audit and hold protection.
 - 298 suites, 3,100 tests; contracts 14,058 checks; 211 events; live 17/17.
+
+## Round 63: dunning notice handoff
+
+- DUNNING_NOTICE type and prefilled notification draft from receivables.
+- 298 suites, 3,103 tests; contracts 14,069 checks; live 17/17.
