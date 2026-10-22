@@ -421,3 +421,8 @@
 
 - Append-only allocation reversal with net/reversed summary.
 - 303 suites, 3,169 tests; contracts 14,205 checks; 212 events; live 17/17.
+
+## Round 73: notification templates
+
+- Template registry with draft/approve/retire.
+- 309 suites, 3,244 tests; contracts 14,465 checks; 215 events; live 17/17.

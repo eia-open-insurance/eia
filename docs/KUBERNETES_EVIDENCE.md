@@ -1132,3 +1132,19 @@ Allocation splits are now correctable without deleting audit:
 - payment.allocation.reversed event
 
 Live: PAY-2026-0000004 allocation of $50 reversed ("Applied to wrong policy"); net $0, remaining $100.
+
+## Notification templates
+
+![Notification templates](images/notification-templates.png)
+
+Templates are now managed in the workbench:
+
+- registry lists code/version/locale/channel/status/approver
+- create starts DRAFT
+- approval records the approver and makes the template ACTIVE
+- retire preserves the template for audit but blocks sending
+- duplicate code/version/locale -> 409
+- approve an already-active template -> 409
+- only ACTIVE approved templates can send
+
+Live: PAYMENT_REMINDER v1 (EMAIL) created DRAFT and approved ACTIVE; registry shows 4 templates including DUNNING_NOTICE and CLAIM_NOTICE_STANDARD.
