@@ -1555,3 +1555,19 @@ New business must use the catalog:
 - existing records never re-validated
 
 Live: submission NOT_A_PRODUCT -> 422; CGL -> 201 SUB-2026-0000002.
+
+## Underwriting referrals
+
+![Submission referral](images/submission-referral.png)
+
+Referrals are structured on the submission:
+
+- reason LIMIT/PREMIUM/TORT/APPETITE/MANUSCRIPT/SANCTIONS/CONFLICT/OTHER
+- authority, directory referred-to person, notes
+- status PENDING/APPROVED/DECLINED
+- approve keeps the submission REFERRED; decline also sets DECLINED
+- decision records directory decider and timestamp
+- events policy.submission.referred / referral-decided
+- decision does not change terms or create a policy
+
+Live: SUB-2026-0000002, TORT referral to A. Adjuster, approved by C. Manager.
