@@ -1319,3 +1319,19 @@ Party master data is now editable:
 - Master-data context links claims, policies, and payments
 
 Live: PTY-00000001 TIN 12-3456789 issued by IRS; PHYSICAL 100 Market Street, Floor 3, Columbus, OH 43215, US.
+
+## Party status transitions
+
+![Party status](images/party-status-transition.png)
+
+Party lifecycle is now operable:
+
+- PROSPECT / ACTIVE / INACTIVE / DECEASED / DISSOLVED / MERGED / RESTRICTED / BLOCKED
+- target select excludes the current status
+- optional reason (event-only, max 500)
+- same status is a no-op
+- accepted change bumps version and emits party.party.updated with from/to
+- UI reloads party and activity
+- explains INACTIVE/BLOCKED/RESTRICTED can stop new claims/policies/payments while existing records stay unchanged
+
+Live: PTY-00000001 PROSPECT -> ACTIVE, version 3, reason recorded on the event.

@@ -481,3 +481,8 @@
 
 - Identifiers and addresses.
 - 330 suites, 3,465 tests; contracts 15,375 checks; 220 events; live 17/17.
+
+## Round 85: party status
+
+- Party lifecycle transitions.
+- 330 suites, 3,478 tests; contracts 15,478 checks; live 17/17.
