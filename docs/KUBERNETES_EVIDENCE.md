@@ -962,3 +962,18 @@ A cancelled policy cannot be reinstated while its return premium is still credit
 - the UI keeps the form, lists the notes, and links to the Billing ledger
 
 Live: CN-0000003 (DRAFT) blocked reinstatement; after it was CANCELLED the policy reinstated successfully.
+
+## Document content tombstone
+
+![Content tombstone](images/document-content-tombstone.png)
+
+Content can be destroyed while its audit metadata remains:
+
+- DELETE clears bytes for the current file and every version
+- file name, type, size, SHA-256, uploaded date, and version remain
+- legal hold blocks deletion
+- repeat deletion returns 409 CONTENT_ALREADY_DELETED
+- downloads return 410 CONTENT_DELETED
+- event document.content.deleted records the tombstone
+
+Live: DOC-2026-0000001 deletion blocked under hold; after release DELETE 204, deleted=true, download 410.

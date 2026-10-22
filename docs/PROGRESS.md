@@ -362,3 +362,8 @@
 
 - Block reinstatement on open cancellation credit notes.
 - 297 suites, 3,078 tests; live 17/17.
+
+## Round 62: content tombstones
+
+- Document content deletion with retained audit and hold protection.
+- 298 suites, 3,100 tests; contracts 14,058 checks; 211 events; live 17/17.
